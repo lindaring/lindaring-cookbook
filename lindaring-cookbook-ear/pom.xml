@@ -48,6 +48,16 @@
                      <contextRoot>/lindaring-cookbook</contextRoot>
                   </webModule>
                   -->
+                  <ejbModule>
+                     <groupId>za.co.lindaring</groupId>
+                     <artifactId>lindaring-cookbook-ejb</artifactId>
+                     <bundleFileName>lindaring-cookbook-ejb</bundleFileName>
+                  </ejbModule>
+                  <webModule>
+                     <groupId>za.co.lindaring</groupId>
+                     <artifactId>lindaring-cookbook-web</artifactId>
+                     <contextRoot>/lindaring-cookbook</contextRoot>
+                  </webModule>
                </modules>
             </configuration>
          </plugin>

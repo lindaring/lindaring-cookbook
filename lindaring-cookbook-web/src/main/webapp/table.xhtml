@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="resources/templates/main/template.xhtml">
+    <ui:define name="content">
+        <h1>Data table</h1>
+        <p:dataTable var="question" value="#{exDataTableView.questions}">
+            <p:column headerText="Id" style="width: 10%">
+                <h:outputText value="#{question.id}" />
+            </p:column>
+
+            <p:column headerText="Desc" style="width: 60%">
+                <h:outputText value="#{question.desc}" />
+            </p:column>
+
+            <p:column headerText="Date Added">
+                <h:outputText value="#{exDataTableView.formatDate(question.dateAdded)}"  style="width: 20%"/>
+            </p:column>
+
+            <p:column headerText="Activated" style="width: 10%">
+                <h:outputText value="#{question.active}" />
+            </p:column>
+        </p:dataTable>
+    </ui:define>
+</ui:composition>

@@ -1,26 +1,22 @@
 package za.co.lindaring.ejb;
 
-import lombok.extern.slf4j.Slf4j;
 import za.co.lindaring.entity.Question;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
-@Startup
-@Singleton
-public class TesterEjb {
+@Stateless
+public class QuestionService {
 
     @PersistenceContext(unitName = "LobolaCalcPU")
-    EntityManager em;
+    private EntityManager em;
 
-    @PostConstruct
-    public void testConn() {
+    public List<Question> getAllQuestions() {
         TypedQuery<Question> result = em.createNamedQuery("Question.findAll", Question.class);
-        System.out.println("Lobola App test: " + result.getResultList().size());
+        return result.getResultList();
     }
 
 }
