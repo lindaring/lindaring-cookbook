@@ -3,7 +3,7 @@ package za.co.lindaring.view;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import za.co.lindaring.model.Question;
+import za.co.lindaring.entity.Question;
 import za.co.lindaring.service.ExampleDataTableService;
 
 import javax.annotation.PostConstruct;

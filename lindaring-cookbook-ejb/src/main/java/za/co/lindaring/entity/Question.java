@@ -34,5 +34,6 @@ public class Question {
 
     private Date dateAdded;
 
-    private int activated;
+    @Column(name = "activated")
+    private int active;
 }
