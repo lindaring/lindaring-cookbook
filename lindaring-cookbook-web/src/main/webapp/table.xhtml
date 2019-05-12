@@ -4,8 +4,10 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 template="resources/templates/main/template.xhtml">
+
     <ui:define name="content">
-        <h1>Data table</h1>
+        <h1>Questions</h1>
+
         <p:dataTable var="question" value="#{exDataTableView.questions}">
             <p:column headerText="Id" style="width: 10%">
                 <h:outputText value="#{question.id}" />
@@ -24,4 +26,5 @@
             </p:column>
         </p:dataTable>
     </ui:define>
+
 </ui:composition>
