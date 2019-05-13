@@ -8,21 +8,26 @@
     <ui:define name="content">
         <h1>Questions</h1>
 
-        <p:dataTable var="question" value="#{exDataTableView.questions}">
-            <p:column headerText="Id" style="width: 10%">
+        <p:dataTable var="question" value="#{exDataTableView.questions}" resizableColumns="true" liveResize="true">
+            <p:column headerText="Id" style="width: 5%">
                 <h:outputText value="#{question.id}" />
             </p:column>
 
-            <p:column headerText="Desc" style="width: 60%">
+            <p:column headerText="Desc" style="width: 70%">
                 <h:outputText value="#{question.desc}" />
             </p:column>
 
-            <p:column headerText="Date Added">
-                <h:outputText value="#{exDataTableView.formatDate(question.dateAdded)}"  style="width: 20%"/>
+            <p:column headerText="Date Added"  style="width: 12.5%">
+                <h:outputText value="#{exDataTableView.formatDate(question.dateAdded)}"/>
             </p:column>
 
             <p:column headerText="Activated" style="width: 10%">
                 <h:outputText value="#{question.active}" />
+            </p:column>
+
+            <p:column style="width: 7.5%">
+                <i class="fa fa-fw fa-edit" /> |
+                <i class="fa fa-fw fa-remove" />
             </p:column>
         </p:dataTable>
     </ui:define>
