@@ -19,4 +19,10 @@ public class QuestionService {
         return result.getResultList();
     }
 
+    public List<Question> getQuestionsLikeDesc(String desc) {
+        TypedQuery<Question> result = em.createNamedQuery("Question.findAllLikeDesc", Question.class);
+        result.setParameter("description", desc);
+        return result.getResultList();
+    }
+
 }

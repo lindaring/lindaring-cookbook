@@ -22,7 +22,8 @@ import java.util.Date;
 @Entity
 @Table(name = "questions")
 @NamedQueries({
-    @NamedQuery(name = "Question.findAll", query = "SELECT q FROM Question q")
+    @NamedQuery(name = "Question.findAll", query = "SELECT q FROM Question q"),
+    @NamedQuery(name = "Question.findAllLikeDesc", query = "SELECT q FROM Question q WHERE q.desc LIKE CONCAT('%',:description,'%')")
 })
 public class Question {
     @Id
