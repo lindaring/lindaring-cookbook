@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="resources/templates/main/template.xhtml">
+
+    <ui:define name="content">
+        <h1>Manage Questions</h1>
+
+        <h:form>
+            <p:panel header="Filte By" toggleable="true" collapsed="true">
+                <h:panelGrid columns="7" cellpadding="5">
+                    <h:outputText for="questionInputText" value="Question: " />
+                    <p:inputText id="questionInputText" value="#{exDataTableView.searchName}" />
+
+                    <h:outputText for="addedDateInputText" value="Date Added: " />
+                    <p:calendar id="addedDateInputText" />
+
+                    <h:outputLabel for="activatedInputText" value="Activated: " />
+                    <p:spinner id="activatedInputText" min="0" max="1" />
+
+                    <p:commandButton value="Search" action="#{exDataTableView.search}" process="@this" update="@this" ajax="false" />
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+        <br />
+
+        <p:dataTable var="question" value="#{exDataTableView.questions}" resizableColumns="true" liveResize="true">
+            <p:column headerText="Id" style="width: 5%">
+                <h:outputText value="#{question.id}" />
+            </p:column>
+
+            <p:column headerText="Desc" style="width: 70%">
+                <h:outputText value="#{question.desc}" />
+            </p:column>
+
+            <p:column headerText="Date Added"  style="width: 12.5%">
+                <h:outputText value="#{exDataTableView.formatDate(question.dateAdded)}" style="text-align: right" />
+            </p:column>
+
+            <p:column headerText="Activated" style="width: 10%">
+                <h:outputText value="#{question.active}" style="text-align: right" />
+            </p:column>
+
+            <p:column style="width: 7.5%">
+                <i class="fa fa-fw fa-edit" /> |
+                <i class="fa fa-fw fa-remove" />
+            </p:column>
+        </p:dataTable>
+    </ui:define>
+
+</ui:composition>
