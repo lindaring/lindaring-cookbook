@@ -11,10 +11,10 @@
     <div id="navigation-container">
         <h:form>
         <p:menubar>
-            <p:menuitem url="./index.xhtml" value="Home" icon="fa fa-fw fa-home" />
+            <p:menuitem url="#{request.contextPath}/index.xhtml" value="Home" icon="fa fa-fw fa-home" />
 
             <p:submenu label="Question">
-                <p:menuitem value="Manage" url="./table.xhtml" icon="fa fa-fw fa-edit" />
+                <p:menuitem value="Manage" url="#{request.contextPath}/table.xhtml" icon="fa fa-fw fa-edit" />
             </p:submenu>
         </p:menubar>
         </h:form>

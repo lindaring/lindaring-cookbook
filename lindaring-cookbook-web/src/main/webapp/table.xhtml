@@ -3,6 +3,7 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
                 template="resources/templates/main/template.xhtml">
 
     <ui:define name="content">
@@ -27,7 +28,7 @@
 
         <br />
 
-        <p:dataTable var="question" value="#{exDataTableView.questions}" resizableColumns="true" liveResize="true">
+        <p:dataTable var="question" value="#{exDataTableView.questions}" draggableColumns="true" resizableColumns="true" scrollable="true" liveResize="true">
             <p:column headerText="Id" style="width: 5%">
                 <h:outputText value="#{question.id}" />
             </p:column>
@@ -45,8 +46,14 @@
             </p:column>
 
             <p:column style="width: 7.5%">
-                <i class="fa fa-fw fa-edit" /> |
-                <i class="fa fa-fw fa-remove" />
+                <p:link outcome="question/manageQuestion">
+                    <h:outputText class="fa fa-fw fa-edit" />
+                    <f:param name="questionId" value="#{question.id}" />
+                </p:link> |
+                <p:link outcome="question/manageQuestion">
+                    <h:outputText class="fa fa-fw fa-remove" />
+                    <f:param name="questionId" value="#{question.id}" />
+                </p:link>
             </p:column>
         </p:dataTable>
     </ui:define>
