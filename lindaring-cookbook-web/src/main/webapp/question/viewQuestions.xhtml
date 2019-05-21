@@ -4,7 +4,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                template="resources/templates/main/template.xhtml">
+                template="../resources/templates/main/template.xhtml">
 
     <ui:define name="content">
         <h1>Manage Questions</h1>
@@ -47,10 +47,10 @@
                 </p:column>
 
                 <p:column style="width: 7.5%">
-                    <p:link outcome="question/manageQuestion">
+                    <p:commandLink action="manageQuestion">
                         <h:outputText class="fa fa-fw fa-edit" />
                         <f:param name="questionId" value="#{question.id}" />
-                    </p:link> |
+                    </p:commandLink> |
                     <p:commandLink action="#{exDataTableView.selectQuestion(question.id)}" ajax="false">
                         <h:outputText class="fa fa-fw fa-remove" />
                     </p:commandLink>
@@ -73,6 +73,7 @@
             </h:form>
         </p:dialog>
 
+        <div style="margin-bottom: 40px"></div>
     </ui:define>
 
 </ui:composition>

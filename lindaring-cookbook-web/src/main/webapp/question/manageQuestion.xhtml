@@ -12,21 +12,21 @@
         <h:form>
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputText for="questionIdInputText" value="ID: " />
-                <p:inputText id="questionIdInputText" value="#{param['questionId']}" disabled="disabled" />
+                <p:inputText id="questionIdInputText" value="#{param['questionId']}" disabled="true" />
 
                 <h:outputText for="questionInputText" value="Text: " />
-                <p:inputText id="questionInputText" value="#{manageQuestionView.question.desc}" />
+                <p:inputTextarea rows="15" cols="33" id="questionInputText" value="#{manageQuestionView.question.desc}" />
 
                 <h:outputText for="questionDateInputText" value="Date Added: " />
-                <p:inputText id="questionDateInputText" value="#{manageQuestionView.question.dateAdded}" />
+                <p:datePicker id="questionDateInputText" value="#{manageQuestionView.question.dateAdded}" disabled="true" />
 
                 <h:outputText for="questionActiveInputText" value="Active: " />
                 <p:inputText id="questionActiveInputText" value="#{manageQuestionView.question.active}" />
 
                 <h:inputHidden />
                 <h:panelGrid columns="2">
-                    <p:linkButton outcome="../table.xhtml" value="Back" icon="fa fa-fw fa-arrow-circle-left" />
-                    <p:commandButton value="Save Question" action="#{manageQuestionView.addQuestion()}" process="@this" update="display" />
+                    <p:linkButton outcome="viewQuestions.xhtml" value="Back" icon="fa fa-fw fa-arrow-circle-left" />
+                    <p:commandButton value="Save Question" action="#{manageQuestionView.saveQuestion()}" process="@this" update="messages" />
                 </h:panelGrid>
             </h:panelGrid>
 
