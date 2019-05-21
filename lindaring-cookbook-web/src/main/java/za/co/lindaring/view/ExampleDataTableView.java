@@ -7,11 +7,11 @@ import za.co.lindaring.entity.Question;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import java.util.Date;
 import java.util.List;
 
-@SessionScoped
+@RequestScoped
 @ManagedBean(name = "exDataTableView")
 public class ExampleDataTableView {
 
@@ -32,7 +32,6 @@ public class ExampleDataTableView {
 
     public void search() {
         questions = questionService.getQuestionsLikeDesc(searchName);
-        System.out.println(questions.size());
     }
 
     public String getSearchName() {

@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../resources/templates/main/template.xhtml">
+
+    <ui:define name="content">
+        <h1>Add Question</h1>
+
+        <h:form>
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputText for="questionIdInputText" value="ID: " />
+                <p:inputText id="questionIdInputText" value="#{param['questionId']}" disabled="true" />
+
+                <h:outputText for="questionInputText" value="Text: " />
+                <p:inputTextarea rows="15" cols="33" id="questionInputText" value="#{manageQuestionView.question.desc}" />
+
+                <h:outputText for="questionDateInputText" value="Date Added: " />
+                <p:datePicker id="questionDateInputText" value="#{manageQuestionView.question.dateAdded}" disabled="true" />
+
+                <h:outputText for="questionActiveInputText" value="Active: " />
+                <p:inputText id="questionActiveInputText" value="#{manageQuestionView.question.active}" />
+
+                <h:inputHidden />
+                <h:panelGrid columns="2">
+                    <p:linkButton outcome="viewQuestions.xhtml" value="Back" icon="fa fa-fw fa-arrow-circle-left" />
+                    <p:commandButton value="Save Question" action="#{manageQuestionView.saveQuestion()}" process="@this" update="messages" />
+                </h:panelGrid>
+            </h:panelGrid>
+
+            <h:outputText id="display" value="#{manageQuestionView.resultMessage}" />
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>
