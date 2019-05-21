@@ -25,4 +25,8 @@ public class QuestionService {
         return result.getResultList();
     }
 
+    public void deleteQuestion() {
+
+    }
+
 }

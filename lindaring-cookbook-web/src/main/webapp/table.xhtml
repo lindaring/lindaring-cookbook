@@ -28,34 +28,51 @@
 
         <br />
 
-        <p:dataTable var="question" value="#{exDataTableView.questions}" draggableColumns="true" resizableColumns="true" scrollable="true" liveResize="true">
-            <p:column headerText="Id" style="width: 5%">
-                <h:outputText value="#{question.id}" />
-            </p:column>
+        <h:form>
+            <p:dataTable var="question" value="#{exDataTableView.questions}" draggableColumns="true" resizableColumns="true" scrollable="true" liveResize="true">
+                <p:column headerText="Id" style="width: 5%">
+                    <h:outputText value="#{question.id}" />
+                </p:column>
 
-            <p:column headerText="Desc" style="width: 70%">
-                <h:outputText value="#{question.desc}" />
-            </p:column>
+                <p:column headerText="Desc" style="width: 70%">
+                    <h:outputText value="#{question.desc}" />
+                </p:column>
 
-            <p:column headerText="Date Added"  style="width: 12.5%">
-                <h:outputText value="#{exDataTableView.formatDate(question.dateAdded)}" style="text-align: right" />
-            </p:column>
+                <p:column headerText="Date Added"  style="width: 12.5%">
+                    <h:outputText value="#{exDataTableView.formatDate(question.dateAdded)}" style="text-align: right" />
+                </p:column>
 
-            <p:column headerText="Activated" style="width: 10%">
-                <h:outputText value="#{question.active}" style="text-align: right" />
-            </p:column>
+                <p:column headerText="Activated" style="width: 10%">
+                    <h:outputText value="#{question.active}" style="text-align: right" />
+                </p:column>
 
-            <p:column style="width: 7.5%">
-                <p:link outcome="question/manageQuestion">
-                    <h:outputText class="fa fa-fw fa-edit" />
-                    <f:param name="questionId" value="#{question.id}" />
-                </p:link> |
-                <p:link outcome="question/manageQuestion">
-                    <h:outputText class="fa fa-fw fa-remove" />
-                    <f:param name="questionId" value="#{question.id}" />
-                </p:link>
-            </p:column>
-        </p:dataTable>
+                <p:column style="width: 7.5%">
+                    <p:link outcome="question/manageQuestion">
+                        <h:outputText class="fa fa-fw fa-edit" />
+                        <f:param name="questionId" value="#{question.id}" />
+                    </p:link> |
+                    <p:commandLink action="#{exDataTableView.selectQuestion(question.id)}" ajax="false">
+                        <h:outputText class="fa fa-fw fa-remove" />
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog widgetVar="deleteQuestionDialog" header="Are you sure you want to delete?" modal="true" minheight="100" minHeight="200">
+            <h:form>
+                <h:panelGrid columns="1">
+                    <h:outputText for="questionInputText1" value="Question: " />
+                    <p:inputTextarea id="questionInputText1" value="#{exDataTableView.selectedQuestion.desc}" readonly="true"
+                                     cols="50" rows="5" />
+
+                    <h:panelGrid columns="2">
+                        <p:commandButton value="Delete" action="#{exDataTableView.confirmDeleteQuestion()}" process="@this" />
+                        <p:commandButton value="Cancel" action="#{exDataTableView.cancelDeleteQuestion()}" />
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
     </ui:define>
 
 </ui:composition>
