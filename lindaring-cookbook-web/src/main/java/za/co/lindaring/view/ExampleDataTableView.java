@@ -32,7 +32,6 @@ public class ExampleDataTableView {
 
     public void search() {
         questions = questionService.getQuestionsLikeDesc(searchName);
-        System.out.println(questions.size());
     }
 
     public String getSearchName() {
