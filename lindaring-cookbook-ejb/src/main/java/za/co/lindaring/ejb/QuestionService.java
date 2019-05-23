@@ -1,6 +1,7 @@
 package za.co.lindaring.ejb;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import za.co.lindaring.entity.Question;
 
 import javax.ejb.LocalBean;
@@ -10,6 +11,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -29,9 +31,28 @@ public class QuestionService {
         return result.getResultList();
     }
 
-    public List<Question> getQuestionsLikeDesc(String desc) {
-        TypedQuery<Question> result = em.createNamedQuery("Question.findAllLikeDesc", Question.class);
-        result.setParameter("description", desc);
+    public List<Question> searchQuestion(String desc, Date searchDate) {
+        String query = "";
+        if (StringUtils.isNotEmpty(desc) && searchDate != null) {
+            query = "Question.searchByDescAndDesc";
+        } else if (StringUtils.isNotEmpty(desc)) {
+            query = "Question.searchByDesc";
+        } else if (searchDate != null) {
+            query = "Question.searchByDate";
+        } else {
+            query = "Question.findAll";
+        }
+
+//        Query q = em.createQuery(query);
+//        em.getEntityManagerFactory().addNamedQuery("selectAuthorOfBook", q);
+
+        TypedQuery<Question> result = em.createNamedQuery(query, Question.class);
+        if (StringUtils.isNotEmpty(desc)) {
+            result.setParameter("description", desc);
+        }
+        if (searchDate != null) {
+            result.setParameter("sDate", searchDate);
+        }
         return result.getResultList();
     }
 

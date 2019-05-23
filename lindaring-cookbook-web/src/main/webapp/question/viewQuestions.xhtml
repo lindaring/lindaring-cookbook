@@ -9,22 +9,26 @@
     <ui:define name="content">
         <h1>Manage Questions</h1>
 
-        <h:form>
-            <p:panel header="Filte By" toggleable="true" collapsed="true">
-                <h:panelGrid columns="7" cellpadding="5">
-                    <h:outputText for="questionInputText" value="Question: " />
-                    <p:inputText id="questionInputText" value="#{viewQuestionView.searchName}" />
+        <h:panelGrid columns="2" cellpadding="5" style="width: 100%">
+            <h:form>
+                <p:panel header="Filter" toggleable="true" collapsed="true">
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:inputText id="questionInputText" value="#{viewQuestionView.searchName}" autocomplete="off" placeholder="Question" />
 
-                    <h:outputText for="addedDateInputText" value="Date Added: " />
-                    <p:calendar id="addedDateInputText" />
+                        <p:calendar id="addedDateInputText" value="#{viewQuestionView.searchDate}" autocomplete="off" placeholder="Date Added" />
 
-                    <h:outputLabel for="activatedInputText" value="Activated: " />
-                    <p:spinner id="activatedInputText" min="0" max="1" />
+                        <p:spinner id="activatedInputText" min="0" max="1" placeholder="Activated" />
 
-                    <p:commandButton value="Search" action="#{viewQuestionView.search}" process="@this" update="@this" ajax="false" />
-                </h:panelGrid>
-            </p:panel>
-        </h:form>
+                        <p:commandButton value="Search" action="#{viewQuestionView.search}" process="@this" update="viewQuestionForm" ajax="false" />
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+            <h:form>
+                <p:panel header="Actions" toggleable="true" collapsed="true">
+
+                </p:panel>
+            </h:form>
+        </h:panelGrid>
 
         <br />
 

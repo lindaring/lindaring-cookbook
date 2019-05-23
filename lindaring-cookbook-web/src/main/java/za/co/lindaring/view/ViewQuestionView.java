@@ -20,6 +20,7 @@ import java.util.List;
 public class ViewQuestionView {
 
     private String searchName;
+    private Date searchDate;
     private List<Question> questions;
 
     @EJB
@@ -31,7 +32,7 @@ public class ViewQuestionView {
     }
 
     public void search() {
-        questions = questionService.getQuestionsLikeDesc(searchName);
+        questions = questionService.searchQuestion(searchName, searchDate);
     }
 
     public String formatDate(Date date) {
