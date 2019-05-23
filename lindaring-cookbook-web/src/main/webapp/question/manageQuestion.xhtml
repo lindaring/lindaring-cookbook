@@ -15,7 +15,7 @@
                 <p:inputText id="questionIdInputText" value="#{param['questionId']}" disabled="true" />
 
                 <h:outputText for="questionInputText" value="Text: " />
-                <p:inputTextarea rows="15" cols="33" id="questionInputText" value="#{manageQuestionView.question.desc}" />
+                <p:inputTextarea rows="15" cols="33" id="questionInputText" value="#{manageQuestionView.question.id}" />
 
                 <h:outputText for="questionDateInputText" value="Date Added: " />
                 <p:datePicker id="questionDateInputText" value="#{manageQuestionView.question.dateAdded}" disabled="true" />
@@ -26,13 +26,15 @@
                 <h:inputHidden />
                 <h:panelGrid columns="2">
                     <p:linkButton outcome="viewQuestions.xhtml" value="Back" icon="fa fa-fw fa-arrow-circle-left" />
-                    <p:commandButton value="Save Question" action="#{manageQuestionView.saveQuestion()}" process="@this" update="messages" />
+                    <p:commandButton value="Save Question" action="#{manageQuestionView.saveQuestion()}" process="@all" update="messages" />
                 </h:panelGrid>
             </h:panelGrid>
 
             <h:outputText id="display" value="#{manageQuestionView.resultMessage}" />
 
         </h:form>
+
+        <div style="margin-bottom: 40px"></div>
     </ui:define>
 
 </ui:composition>

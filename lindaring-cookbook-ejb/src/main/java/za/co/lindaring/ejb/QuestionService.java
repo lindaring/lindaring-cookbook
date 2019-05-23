@@ -38,6 +38,7 @@ public class QuestionService {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void saveQuestion(Question question) {
         em.merge(question);
+        em.flush();
     }
 
     public void deleteQuestion() {
