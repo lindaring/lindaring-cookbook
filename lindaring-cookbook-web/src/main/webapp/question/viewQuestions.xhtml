@@ -78,7 +78,7 @@
             <h:form id="updateQuestionForm">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputText for="questionIdInputText2" value="ID: " />
-                    <p:inputText id="questionIdInputText2" value="#{param['questionId']}" disabled="true" />
+                    <p:inputText id="questionIdInputText2" value="#{manageQuestionView.question.id}" disabled="true" />
 
                     <h:outputText for="questionInputText2" value="Text: " />
                     <p:inputTextarea rows="15" cols="33" id="questionInputText2" value="#{manageQuestionView.question.desc}" />
@@ -91,7 +91,7 @@
 
                     <h:inputHidden />
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Save Question" action="#{manageQuestionView.saveQuestion()}" process="@all" update="messages"
+                        <p:commandButton value="Save Question" action="#{manageQuestionView.saveQuestion()}" process="@all" update="viewQuestionForm"
                                          icon="fa fa-fw fa fa-save" />
                         <p:commandButton value="Close" action="#{manageQuestionView.cancelUpdateQuestion()}" />
                     </h:panelGrid>

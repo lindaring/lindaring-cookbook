@@ -28,14 +28,18 @@ public class ManageQuestionView {
     private QuestionService questionService;
 
     public void selectQuestionForUpdate(long questionId) {
-        question = questionService.getQuestion(questionId);
+        selectQuestion(questionId);
         CookbookUtil.openDialog(UPDATE_QUESTION_DIALOG);
     }
 
     public void selectQuestionForDeletion(long questionId) {
+        selectQuestion(questionId);
+        CookbookUtil.openDialog(DELETE_QUESTION_DIALOG);
+    }
+
+    private void selectQuestion(long questionId) {
         try {
             this.question = questionService.getQuestion(questionId);
-            CookbookUtil.openDialog(DELETE_QUESTION_DIALOG);
         } catch (Exception e) {
             log.error("Failed to select question", e);
         }
@@ -60,6 +64,7 @@ public class ManageQuestionView {
         try {
             questionService.saveQuestion(question);
             CookbookUtil.displayInfo("Saved changes:)");
+            CookbookUtil.closeDialog(UPDATE_QUESTION_DIALOG);
         } catch (Exception e) {
             CookbookUtil.displayError("Error saving changes");
         }
