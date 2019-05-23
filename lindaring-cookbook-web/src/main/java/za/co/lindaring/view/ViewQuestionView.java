@@ -16,8 +16,8 @@ import java.util.List;
 @Setter
 @Getter
 @RequestScoped
-@ManagedBean(name = "exDataTableView")
-public class ExampleDataTableView {
+@ManagedBean(name = "viewQuestionView")
+public class ViewQuestionView {
 
     private String searchName;
     private List<Question> questions;

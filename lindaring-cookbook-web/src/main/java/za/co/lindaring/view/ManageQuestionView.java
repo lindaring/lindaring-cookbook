@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Question;
-import za.co.lindaring.util.CookbookUtil;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -16,7 +15,7 @@ import javax.faces.bean.ViewScoped;
 @Setter
 @ViewScoped
 @ManagedBean(name = "manageQuestionView")
-public class ManageQuestionView {
+public class ManageQuestionView extends CookbookViewBase {
 
     private static final String UPDATE_QUESTION_DIALOG = "updateQuestionDialog";
     private static final String DELETE_QUESTION_DIALOG = "deleteQuestionDialog";
@@ -29,12 +28,12 @@ public class ManageQuestionView {
 
     public void selectQuestionForUpdate(long questionId) {
         selectQuestion(questionId);
-        CookbookUtil.openDialog(UPDATE_QUESTION_DIALOG);
+        openDialog(UPDATE_QUESTION_DIALOG);
     }
 
     public void selectQuestionForDeletion(long questionId) {
         selectQuestion(questionId);
-        CookbookUtil.openDialog(DELETE_QUESTION_DIALOG);
+        openDialog(DELETE_QUESTION_DIALOG);
     }
 
     private void selectQuestion(long questionId) {
@@ -47,37 +46,37 @@ public class ManageQuestionView {
 
     public void confirmDeleteQuestion(Long questionId) {
         if (questionId == null) {
-            CookbookUtil.displayError("Oops! Question not selected:(");
+            displayError("Oops! Question not selected:(");
             return;
         }
         try {
             questionService.deleteQuestion(questionId);
-            CookbookUtil.displayInfo("Nice! Question deleted:)");
-            CookbookUtil.closeDialog(DELETE_QUESTION_DIALOG);
+            displayInfo("Nice! Question deleted:)");
+            closeDialog(DELETE_QUESTION_DIALOG);
         } catch (Exception e) {
             log.error("Failed to delete question", e);
-            CookbookUtil.displayError("Oops! Error deleting question:(");
+            displayError("Oops! Error deleting question:(");
         }
     }
 
     public void saveQuestion() {
         try {
             questionService.saveQuestion(question);
-            CookbookUtil.displayInfo("Saved changes:)");
-            CookbookUtil.closeDialog(UPDATE_QUESTION_DIALOG);
+            displayInfo("Nice! Saved changes:)");
+            closeDialog(UPDATE_QUESTION_DIALOG);
         } catch (Exception e) {
-            CookbookUtil.displayError("Error saving changes");
+            displayError("Error saving changes");
         }
     }
 
     public void cancelUpdateQuestion() {
         this.question = null;
-        CookbookUtil.closeDialog(UPDATE_QUESTION_DIALOG);
+        closeDialog(UPDATE_QUESTION_DIALOG);
     }
 
     public void cancelDeleteQuestion() {
         this.question = null;
-        CookbookUtil.closeDialog(DELETE_QUESTION_DIALOG);
+        closeDialog(DELETE_QUESTION_DIALOG);
     }
 
 }

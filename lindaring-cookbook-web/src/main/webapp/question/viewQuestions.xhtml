@@ -13,7 +13,7 @@
             <p:panel header="Filte By" toggleable="true" collapsed="true">
                 <h:panelGrid columns="7" cellpadding="5">
                     <h:outputText for="questionInputText" value="Question: " />
-                    <p:inputText id="questionInputText" value="#{exDataTableView.searchName}" />
+                    <p:inputText id="questionInputText" value="#{viewQuestionView.searchName}" />
 
                     <h:outputText for="addedDateInputText" value="Date Added: " />
                     <p:calendar id="addedDateInputText" />
@@ -21,7 +21,7 @@
                     <h:outputLabel for="activatedInputText" value="Activated: " />
                     <p:spinner id="activatedInputText" min="0" max="1" />
 
-                    <p:commandButton value="Search" action="#{exDataTableView.search}" process="@this" update="@this" ajax="false" />
+                    <p:commandButton value="Search" action="#{viewQuestionView.search}" process="@this" update="@this" ajax="false" />
                 </h:panelGrid>
             </p:panel>
         </h:form>
@@ -29,7 +29,7 @@
         <br />
 
         <h:form id="viewQuestionForm">
-            <p:dataTable var="question" value="#{exDataTableView.questions}" draggableColumns="true" resizableColumns="true" scrollable="true" liveResize="true">
+            <p:dataTable var="question" value="#{viewQuestionView.questions}" draggableColumns="true" resizableColumns="true" scrollable="true" liveResize="true">
                 <p:column headerText="Id" style="width: 5%">
                     <h:outputText value="#{question.id}" />
                 </p:column>
@@ -39,7 +39,7 @@
                 </p:column>
 
                 <p:column headerText="Date Added"  style="width: 12.5%">
-                    <h:outputText value="#{exDataTableView.formatDate(question.dateAdded)}" style="text-align: right" />
+                    <h:outputText value="#{viewQuestionView.formatDate(question.dateAdded)}" style="text-align: right" />
                 </p:column>
 
                 <p:column headerText="Activated" style="width: 10%">
