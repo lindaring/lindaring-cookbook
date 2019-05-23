@@ -41,8 +41,9 @@ public class QuestionService {
         em.flush();
     }
 
-    public void deleteQuestion() {
-
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void deleteQuestion(Question question) {
+        em.remove(question);
     }
 
 }

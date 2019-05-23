@@ -47,11 +47,11 @@
                 </p:column>
 
                 <p:column style="width: 7.5%">
-                    <p:commandLink action="manageQuestion">
+                    <p:commandLink action="#{manageQuestionView.selectQuestionForUpdate(question.id)}" update="updateQuestionForm">
                         <h:outputText class="fa fa-fw fa-edit" />
                         <f:param name="questionId" value="#{question.id}" />
                     </p:commandLink> |
-                    <p:commandLink action="#{exDataTableView.selectQuestion(question.id)}" ajax="false">
+                    <p:commandLink action="#{exDataTableView.selectQuestionForDeletion(question.id)}" update="deleteQuestionForm">
                         <h:outputText class="fa fa-fw fa-remove" />
                     </p:commandLink>
                 </p:column>
@@ -59,15 +59,41 @@
         </h:form>
 
         <p:dialog widgetVar="deleteQuestionDialog" header="Are you sure you want to delete?" modal="true" minheight="100" minHeight="200">
-            <h:form>
+            <h:form id="deleteQuestionForm">
                 <h:panelGrid columns="1">
                     <h:outputText for="questionInputText1" value="Question: " />
                     <p:inputTextarea id="questionInputText1" value="#{exDataTableView.selectedQuestion.desc}" readonly="true"
                                      cols="50" rows="5" />
 
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Delete" action="#{exDataTableView.confirmDeleteQuestion()}" process="@this" />
-                        <p:commandButton value="Cancel" action="#{exDataTableView.cancelDeleteQuestion()}" />
+                        <p:commandButton value="Delete" action="#{exDataTableView.confirmDeleteQuestion(exDataTableView.selectedQuestion)}"
+                                         process="@all" icon="fa fa-fw fa fa-close" />
+                        <p:commandButton value="Close" action="#{exDataTableView.cancelDeleteQuestion()}" />
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog widgetVar="updateQuestionDialog" header="Update Question" modal="true" minheight="100" minHeight="200">
+            <h:form id="updateQuestionForm">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText for="questionIdInputText2" value="ID: " />
+                    <p:inputText id="questionIdInputText2" value="#{param['questionId']}" disabled="true" />
+
+                    <h:outputText for="questionInputText2" value="Text: " />
+                    <p:inputTextarea rows="15" cols="33" id="questionInputText2" value="#{manageQuestionView.question.desc}" />
+
+                    <h:outputText for="questionDateInputText2" value="Date Added: " />
+                    <p:datePicker id="questionDateInputText2" value="#{manageQuestionView.question.dateAdded}" disabled="true" />
+
+                    <h:outputText for="questionActiveInputText2" value="Active: " />
+                    <p:inputText id="questionActiveInputText2" value="#{manageQuestionView.question.active}" />
+
+                    <h:inputHidden />
+                    <h:panelGrid columns="2">
+                        <p:commandButton value="Save Question" action="#{manageQuestionView.saveQuestion()}" process="@all" update="messages"
+                                         icon="fa fa-fw fa fa-save" />
+                        <p:commandButton value="Close" action="#{manageQuestionView.cancelUpdateQuestion()}" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>

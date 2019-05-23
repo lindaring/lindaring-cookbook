@@ -2,18 +2,13 @@ package za.co.lindaring.view;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Question;
 import za.co.lindaring.util.CookbookUtil;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -21,21 +16,22 @@ import java.util.Map;
 @ManagedBean(name = "manageQuestionView")
 public class ManageQuestionView {
 
+    private static final String UPDATE_QUESTION_DIALOG = "updateQuestionDialog";
+
     private String resultMessage;
     private Question question;
 
     @EJB
     private QuestionService questionService;
 
-    @PostConstruct
-    public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        Map<String, String> paramMap = context.getExternalContext().getRequestParameterMap();
+    public void selectQuestionForUpdate(long questionId) {
+        question = questionService.getQuestion(questionId);
+        CookbookUtil.openDialog(UPDATE_QUESTION_DIALOG);
+    }
 
-        String id = paramMap.get("questionId");
-        if (StringUtils.isNotEmpty(id)) {
-            question = questionService.getQuestion(Long.parseLong(id));
-        }
+    public void cancelUpdateQuestion() {
+        this.question = null;
+        CookbookUtil.closeDialog(UPDATE_QUESTION_DIALOG);
     }
 
     public void saveQuestion() {
