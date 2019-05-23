@@ -28,7 +28,7 @@
 
         <br />
 
-        <h:form>
+        <h:form id="viewQuestionForm">
             <p:dataTable var="question" value="#{exDataTableView.questions}" draggableColumns="true" resizableColumns="true" scrollable="true" liveResize="true">
                 <p:column headerText="Id" style="width: 5%">
                     <h:outputText value="#{question.id}" />
@@ -51,7 +51,7 @@
                         <h:outputText class="fa fa-fw fa-edit" />
                         <f:param name="questionId" value="#{question.id}" />
                     </p:commandLink> |
-                    <p:commandLink action="#{exDataTableView.selectQuestionForDeletion(question.id)}" update="deleteQuestionForm">
+                    <p:commandLink action="#{manageQuestionView.selectQuestionForDeletion(question.id)}" update="deleteQuestionForm">
                         <h:outputText class="fa fa-fw fa-remove" />
                     </p:commandLink>
                 </p:column>
@@ -62,13 +62,13 @@
             <h:form id="deleteQuestionForm">
                 <h:panelGrid columns="1">
                     <h:outputText for="questionInputText1" value="Question: " />
-                    <p:inputTextarea id="questionInputText1" value="#{exDataTableView.selectedQuestion.desc}" readonly="true"
+                    <p:inputTextarea id="questionInputText1" value="#{manageQuestionView.question.desc}" readonly="true"
                                      cols="50" rows="5" />
 
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Delete" action="#{exDataTableView.confirmDeleteQuestion(exDataTableView.selectedQuestion)}"
-                                         process="@all" icon="fa fa-fw fa fa-close" />
-                        <p:commandButton value="Close" action="#{exDataTableView.cancelDeleteQuestion()}" />
+                        <p:commandButton value="Delete" action="#{manageQuestionView.confirmDeleteQuestion(manageQuestionView.question.id)}"
+                                         process="@all" icon="fa fa-fw fa fa-close" update="viewQuestionForm" />
+                        <p:commandButton value="Close" action="#{manageQuestionView.cancelDeleteQuestion()}" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>

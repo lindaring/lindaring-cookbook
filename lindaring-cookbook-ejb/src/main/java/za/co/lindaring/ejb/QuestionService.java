@@ -42,7 +42,8 @@ public class QuestionService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void deleteQuestion(Question question) {
+    public void deleteQuestion(long id) {
+        Question question = getQuestion(id);
         em.remove(question);
     }
 

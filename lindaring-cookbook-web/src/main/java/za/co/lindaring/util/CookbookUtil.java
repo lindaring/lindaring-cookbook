@@ -1,13 +1,19 @@
 package za.co.lindaring.util;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.primefaces.PrimeFaces;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import java.util.Date;
 
 public final class CookbookUtil {
 
     private CookbookUtil() {
+    }
+
+    public static String formatDate(Date date) {
+        return DateFormatUtils.format(date, "dd MMM yyyy");
     }
 
     public static void openDialog(String id) {
