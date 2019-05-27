@@ -9,58 +9,65 @@
     <ui:define name="content">
         <h1>Manage Questions</h1>
 
-        <h:panelGrid columns="2" cellpadding="5" style="width: 100%">
-            <h:form>
-                <p:panel header="Filter" toggleable="true" collapsed="true">
-                    <h:panelGrid columns="1" cellpadding="5">
-                        <p:inputText id="questionInputText" value="#{viewQuestionView.searchName}" autocomplete="off" placeholder="Question" />
+        <div>
+            <!-- Left -->
+            <div style="width: 79%; float: left;">
+                <h:form id="viewQuestionForm">
+                    <p:dataTable var="question" value="#{viewQuestionView.questions}" draggableColumns="true"
+                                 resizableColumns="true" scrollable="true" liveResize="true" style="max-width: 1200px; font-size: .9em;">
+                        <p:column headerText="Id" style="width: 5%">
+                            <h:outputText value="#{question.id}" />
+                        </p:column>
 
-                        <p:calendar id="addedDateInputText" value="#{viewQuestionView.searchDate}" autocomplete="off" placeholder="Date Added" />
+                        <p:column headerText="Desc" style="width: 70%">
+                            <h:outputText value="#{question.desc}" />
+                        </p:column>
 
-                        <p:spinner id="activatedInputText" min="0" max="1" placeholder="Activated" />
+                        <p:column headerText="Date Added"  style="width: 12.5%">
+                            <h:outputText value="#{viewQuestionView.formatDate(question.dateAdded)}" style="text-align: right" />
+                        </p:column>
 
-                        <p:commandButton value="Search" action="#{viewQuestionView.search}" process="@this" update="viewQuestionForm" ajax="false" />
-                    </h:panelGrid>
-                </p:panel>
-            </h:form>
-            <h:form>
-                <p:panel header="Actions" toggleable="true" collapsed="true">
+                        <p:column headerText="Activated" style="width: 10%">
+                            <h:outputText value="#{question.active}" style="text-align: right" />
+                        </p:column>
 
-                </p:panel>
-            </h:form>
-        </h:panelGrid>
+                        <p:column style="width: 7.5%">
+                            <p:commandLink action="#{manageQuestionView.selectQuestionForUpdate(question.id)}" update="updateQuestionForm">
+                                <h:outputText class="fa fa-fw fa-edit" />
+                                <f:param name="questionId" value="#{question.id}" />
+                            </p:commandLink> |
+                            <p:commandLink action="#{manageQuestionView.selectQuestionForDeletion(question.id)}" update="deleteQuestionForm">
+                                <h:outputText class="fa fa-fw fa-remove" />
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
 
-        <br />
+            <!-- Right -->
+            <div style="width: 19%; float: left;">
+                <h:panelGrid columns="1">
+                    <h:form>
+                        <p:panel header="Filter" toggleable="true" collapsed="false">
+                            <h:panelGrid columns="1" cellpadding="5" style="font-size: .9em;">
+                                <p:inputText id="questionInputText" value="#{viewQuestionView.searchName}" autocomplete="off" placeholder="Question" />
 
-        <h:form id="viewQuestionForm">
-            <p:dataTable var="question" value="#{viewQuestionView.questions}" draggableColumns="true" resizableColumns="true" scrollable="true" liveResize="true">
-                <p:column headerText="Id" style="width: 5%">
-                    <h:outputText value="#{question.id}" />
-                </p:column>
+                                <p:calendar id="addedDateInputText" value="#{viewQuestionView.searchDate}" autocomplete="off" placeholder="Date Added" />
 
-                <p:column headerText="Desc" style="width: 70%">
-                    <h:outputText value="#{question.desc}" />
-                </p:column>
+                                <p:spinner id="activatedInputText" min="0" max="1" placeholder="Activated" />
 
-                <p:column headerText="Date Added"  style="width: 12.5%">
-                    <h:outputText value="#{viewQuestionView.formatDate(question.dateAdded)}" style="text-align: right" />
-                </p:column>
+                                <p:commandButton value="Search" action="#{viewQuestionView.search}" process="@this" update="viewQuestionForm" ajax="false" />
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+                    <h:form>
+                        <p:panel header="Actions" toggleable="true" collapsed="false">
 
-                <p:column headerText="Activated" style="width: 10%">
-                    <h:outputText value="#{question.active}" style="text-align: right" />
-                </p:column>
-
-                <p:column style="width: 7.5%">
-                    <p:commandLink action="#{manageQuestionView.selectQuestionForUpdate(question.id)}" update="updateQuestionForm">
-                        <h:outputText class="fa fa-fw fa-edit" />
-                        <f:param name="questionId" value="#{question.id}" />
-                    </p:commandLink> |
-                    <p:commandLink action="#{manageQuestionView.selectQuestionForDeletion(question.id)}" update="deleteQuestionForm">
-                        <h:outputText class="fa fa-fw fa-remove" />
-                    </p:commandLink>
-                </p:column>
-            </p:dataTable>
-        </h:form>
+                        </p:panel>
+                    </h:form>
+                </h:panelGrid>
+            </div>
+        </div>
 
         <p:dialog widgetVar="deleteQuestionDialog" header="Are you sure you want to delete?" modal="true" minheight="100" minHeight="200">
             <h:form id="deleteQuestionForm">
