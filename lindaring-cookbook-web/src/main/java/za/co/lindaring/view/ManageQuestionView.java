@@ -9,6 +9,7 @@ import za.co.lindaring.entity.Question;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import java.util.Date;
 
 @Slf4j
 @Getter
@@ -19,7 +20,9 @@ public class ManageQuestionView extends CookbookViewBase {
 
     private static final String UPDATE_QUESTION_DIALOG = "updateQuestionDialog";
     private static final String DELETE_QUESTION_DIALOG = "deleteQuestionDialog";
+    private static final String INSERT_QUESTION_DIALOG = "insertQuestionDialog";
 
+    private String desc;
     private String resultMessage;
     private Question question;
 
@@ -34,6 +37,10 @@ public class ManageQuestionView extends CookbookViewBase {
     public void selectQuestionForDeletion(long questionId) {
         selectQuestion(questionId);
         openDialog(DELETE_QUESTION_DIALOG);
+    }
+
+    public void openInsertQuestionDialog() {
+        openDialog(INSERT_QUESTION_DIALOG);
     }
 
     private void selectQuestion(long questionId) {
@@ -51,8 +58,8 @@ public class ManageQuestionView extends CookbookViewBase {
         }
         try {
             questionService.deleteQuestion(questionId);
-            displayInfo("Nice! Question deleted:)");
             closeDialog(DELETE_QUESTION_DIALOG);
+            displayInfo("Nice! Question deleted:)");
         } catch (Exception e) {
             log.error("Failed to delete question", e);
             displayError("Oops! Error deleting question:(");
@@ -62,10 +69,21 @@ public class ManageQuestionView extends CookbookViewBase {
     public void saveQuestion() {
         try {
             questionService.saveQuestion(question);
-            displayInfo("Nice! Saved changes:)");
             closeDialog(UPDATE_QUESTION_DIALOG);
+            displayInfo("Nice! Saved changes:)");
         } catch (Exception e) {
-            displayError("Error saving changes");
+            displayError("Error saving changes:(");
+        }
+    }
+
+    public void insertQuestion() {
+        try {
+            Question newQuestion = new Question(null, desc, new Date(), 1);
+            questionService.insertQuestion(newQuestion);
+            this.desc = "";
+            displayInfo("Nice! Saved new question:)");
+        } catch (Exception e) {
+            displayError("Error saving new question:(");
         }
     }
 
@@ -77,6 +95,11 @@ public class ManageQuestionView extends CookbookViewBase {
     public void cancelDeleteQuestion() {
         this.question = null;
         closeDialog(DELETE_QUESTION_DIALOG);
+    }
+
+    public void cancelInsertQuestion() {
+        this.question = null;
+        closeDialog(INSERT_QUESTION_DIALOG);
     }
 
 }

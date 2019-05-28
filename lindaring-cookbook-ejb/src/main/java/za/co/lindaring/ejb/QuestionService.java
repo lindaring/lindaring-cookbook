@@ -63,6 +63,13 @@ public class QuestionService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void insertQuestion(Question question) {
+        question.setId(null);
+        em.persist(question);
+        em.flush();
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void deleteQuestion(long id) {
         Question question = getQuestion(id);
         em.remove(question);

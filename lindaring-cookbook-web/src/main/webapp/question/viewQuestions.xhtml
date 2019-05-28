@@ -23,7 +23,7 @@
                             <h:outputText value="#{question.desc}" />
                         </p:column>
 
-                        <p:column headerText="Date Added"  style="width: 12.5%">
+                        <p:column headerText="Date Added" style="width: 12.5%">
                             <h:outputText value="#{viewQuestionView.formatDate(question.dateAdded)}" style="text-align: right" />
                         </p:column>
 
@@ -45,29 +45,37 @@
             </div>
 
             <!-- Right -->
-            <div style="width: 19%; float: left;">
+            <div style="width: 19%; float: left; font-size: .9em;">
                 <h:panelGrid columns="1">
-                    <h:form>
-                        <p:panel header="Filter" toggleable="true" collapsed="false">
-                            <h:panelGrid columns="1" cellpadding="5" style="font-size: .9em;">
-                                <p:inputText id="questionInputText" value="#{viewQuestionView.searchName}" autocomplete="off" placeholder="Question" />
+                    <h:form style="margin: -3px 0 0 10px">
+                        <p:panel header="Filter" toggleable="false" collapsed="false">
+                            <h:panelGrid columns="1" cellpadding="5">
+                                <p:inputText id="questionInputText" value="#{viewQuestionView.searchName}" autocomplete="off" placeholder="Question"
+                                             style="max-width: 200px" />
 
-                                <p:calendar id="addedDateInputText" value="#{viewQuestionView.searchDate}" autocomplete="off" placeholder="Date Added" />
+                                <p:calendar id="addedDateInputText" value="#{viewQuestionView.searchDate}" autocomplete="off" placeholder="Date Added"
+                                            style="max-width: 200px"/>
 
-                                <p:spinner id="activatedInputText" min="0" max="1" placeholder="Activated" />
+                                <p:spinner id="activatedInputText" min="0" max="1" placeholder="Activated" style="max-width: 210px"/>
 
-                                <p:commandButton value="Search" action="#{viewQuestionView.search}" process="@this" update="viewQuestionForm" ajax="false" />
+                                <p:commandButton value="Search" action="#{viewQuestionView.search}" process="@this" update="viewQuestionForm" ajax="false"
+                                                 icon="fa fa-fw fa fa-search" />
                             </h:panelGrid>
                         </p:panel>
                     </h:form>
-                    <h:form>
-                        <p:panel header="Actions" toggleable="true" collapsed="false">
-
+                    <h:form style="margin: 10px 0 0 10px">
+                        <p:panel header="Actions" toggleable="false" collapsed="false">
+                            <p:commandButton value="New Question" type="button" onclick="PF('insertQuestionDialog').show();"
+                                             icon="fa fa-fw fa fa-plus-square-o" />
                         </p:panel>
                     </h:form>
                 </h:panelGrid>
             </div>
+
+            <div style="clear: both"></div>
         </div>
+
+        <div style="margin-bottom: 10px"></div>
 
         <p:dialog widgetVar="deleteQuestionDialog" header="Are you sure you want to delete?" modal="true" minheight="100" minHeight="200">
             <h:form id="deleteQuestionForm">
@@ -105,6 +113,21 @@
                         <p:commandButton value="Save Question" action="#{manageQuestionView.saveQuestion()}" process="@all" update="viewQuestionForm"
                                          icon="fa fa-fw fa fa-save" />
                         <p:commandButton value="Close" action="#{manageQuestionView.cancelUpdateQuestion()}" />
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog widgetVar="insertQuestionDialog" header="New Question" modal="true" minheight="100" minHeight="200">
+            <h:form id="insertQuestionForm">
+                <h:panelGrid columns="1">
+                    <h:outputText for="questionNameInputText" value="Question: " />
+                    <p:inputTextarea id="questionNameInputText" value="#{manageQuestionView.desc}" cols="50" rows="5" />
+
+                    <h:panelGrid columns="2">
+                        <p:commandButton value="Save Question" action="#{manageQuestionView.insertQuestion()}"
+                                         process="@all" icon="fa fa-fw fa fa-save" update="viewQuestionForm" />
+                        <p:commandButton value="Close" action="#{manageQuestionView.cancelInsertQuestion()}" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>
