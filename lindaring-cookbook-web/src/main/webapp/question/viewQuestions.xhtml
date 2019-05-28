@@ -79,6 +79,7 @@
 
         <div style="margin-bottom: 10px"></div>
 
+        <!-- Dialogs -->
         <p:dialog widgetVar="deleteQuestionDialog" header="Are you sure you want to delete?" modal="true" minheight="100" minHeight="200">
             <h:form id="deleteQuestionForm">
                 <h:panelGrid columns="1">
@@ -102,7 +103,7 @@
                     <p:inputText id="questionIdInputText2" value="#{manageQuestionView.question.id}" disabled="true" />
 
                     <h:outputText for="questionInputText2" value="Text: " />
-                    <p:inputTextarea rows="15" cols="33" id="questionInputText2" value="#{manageQuestionView.question.desc}" />
+                    <p:inputTextarea rows="10" cols="40" id="questionInputText2" value="#{manageQuestionView.question.desc}" />
 
                     <h:outputText for="questionDateInputText2" value="Date Added: " />
                     <p:datePicker id="questionDateInputText2" value="#{manageQuestionView.question.dateAdded}" disabled="true" />
