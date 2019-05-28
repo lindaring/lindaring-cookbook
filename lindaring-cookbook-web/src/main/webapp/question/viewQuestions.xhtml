@@ -11,10 +11,12 @@
 
         <div>
             <!-- Left -->
-            <div style="width: 79%; float: left;">
+            <div style="width: 78%; float: left;">
                 <h:form id="viewQuestionForm">
                     <p:dataTable var="question" value="#{viewQuestionView.questions}" draggableColumns="true"
-                                 resizableColumns="true" scrollable="true" liveResize="true" style="max-width: 1200px; font-size: .9em;">
+                                 resizableColumns="true" scrollable="true" liveResize="true" style="max-width: 1100px; font-size: .9em;"
+                                 paginator="true" rows="15" rowsPerPageTemplate="10,15,20,50"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}">
                         <p:column headerText="Id" style="width: 5%">
                             <h:outputText value="#{question.id}" />
                         </p:column>
@@ -45,7 +47,7 @@
             </div>
 
             <!-- Right -->
-            <div style="width: 19%; float: left; font-size: .9em;">
+            <div style="width: 19%; float: left; font-size: .8em;">
                 <h:panelGrid columns="1">
                     <h:form style="margin: -3px 0 0 10px">
                         <p:panel header="Filter" toggleable="false" collapsed="false">

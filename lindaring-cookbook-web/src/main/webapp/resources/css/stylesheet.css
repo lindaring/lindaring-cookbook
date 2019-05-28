@@ -12,7 +12,7 @@ h1 {
 #header-container {
     position: fixed;
     top: 0;
-    z-index: 100;
+    z-index: 10000;
     width: 100%;
     background: #2E6E9E;
     color: #EAF4FD;
@@ -62,4 +62,8 @@ h1 {
 }
 .ui-column-title {
     letter-spacing: -1px !important;
+}
+
+.ui-paginator-top {
+    display: none !important;;
 }
