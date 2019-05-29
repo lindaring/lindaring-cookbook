@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import za.co.lindaring.ejb.QuestionService;
+import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Question;
 
 import javax.ejb.EJB;
@@ -24,6 +25,7 @@ public class ManageQuestionView extends CookbookViewBase {
 
     private String desc;
     private String resultMessage;
+    private String answersString;
     private Question question;
 
     @EJB
@@ -31,6 +33,11 @@ public class ManageQuestionView extends CookbookViewBase {
 
     public void selectQuestionForUpdate(long questionId) {
         selectQuestion(questionId);
+        StringBuilder answers = new StringBuilder();
+        for (Answer a: question.getAnswers()) {
+            answers.append(a.getText()).append("\n");
+        }
+        answersString = answers.toString();
         openDialog(UPDATE_QUESTION_DIALOG);
     }
 
@@ -78,7 +85,11 @@ public class ManageQuestionView extends CookbookViewBase {
 
     public void insertQuestion() {
         try {
-            Question newQuestion = new Question(null, desc, new Date(), 1);
+            Question newQuestion = Question.builder()
+                                            .id(null)
+                                            .desc(desc)
+                                            .dateAdded(new Date())
+                                            .active(1).build();
             questionService.insertQuestion(newQuestion);
             this.desc = "";
             displayInfo("Nice! Saved new question:)");

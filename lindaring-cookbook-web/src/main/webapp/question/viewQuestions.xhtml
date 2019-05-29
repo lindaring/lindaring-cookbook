@@ -96,14 +96,17 @@
             </h:form>
         </p:dialog>
 
-        <p:dialog widgetVar="updateQuestionDialog" header="Update Question" modal="true" minheight="100" minHeight="200">
+        <p:dialog widgetVar="updateQuestionDialog" header="Update Question" modal="true" minheight="100" minHeight="200" maximizable="true">
             <h:form id="updateQuestionForm">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputText for="questionIdInputText2" value="ID: " />
                     <p:inputText id="questionIdInputText2" value="#{manageQuestionView.question.id}" disabled="true" />
 
                     <h:outputText for="questionInputText2" value="Text: " />
-                    <p:inputTextarea rows="10" cols="40" id="questionInputText2" value="#{manageQuestionView.question.desc}" />
+                    <p:inputTextarea rows="5" cols="50" id="questionInputText2" value="#{manageQuestionView.question.desc}" />
+
+                    <h:outputText for="answersInputText" value="Answers: " />
+                    <p:inputTextarea rows="2" cols="50" id="answersInputText" value="#{manageQuestionView.answersString}" disabled="true" />
 
                     <h:outputText for="questionDateInputText2" value="Date Added: " />
                     <p:datePicker id="questionDateInputText2" value="#{manageQuestionView.question.dateAdded}" disabled="true" />

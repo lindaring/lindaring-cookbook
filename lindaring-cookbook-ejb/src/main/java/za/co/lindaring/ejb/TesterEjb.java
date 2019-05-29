@@ -1,6 +1,6 @@
 package za.co.lindaring.ejb;
 
-import lombok.extern.slf4j.Slf4j;
+import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Question;
 
 import javax.annotation.PostConstruct;
@@ -9,8 +9,9 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
-@Startup
+//@Startup
 @Singleton
 public class TesterEjb {
 
@@ -19,8 +20,11 @@ public class TesterEjb {
 
     @PostConstruct
     public void testConn() {
+//        TypedQuery<Answer> result = em.createNamedQuery("Answer.findAll", Answer.class);
+//        List<Answer> list = result.getResultList();
         TypedQuery<Question> result = em.createNamedQuery("Question.findAll", Question.class);
-        System.out.println("Lobola App test: " + result.getResultList().size());
+        List<Question> list = result.getResultList();
+        System.out.println("Lobola App test: " + list.size());
     }
 
 }
