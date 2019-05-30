@@ -67,3 +67,6 @@ h1 {
 .ui-paginator-top {
     display: none !important;;
 }
+.ui-accordion-header {
+    outline: none !important;
+}

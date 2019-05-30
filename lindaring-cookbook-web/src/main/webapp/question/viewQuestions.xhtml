@@ -103,16 +103,21 @@
                     <p:inputText id="questionIdInputText2" value="#{manageQuestionView.question.id}" disabled="true" />
 
                     <h:outputText for="questionInputText2" value="Text: " />
-                    <p:inputTextarea rows="5" cols="50" id="questionInputText2" value="#{manageQuestionView.question.desc}" />
-
-                    <h:outputText for="answersInputText" value="Answers: " />
-                    <p:inputTextarea rows="2" cols="50" id="answersInputText" value="#{manageQuestionView.answersString}" disabled="true" />
+                    <p:inputTextarea rows="2" cols="50" id="questionInputText2" value="#{manageQuestionView.question.desc}" />
 
                     <h:outputText for="questionDateInputText2" value="Date Added: " />
                     <p:datePicker id="questionDateInputText2" value="#{manageQuestionView.question.dateAdded}" disabled="true" />
 
                     <h:outputText for="questionActiveInputText2" value="Active: " />
                     <p:inputText id="questionActiveInputText2" value="#{manageQuestionView.question.active}" />
+
+                    <h:inputHidden />
+                    <p:accordionPanel activeIndex="null" value="#{manageQuestionView.question.answers}" var="answer"
+                                      style="max-width: 580px; font-size: .8em;" >
+                        <p:tab title="#{answer.getQuestionId()}">
+                            <h:outputText value="#{answer.text}" />
+                        </p:tab>
+                    </p:accordionPanel>
 
                     <h:inputHidden />
                     <h:panelGrid columns="2">
