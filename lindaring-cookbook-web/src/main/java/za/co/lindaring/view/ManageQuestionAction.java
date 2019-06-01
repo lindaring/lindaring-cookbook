@@ -3,6 +3,7 @@ package za.co.lindaring.view;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.primefaces.event.FlowEvent;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Question;
@@ -16,8 +17,8 @@ import java.util.Date;
 @Getter
 @Setter
 @ViewScoped
-@ManagedBean(name = "manageQuestionView")
-public class ManageQuestionView extends CookbookViewBase {
+@ManagedBean(name = "manageQuestionAction")
+public class ManageQuestionAction extends CookbookViewBase {
 
     private static final String UPDATE_QUESTION_DIALOG = "updateQuestionDialog";
     private static final String DELETE_QUESTION_DIALOG = "deleteQuestionDialog";

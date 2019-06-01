@@ -34,11 +34,11 @@
                         </p:column>
 
                         <p:column style="width: 7.5%">
-                            <p:commandLink action="#{manageQuestionView.selectQuestionForUpdate(question.id)}" update="updateQuestionForm">
+                            <p:commandLink action="#{manageQuestionAction.selectQuestionForUpdate(question.id)}" update="updateQuestionForm">
                                 <h:outputText class="fa fa-fw fa-edit" />
                                 <f:param name="questionId" value="#{question.id}" />
                             </p:commandLink> |
-                            <p:commandLink action="#{manageQuestionView.selectQuestionForDeletion(question.id)}" update="deleteQuestionForm">
+                            <p:commandLink action="#{manageQuestionAction.selectQuestionForDeletion(question.id)}" update="deleteQuestionForm">
                                 <h:outputText class="fa fa-fw fa-remove" />
                             </p:commandLink>
                         </p:column>
@@ -84,13 +84,13 @@
             <h:form id="deleteQuestionForm">
                 <h:panelGrid columns="1">
                     <h:outputText for="questionInputText1" value="Question: " />
-                    <p:inputTextarea id="questionInputText1" value="#{manageQuestionView.question.desc}" readonly="true"
+                    <p:inputTextarea id="questionInputText1" value="#{manageQuestionAction.question.desc}" readonly="true"
                                      cols="50" rows="5" />
 
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Delete" action="#{manageQuestionView.confirmDeleteQuestion(manageQuestionView.question.id)}"
+                        <p:commandButton value="Delete" action="#{manageQuestionAction.confirmDeleteQuestion(manageQuestionAction.question.id)}"
                                          process="@all" icon="fa fa-fw fa fa-close" update="viewQuestionForm" />
-                        <p:commandButton value="Close" action="#{manageQuestionView.cancelDeleteQuestion()}" />
+                        <p:commandButton value="Close" action="#{manageQuestionAction.cancelDeleteQuestion()}" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>
@@ -100,19 +100,19 @@
             <h:form id="updateQuestionForm">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputText for="questionIdInputText2" value="ID: " />
-                    <p:inputText id="questionIdInputText2" value="#{manageQuestionView.question.id}" disabled="true" />
+                    <p:inputText id="questionIdInputText2" value="#{manageQuestionAction.question.id}" disabled="true" />
 
                     <h:outputText for="questionInputText2" value="Text: " />
-                    <p:inputTextarea rows="2" cols="50" id="questionInputText2" value="#{manageQuestionView.question.desc}" />
+                    <p:inputTextarea rows="2" cols="50" id="questionInputText2" value="#{manageQuestionAction.question.desc}" />
 
                     <h:outputText for="questionDateInputText2" value="Date Added: " />
-                    <p:datePicker id="questionDateInputText2" value="#{manageQuestionView.question.dateAdded}" disabled="true" />
+                    <p:datePicker id="questionDateInputText2" value="#{manageQuestionAction.question.dateAdded}" disabled="true" />
 
                     <h:outputText for="questionActiveInputText2" value="Active: " />
-                    <p:inputText id="questionActiveInputText2" value="#{manageQuestionView.question.active}" />
+                    <p:inputText id="questionActiveInputText2" value="#{manageQuestionAction.question.active}" />
 
                     <h:inputHidden />
-                    <p:accordionPanel activeIndex="null" value="#{manageQuestionView.question.answers}" var="answer"
+                    <p:accordionPanel activeIndex="null" value="#{manageQuestionAction.question.answers}" var="answer"
                                       style="max-width: 580px; font-size: .8em;" >
                         <p:tab title="#{answer.getQuestionId()}">
                             <h:outputText value="#{answer.text}" />
@@ -121,9 +121,9 @@
 
                     <h:inputHidden />
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Save Question" action="#{manageQuestionView.saveQuestion()}" process="@all" update="viewQuestionForm"
+                        <p:commandButton value="Save Question" action="#{manageQuestionAction.saveQuestion()}" process="@all" update="viewQuestionForm"
                                          icon="fa fa-fw fa fa-save" />
-                        <p:commandButton value="Close" action="#{manageQuestionView.cancelUpdateQuestion()}" />
+                        <p:commandButton value="Close" action="#{manageQuestionAction.cancelUpdateQuestion()}" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>
@@ -133,12 +133,12 @@
             <h:form id="insertQuestionForm">
                 <h:panelGrid columns="1">
                     <h:outputText for="questionNameInputText" value="Question: " />
-                    <p:inputTextarea id="questionNameInputText" value="#{manageQuestionView.desc}" cols="50" rows="5" />
+                    <p:inputTextarea id="questionNameInputText" value="#{manageQuestionAction.desc}" cols="50" rows="5" />
 
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Save Question" action="#{manageQuestionView.insertQuestion()}"
+                        <p:commandButton value="Save Question" action="#{manageQuestionAction.insertQuestion()}"
                                          process="@all" icon="fa fa-fw fa fa-save" update="viewQuestionForm" />
-                        <p:commandButton value="Close" action="#{manageQuestionView.cancelInsertQuestion()}" />
+                        <p:commandButton value="Close" action="#{manageQuestionAction.cancelInsertQuestion()}" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>
