@@ -70,3 +70,17 @@ h1 {
 .ui-accordion-header {
     outline: none !important;
 }
+
+.insertQuestionTabView .ui-widget-content {
+    border: none;
+}
+.insertQuestionTabView .ui-widget-header {
+    background: #FFF !important;
+}
+.insertQuestionTabView .ui-tabs-header {
+    font-weight: normal !important;
+    font-size: .8em;
+}
+.insertQuestionTabView .ui-tabs-panels {
+    border: 1px solid #a6c9e2 !important;
+}

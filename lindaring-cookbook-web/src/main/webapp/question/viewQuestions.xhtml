@@ -67,8 +67,8 @@
                     </h:form>
                     <h:form style="margin: 10px 0 0 10px">
                         <p:panel header="Actions" toggleable="false" collapsed="false">
-                            <p:commandButton value="New Question" type="button" onclick="PF('insertQuestionDialog').show();"
-                                             icon="fa fa-fw fa fa-plus-square-o" />
+                            <p:commandLink action="#{manageQuestionAction.openInsertQuestionDialog()}" style="padding: .3em 1em;" value="New Question"
+                                           styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left" />
                         </p:panel>
                     </h:form>
                 </h:panelGrid>
@@ -77,22 +77,31 @@
             <div style="clear: both"></div>
         </div>
 
-        <!-- Delete dialog -->
-        <p:dialog widgetVar="deleteQuestionDialog" header="Are you sure you want to delete?" modal="true" minheight="100" minHeight="200">
-            <h:form id="deleteQuestionForm">
-                <h:panelGrid columns="1">
-                    <h:outputText for="questionInputText1" value="Question: " />
-                    <p:inputTextarea id="questionInputText1" value="#{manageQuestionAction.question.desc}" readonly="true"
-                                     cols="50" rows="5" />
+        <!-- Insert dialog -->
+            <p:dialog widgetVar="insertQuestionDialog" header="New Question" modal="true" minheight="100" minHeight="200">
+                <div class="insertQuestionTabView">
+                    <p:tabView activeIndex="#{manageQuestionAction.idx}" dynamic="true" cache="false">
+                        <p:tab id="step1" title="Step 1">
+                            <h:form id="insertQuestionForm1">
+                                <h:panelGrid columns="1">
+                                    <h:outputText for="questionNameInputText" value="Question: " />
+                                    <p:inputTextarea id="questionNameInputText" value="#{manageQuestionAction.desc}" cols="50" rows="5" />
 
-                    <h:panelGrid columns="2">
-                        <p:commandButton value="Delete" action="#{manageQuestionAction.confirmDeleteQuestion(manageQuestionAction.question.id)}"
-                                         process="@all" icon="fa fa-fw fa fa-close" update="viewQuestionForm" />
-                        <p:commandButton value="Close" action="#{manageQuestionAction.cancelDeleteQuestion()}" />
-                    </h:panelGrid>
-                </h:panelGrid>
-            </h:form>
-        </p:dialog>
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="Save Question" action="#{manageQuestionAction.insertQuestion()}"
+                                                         process="@all" icon="fa fa-fw fa fa-save" update="viewQuestionForm" />
+                                        <p:commandButton value="Close" action="#{manageQuestionAction.cancelInsertQuestion()}" />
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                            </h:form>
+                        </p:tab>
+                        <p:tab id="step2" title="Step 2">
+                            <h:form id="insertQuestionForm2">
+                            </h:form>
+                        </p:tab>
+                    </p:tabView>
+                </div>
+            </p:dialog>
 
         <!-- Update dialog -->
         <p:dialog widgetVar="updateQuestionDialog" header="Update Question" modal="true" minheight="100" minHeight="200" maximizable="true">
@@ -128,17 +137,18 @@
             </h:form>
         </p:dialog>
 
-        <!-- Insert dialog -->
-        <p:dialog widgetVar="insertQuestionDialog" header="New Question" modal="true" minheight="100" minHeight="200">
-            <h:form id="insertQuestionForm">
+        <!-- Delete dialog -->
+        <p:dialog widgetVar="deleteQuestionDialog" header="Are you sure you want to delete?" modal="true" minheight="100" minHeight="200">
+            <h:form id="deleteQuestionForm">
                 <h:panelGrid columns="1">
-                    <h:outputText for="questionNameInputText" value="Question: " />
-                    <p:inputTextarea id="questionNameInputText" value="#{manageQuestionAction.desc}" cols="50" rows="5" />
+                    <h:outputText for="questionInputText1" value="Question: " />
+                    <p:inputTextarea id="questionInputText1" value="#{manageQuestionAction.question.desc}" readonly="true"
+                                     cols="50" rows="5" />
 
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Save Question" action="#{manageQuestionAction.insertQuestion()}"
-                                         process="@all" icon="fa fa-fw fa fa-save" update="viewQuestionForm" />
-                        <p:commandButton value="Close" action="#{manageQuestionAction.cancelInsertQuestion()}" />
+                        <p:commandButton value="Delete" action="#{manageQuestionAction.confirmDeleteQuestion(manageQuestionAction.question.id)}"
+                                         process="@all" icon="fa fa-fw fa fa-close" update="viewQuestionForm" />
+                        <p:commandButton value="Close" action="#{manageQuestionAction.cancelDeleteQuestion()}" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>

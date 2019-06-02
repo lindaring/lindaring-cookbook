@@ -3,7 +3,6 @@ package za.co.lindaring.view;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.primefaces.event.FlowEvent;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Question;
@@ -12,6 +11,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Getter
@@ -27,7 +27,10 @@ public class ManageQuestionAction extends CookbookViewBase {
     private String desc;
     private String resultMessage;
     private String answersString;
+    private int idx = 1;
+
     private Question question;
+    private List<Answer> answerList;
 
     @EJB
     private QuestionService questionService;
@@ -82,6 +85,10 @@ public class ManageQuestionAction extends CookbookViewBase {
         } catch (Exception e) {
             displayError("Error saving changes:(");
         }
+    }
+
+    public void onTabChange() {
+
     }
 
     public void insertQuestion() {
