@@ -4,7 +4,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                template="../resources/templates/main/template.xhtml">
+                template="../resources/templates/template.xhtml">
 
     <ui:define name="content">
         <h1>Manage Questions</h1>
@@ -77,9 +77,7 @@
             <div style="clear: both"></div>
         </div>
 
-        <div style="margin-bottom: 10px"></div>
-
-        <!-- Dialogs -->
+        <!-- Delete dialog -->
         <p:dialog widgetVar="deleteQuestionDialog" header="Are you sure you want to delete?" modal="true" minheight="100" minHeight="200">
             <h:form id="deleteQuestionForm">
                 <h:panelGrid columns="1">
@@ -96,6 +94,7 @@
             </h:form>
         </p:dialog>
 
+        <!-- Update dialog -->
         <p:dialog widgetVar="updateQuestionDialog" header="Update Question" modal="true" minheight="100" minHeight="200" maximizable="true">
             <h:form id="updateQuestionForm">
                 <h:panelGrid columns="2" cellpadding="5">
@@ -129,6 +128,7 @@
             </h:form>
         </p:dialog>
 
+        <!-- Insert dialog -->
         <p:dialog widgetVar="insertQuestionDialog" header="New Question" modal="true" minheight="100" minHeight="200">
             <h:form id="insertQuestionForm">
                 <h:panelGrid columns="1">
@@ -144,7 +144,6 @@
             </h:form>
         </p:dialog>
 
-        <div style="margin-bottom: 40px"></div>
     </ui:define>
 
 </ui:composition>
