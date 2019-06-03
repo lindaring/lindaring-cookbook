@@ -42,8 +42,8 @@ public class Answer {
     @Column(name = "question_id")
     private Long questionId;
 
-    public String getQuestionId() {
-        return "Question " + id;
+    public String getAnswerId() {
+        return "Answer " + id;
     }
 
 }
