@@ -16,7 +16,15 @@ abstract class CookbookViewBase {
     }
 
     void displayError(String message) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", message));
+        displayError(null, message);
+    }
+
+    void displayError(String id, String message) {
+        FacesContext.getCurrentInstance().addMessage(id, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", message));
+    }
+
+    void displayError(String id, String header, String message) {
+        FacesContext.getCurrentInstance().addMessage(id, new FacesMessage(FacesMessage.SEVERITY_ERROR, header, message));
     }
 
     void displayFatal(String message) {

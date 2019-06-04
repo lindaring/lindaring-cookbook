@@ -3,6 +3,7 @@ package za.co.lindaring.view;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.primefaces.event.TabChangeEvent;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Question;
@@ -10,7 +11,6 @@ import za.co.lindaring.entity.Question;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -27,7 +27,9 @@ public class ManageQuestionAction extends CookbookViewBase {
     private String desc;
     private String resultMessage;
     private String answersString;
-    private int idx = 1;
+
+    private int index;
+    private boolean tabAnswerPanelDisabled = true;
 
     private Question question;
     private List<Answer> answerList;
@@ -51,6 +53,7 @@ public class ManageQuestionAction extends CookbookViewBase {
     }
 
     public void openInsertQuestionDialog() {
+        this.index = 0;
         openDialog(INSERT_QUESTION_DIALOG);
     }
 
@@ -87,23 +90,26 @@ public class ManageQuestionAction extends CookbookViewBase {
         }
     }
 
-    public void onTabChange() {
-
+    public void onTabChange(TabChangeEvent event) {
+//        displayError("tabViewQuestionMessage", "Tab changed", null);
+//        displayError("tabViewQuestionMessage", "Tab changed", null);
+//        this.tabAnswerPanelDisabled = true;
     }
 
     public void insertQuestion() {
-        try {
-            Question newQuestion = Question.builder()
-                                            .id(null)
-                                            .desc(desc)
-                                            .dateAdded(new Date())
-                                            .active(1).build();
-            questionService.insertQuestion(newQuestion);
-            this.desc = "";
-            displayInfo("Nice! Saved new question:)");
-        } catch (Exception e) {
-            displayError("Error saving new question:(");
-        }
+        this.tabAnswerPanelDisabled = false;
+//        try {
+//            Question newQuestion = Question.builder()
+//                                            .id(null)
+//                                            .desc(desc)
+//                                            .dateAdded(new Date())
+//                                            .active(1).build();
+//            questionService.insertQuestion(newQuestion);
+//            this.desc = "";
+//            displayInfo("Nice! Saved new question:)");
+//        } catch (Exception e) {
+//            displayError("Error saving new question:(");
+//        }
     }
 
     public void cancelUpdateQuestion() {

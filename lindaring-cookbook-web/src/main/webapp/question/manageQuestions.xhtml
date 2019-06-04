@@ -80,8 +80,10 @@
         <!-- Insert dialog -->
         <p:dialog widgetVar="insertQuestionDialog" header="New Question" modal="true" minheight="100" minHeight="200">
             <div class="insertQuestionTabView">
-                <p:tabView activeIndex="#{manageQuestionAction.idx}" dynamic="true" cache="false">
+                <p:tabView activeIndex="#{manageQuestionAction.index}" dynamic="true" cache="false">
+                    <p:ajax event="tabChange" listener="#{manageQuestionAction.onTabChange}" update="tabViewQuestionMessage" />
                     <p:tab id="step1" title="Step 1">
+                        <p:messages id="tabViewQuestionMessage" />
                         <h:form id="insertQuestionForm1">
                             <h:panelGrid columns="1">
                                 <p:inputTextarea id="questionNameInputText" placeholder="Enter question here..." value="#{manageQuestionAction.desc}"
@@ -95,20 +97,23 @@
                             </h:panelGrid>
                         </h:form>
                     </p:tab>
-                    <p:tab id="step2" title="Step 2">
-                        <h:form id="insertQuestionForm2">
-                            <h:panelGrid columns="1" cellpadding="5">
-                                <p:inputText placeholder="First answer" style="width: 450px" />
-                                <p:inputText placeholder="Second answer" style="width: 450px" />
-                                <p:inputText placeholder="Third answer" style="width: 450px" />
-                                <p:inputText placeholder="Last answer" style="width: 450px" />
-                            </h:panelGrid>
-                            <h:panelGrid columns="2">
-                                <p:commandButton value="Save" action="#{manageQuestionAction.insertQuestion()}"
-                                                 process="@all" icon="fa fa-fw fa fa-save" update="viewQuestionForm" />
-                                <p:commandButton value="Close" action="#{manageQuestionAction.cancelInsertQuestion()}" />
-                            </h:panelGrid>
-                        </h:form>
+                    <p:tab id="step2" title="Step 2" disabled="#{manageQuestionAction.tabAnswerPanelDisabled}">
+                        <p:messages id="tabViewAnswerMessage" />
+                        <p:panel >
+                            <h:form id="insertQuestionForm2">
+                                <h:panelGrid columns="1" cellpadding="5">
+                                    <p:inputText placeholder="First answer" style="width: 450px" />
+                                    <p:inputText placeholder="Second answer" style="width: 450px" />
+                                    <p:inputText placeholder="Third answer" style="width: 450px" />
+                                    <p:inputText placeholder="Last answer" style="width: 450px" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="2">
+                                    <p:commandButton value="Save" action="#{manageQuestionAction.insertQuestion()}"
+                                                     process="@all" icon="fa fa-fw fa fa-save" update="viewQuestionForm" />
+                                    <p:commandButton value="Close" action="#{manageQuestionAction.cancelInsertQuestion()}" />
+                                </h:panelGrid>
+                            </h:form>
+                        </p:panel>
                     </p:tab>
                 </p:tabView>
             </div>
