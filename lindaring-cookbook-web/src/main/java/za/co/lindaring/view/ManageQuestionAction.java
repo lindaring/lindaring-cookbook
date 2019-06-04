@@ -30,8 +30,6 @@ public class ManageQuestionAction extends CookbookViewBase {
     private String resultMessage;
     private String answersString;
 
-    private int index;
-
     private Question question;
     private List<Answer> answerList;
 
@@ -40,6 +38,8 @@ public class ManageQuestionAction extends CookbookViewBase {
     private String insertAnswer2Text;
     private String insertAnswer3Text;
     private String insertAnswer4Text;
+
+    private boolean questionAdded;
 
     @EJB
     private QuestionService questionService;
@@ -60,7 +60,7 @@ public class ManageQuestionAction extends CookbookViewBase {
     }
 
     public void openInsertQuestionDialog() {
-        this.index = 0;
+        this.questionAdded = false;
         enableTab("insQuestionTabView", 0);
         switchTab("insQuestionTabView", 0);
         disableTab("insQuestionTabView", 1);
@@ -100,10 +100,11 @@ public class ManageQuestionAction extends CookbookViewBase {
         }
     }
 
-    public void onTabChange(TabChangeEvent event) {
-//        displayError("tabViewQuestionMessage", "Tab changed", null);
-//        displayError("tabViewQuestionMessage", "Tab changed", null);
-//        this.tabAnswerPanelDisabled = true;
+    public void insertSwitchTab() {
+        this.questionAdded = false;
+        enableTab("insQuestionTabView", 0);
+        switchTab("insQuestionTabView", 0);
+        disableTab("insQuestionTabView", 1);
     }
 
     public void insertQuestionNext() {
@@ -125,6 +126,7 @@ public class ManageQuestionAction extends CookbookViewBase {
             this.insertAnswer2Text = "";
             this.insertAnswer3Text = "";
             this.insertAnswer4Text = "";
+            this.questionAdded = true;
             displayInfo("tabViewAnswerMessage", "Question added.", null);
         }
 //        try {

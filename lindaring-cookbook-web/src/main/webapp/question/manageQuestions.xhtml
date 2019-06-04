@@ -81,7 +81,7 @@
         <p:dialog widgetVar="insertQuestionDialog" header="New Question" modal="true" minheight="100" minHeight="200">
             <p:ajax event="close" listener="#{manageQuestionAction.resetInsertQuestion()}" />
             <div class="insertQuestionTabView">
-                <p:tabView widgetVar="insQuestionTabView" activeIndex="#{manageQuestionAction.index}" dynamic="true" cache="false">
+                <p:tabView widgetVar="insQuestionTabView" dynamic="true" cache="false">
                     <p:tab id="step1" title="Step 1">
                         <h:form id="insertQuestionFormStep1">
                             <p:messages id="tabViewQuestionMessage" />
@@ -110,8 +110,11 @@
                                              autocomplete="off" style="width: 450px" />
                             </h:panelGrid>
                             <h:panelGrid columns="2">
-                                <p:commandButton value="Save" action="#{manageQuestionAction.insertQuestionComplete()}"
+                                <p:commandButton value="Save Question" rendered="#{!manageQuestionAction.questionAdded}"
+                                                 action="#{manageQuestionAction.insertQuestionComplete()}"
                                                  process="@all" icon="fa fa-fw fa fa-save" update="insertQuestionFormStep2" />
+                                <p:commandButton value="Add Another Question" rendered="#{manageQuestionAction.questionAdded}"
+                                                 icon="fa fa-fw fa fa-copy" action="#{manageQuestionAction.insertSwitchTab()}" />
                             </h:panelGrid>
                         </h:form>
                     </p:tab>
