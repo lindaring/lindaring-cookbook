@@ -13,6 +13,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.util.List;
 
+import static org.apache.commons.lang.StringUtils.isBlank;
+
 @Slf4j
 @Getter
 @Setter
@@ -29,10 +31,15 @@ public class ManageQuestionAction extends CookbookViewBase {
     private String answersString;
 
     private int index;
-    private boolean tabAnswerPanelDisabled = true;
 
     private Question question;
     private List<Answer> answerList;
+
+    private String insertQuestionText;
+    private String insertAnswer1Text;
+    private String insertAnswer2Text;
+    private String insertAnswer3Text;
+    private String insertAnswer4Text;
 
     @EJB
     private QuestionService questionService;
@@ -54,6 +61,9 @@ public class ManageQuestionAction extends CookbookViewBase {
 
     public void openInsertQuestionDialog() {
         this.index = 0;
+        enableTab("insQuestionTabView", 0);
+        switchTab("insQuestionTabView", 0);
+        disableTab("insQuestionTabView", 1);
         openDialog(INSERT_QUESTION_DIALOG);
     }
 
@@ -96,8 +106,27 @@ public class ManageQuestionAction extends CookbookViewBase {
 //        this.tabAnswerPanelDisabled = true;
     }
 
-    public void insertQuestion() {
-        this.tabAnswerPanelDisabled = false;
+    public void insertQuestionNext() {
+        if (isBlank(insertQuestionText)) {
+            displayError("tabViewQuestionMessage", "Enter the question.", null);
+        } else {
+            disableTab("insQuestionTabView", 0);
+            enableTab("insQuestionTabView", 1);
+            switchTab("insQuestionTabView", 1);
+        }
+    }
+
+    public void insertQuestionComplete() {
+        if (isBlank(insertAnswer1Text) || isBlank(insertAnswer2Text) || isBlank(insertAnswer3Text) || isBlank(insertAnswer4Text)) {
+            displayError("tabViewAnswerMessage", "Enter all 4 answers.", null);
+        } else {
+            this.insertQuestionText = "";
+            this.insertAnswer1Text = "";
+            this.insertAnswer2Text = "";
+            this.insertAnswer3Text = "";
+            this.insertAnswer4Text = "";
+            displayInfo("tabViewAnswerMessage", "Question added.", null);
+        }
 //        try {
 //            Question newQuestion = Question.builder()
 //                                            .id(null)
@@ -112,6 +141,14 @@ public class ManageQuestionAction extends CookbookViewBase {
 //        }
     }
 
+    public void resetInsertQuestion() {
+        this.insertQuestionText = "";
+        this.insertAnswer1Text = "";
+        this.insertAnswer2Text = "";
+        this.insertAnswer3Text = "";
+        this.insertAnswer4Text = "";
+    }
+
     public void cancelUpdateQuestion() {
         this.question = null;
         closeDialog(UPDATE_QUESTION_DIALOG);
@@ -120,11 +157,6 @@ public class ManageQuestionAction extends CookbookViewBase {
     public void cancelDeleteQuestion() {
         this.question = null;
         closeDialog(DELETE_QUESTION_DIALOG);
-    }
-
-    public void cancelInsertQuestion() {
-        this.question = null;
-        closeDialog(INSERT_QUESTION_DIALOG);
     }
 
 }
