@@ -3,7 +3,6 @@ package za.co.lindaring.view;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.primefaces.event.TabChangeEvent;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Question;
@@ -11,6 +10,7 @@ import za.co.lindaring.entity.Question;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import java.util.Date;
 import java.util.List;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
@@ -25,6 +25,8 @@ public class ManageQuestionAction extends CookbookViewBase {
     private static final String UPDATE_QUESTION_DIALOG = "updateQuestionDialog";
     private static final String DELETE_QUESTION_DIALOG = "deleteQuestionDialog";
     private static final String INSERT_QUESTION_DIALOG = "insertQuestionDialog";
+    private static final String TAB_QUESTION_MESSAGE_VIEW = "tabViewQuestionMessage";
+    private static final String TAB_ANSWER_MESSAGE_VIEW = "tabViewAnswerMessage";
 
     private String desc;
     private String resultMessage;
@@ -109,7 +111,7 @@ public class ManageQuestionAction extends CookbookViewBase {
 
     public void insertQuestionNext() {
         if (isBlank(insertQuestionText)) {
-            displayError("tabViewQuestionMessage", "Enter the question.", null);
+            displayError(TAB_QUESTION_MESSAGE_VIEW, "Enter the question.", null);
         } else {
             disableTab("insQuestionTabView", 0);
             enableTab("insQuestionTabView", 1);
@@ -119,28 +121,41 @@ public class ManageQuestionAction extends CookbookViewBase {
 
     public void insertQuestionComplete() {
         if (isBlank(insertAnswer1Text) || isBlank(insertAnswer2Text) || isBlank(insertAnswer3Text) || isBlank(insertAnswer4Text)) {
-            displayError("tabViewAnswerMessage", "Enter all 4 answers.", null);
-        } else {
-            this.insertQuestionText = "";
-            this.insertAnswer1Text = "";
-            this.insertAnswer2Text = "";
-            this.insertAnswer3Text = "";
-            this.insertAnswer4Text = "";
-            this.questionAdded = true;
-            displayInfo("tabViewAnswerMessage", "Question added.", null);
+            displayError(TAB_ANSWER_MESSAGE_VIEW, "Enter all 4 answers.", null);
+            return;
+        } else if (isBlank(insertQuestionText)) {
+            displayError(TAB_ANSWER_MESSAGE_VIEW, "Question not entered.", null);
+            return;
         }
-//        try {
-//            Question newQuestion = Question.builder()
-//                                            .id(null)
-//                                            .desc(desc)
-//                                            .dateAdded(new Date())
-//                                            .active(1).build();
-//            questionService.insertQuestion(newQuestion);
-//            this.desc = "";
-//            displayInfo("Nice! Saved new question:)");
-//        } catch (Exception e) {
-//            displayError("Error saving new question:(");
-//        }
+
+        Date now = new Date();
+
+        Question newQuestion = new Question();
+        newQuestion.setDesc(insertQuestionText);
+        newQuestion.setActive(1);
+        newQuestion.setDateAdded(now);
+        newQuestion.getAnswers().add(buildAnswer(newQuestion, insertAnswer1Text, now));
+        newQuestion.getAnswers().add(buildAnswer(newQuestion, insertAnswer2Text, now));
+        newQuestion.getAnswers().add(buildAnswer(newQuestion, insertAnswer3Text, now));
+        newQuestion.getAnswers().add(buildAnswer(newQuestion, insertAnswer4Text, now));
+
+        try {
+            questionService.insertQuestion(newQuestion);
+            resetInsertQuestion();
+            displayInfo(TAB_ANSWER_MESSAGE_VIEW, "Nice! Saved new question:)", null);
+        } catch (Exception e) {
+            displayInfo(TAB_ANSWER_MESSAGE_VIEW, "Error saving new question:(", null);
+        }
+    }
+
+    private Answer buildAnswer(Question question, String text, Date now) {
+        return Answer.builder()
+                .text(text)
+                .points(100.0)
+                .active(1)
+                .dateAdded(now)
+                .question(question)
+                .build();
     }
 
     public void resetInsertQuestion() {
@@ -149,6 +164,7 @@ public class ManageQuestionAction extends CookbookViewBase {
         this.insertAnswer2Text = "";
         this.insertAnswer3Text = "";
         this.insertAnswer4Text = "";
+        this.questionAdded = true;
     }
 
     public void cancelUpdateQuestion() {

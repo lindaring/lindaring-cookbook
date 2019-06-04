@@ -35,7 +35,10 @@ public class Question {
     @Column(name = "activated")
     private int active;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "question_id")
+    @OneToMany(
+        fetch = FetchType.EAGER,
+        mappedBy = "question",
+        cascade = CascadeType.ALL
+    )
     private List<Answer> answers = new ArrayList<>();
 }

@@ -78,7 +78,8 @@
         </div>
 
         <!-- Insert dialog -->
-        <p:dialog widgetVar="insertQuestionDialog" header="New Question" modal="true" minheight="100" minHeight="200">
+        <p:dialog widgetVar="insertQuestionDialog" header="New Question" modal="true" minheight="100" minHeight="200"
+                  maximizable="true">
             <p:ajax event="close" listener="#{manageQuestionAction.resetInsertQuestion()}" />
             <div class="insertQuestionTabView">
                 <p:tabView widgetVar="insQuestionTabView" dynamic="true" cache="false">
