@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Question;
+import za.co.lindaring.view.base.BaseAction;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -20,7 +21,7 @@ import static org.apache.commons.lang.StringUtils.isBlank;
 @Setter
 @ViewScoped
 @ManagedBean(name = "manageQuestionAction")
-public class ManageQuestionAction extends CookbookViewBase {
+public class ManageQuestionAction extends BaseAction {
 
     private static final String UPDATE_QUESTION_DIALOG = "updateQuestionDialog";
     private static final String DELETE_QUESTION_DIALOG = "deleteQuestionDialog";
