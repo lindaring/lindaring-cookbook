@@ -1,11 +1,9 @@
-package za.co.lindaring.ejb;
+package za.co.lindaring.ejb.base;
 
-import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Question;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
