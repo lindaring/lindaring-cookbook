@@ -84,3 +84,12 @@ h1 {
 .insertQuestionTabView .ui-tabs-panels {
     border: 1px solid #a6c9e2 !important;
 }
+
+.ui-panel, div.ui-state-hover {
+    margin: 10px;
+    /*width:200px;*/
+    overflow: hidden;
+}
+.ui-dashboard-column {
+    /*width:220px;*/
+}
