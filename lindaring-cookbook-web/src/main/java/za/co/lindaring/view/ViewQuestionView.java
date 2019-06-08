@@ -40,6 +40,12 @@ public class ViewQuestionView {
         questions = questionService.searchQuestion(searchName, searchDate, active);
     }
 
+    public void reset() {
+        this.searchName = "";
+        this.searchDate = new Date();
+        this.searchActive = "";
+    }
+
     public String formatDate(Date date) {
         return new CookbookDate(date).formatDate();
     }
