@@ -7,13 +7,13 @@
         xmlns:p="http://primefaces.org/ui">
     <p:panel header="Filter" toggleable="true" collapsed="true">
             <h:panelGrid columns="1" cellpadding="5">
-                <p:inputText id="questionInputText" value="#{viewQuestionView.searchName}" autocomplete="off" placeholder="Question" />
+                <p:inputText id="questionInputText" value="#{ViewQuestionAction.searchName}" autocomplete="off" placeholder="Question" />
 
-                <p:calendar id="addedDateInputText" value="#{viewQuestionView.searchDate}" autocomplete="off" placeholder="Date Added" />
+                <p:calendar id="addedDateInputText" value="#{ViewQuestionAction.searchDate}" autocomplete="off" placeholder="Date Added" />
 
                 <p:spinner id="activatedInputText" min="0" max="1" placeholder="Activated" />
 
-                <p:commandButton value="Search" action="#{viewQuestionView.search}" process="@this" update="viewQuestionForm" ajax="false" />
+                <p:commandButton value="Search" action="#{ViewQuestionAction.search}" process="@this" update="viewQuestionForm" ajax="false" />
             </h:panelGrid>
     </p:panel>
 </ui:composition>

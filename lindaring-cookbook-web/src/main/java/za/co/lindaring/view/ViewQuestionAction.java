@@ -18,8 +18,8 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @Setter
 @Getter
 @RequestScoped
-@ManagedBean(name = "viewQuestionView")
-public class ViewQuestionView {
+@ManagedBean(name = "ViewQuestionAction")
+public class ViewQuestionAction {
 
     private String searchName;
     private Date searchDate;
