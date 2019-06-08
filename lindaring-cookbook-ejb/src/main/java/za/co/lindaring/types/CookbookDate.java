@@ -11,6 +11,8 @@ import static java.util.Calendar.YEAR;
 @Getter
 public class CookbookDate {
 
+    private static final String DEFAULT_FORMAT = "dd MMM yyyy";
+
     private int day;
     private int month;
     private int year;
@@ -23,13 +25,18 @@ public class CookbookDate {
 
     public CookbookDate(Date date) {
         this.date = date;
+        if (date != null) {
+            calendar = Calendar.getInstance();
+            calendar.setTime(date);
 
-        calendar = Calendar.getInstance();
-        calendar.setTime(date);
+            year = calendar.get(YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DATE);
+        }
+    }
 
-        year = calendar.get(YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DATE);
+    public String formatDate() {
+        return DateFormatUtils.format(date, DEFAULT_FORMAT);
     }
 
     public String formatDate(String format) {

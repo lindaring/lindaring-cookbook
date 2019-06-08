@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Question;
-import za.co.lindaring.util.CookbookUtil;
+import za.co.lindaring.types.CookbookDate;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -36,7 +36,7 @@ public class ViewQuestionView {
     }
 
     public String formatDate(Date date) {
-        return CookbookUtil.formatDate(date);
+        return new CookbookDate(date).formatDate();
     }
 
 }
