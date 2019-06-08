@@ -28,18 +28,9 @@ public class QuestionService extends BaseService {
         return result.getResultList();
     }
 
-    public List<Question> searchQuestion(String desc, Date searchDate) {
-        String query = getSearchQuestionQuery(desc, searchDate);
-
-        TypedQuery<Question> result = getEntityManager().createNamedQuery(query, Question.class);
-        if (StringUtils.isNotEmpty(desc)) {
-            result.setParameter("description", desc);
-        }
-        if (searchDate != null) {
-            CookbookDate date = new CookbookDate(searchDate);
-            result.setParameter("sDate", date.toStartOfDay());
-            result.setParameter("eDate", date.toEndOfDay());
-        }
+    public List<Question> searchQuestion(String desc, Date date, Integer active) {
+        String query = getSearchQuestionQuery(desc, date, active);
+        TypedQuery<Question> result = getQuestionTypedQuery(query, desc, date, active);
         return result.getResultList();
     }
 
@@ -62,18 +53,40 @@ public class QuestionService extends BaseService {
         getEntityManager().remove(question);
     }
 
-    private String getSearchQuestionQuery(String desc, Date searchDate) {
+    private String getSearchQuestionQuery(String desc, Date date, Integer active) {
         String query;
-        if (StringUtils.isNotEmpty(desc) && searchDate != null) {
-            query = "Question.searchByDescAndDesc";
+        if (StringUtils.isNotEmpty(desc) && date != null && active != null) {
+            query = "Question.searchByDescAndDateAndActive";
+        } else if (StringUtils.isNotEmpty(desc) && date != null) {
+            query = "Question.searchByDescAndDate";
+        } else if (StringUtils.isNotEmpty(desc) && active != null) {
+            query = "Question.searchByDescAndActive";
+        } else if (date != null && active != null) {
+            query = "Question.searchByDateAndActive";
         } else if (StringUtils.isNotEmpty(desc)) {
             query = "Question.searchByDesc";
-        } else if (searchDate != null) {
+        } else if (date != null) {
             query = "Question.searchByDate";
         } else {
             query = "Question.findAll";
         }
         return query;
+    }
+
+    private TypedQuery<Question> getQuestionTypedQuery(String query, String desc, Date date, Integer active) {
+        TypedQuery<Question> typedQuery = getEntityManager().createNamedQuery(query, Question.class);
+        if (StringUtils.isNotEmpty(desc)) {
+            typedQuery.setParameter("description", desc);
+        }
+        if (date != null) {
+            CookbookDate searchDate = new CookbookDate(date);
+            typedQuery.setParameter("sDate", searchDate.toStartOfDay());
+            typedQuery.setParameter("eDate", searchDate.toEndOfDay());
+        }
+        if (active != null) {
+            typedQuery.setParameter("active", active);
+        }
+        return typedQuery;
     }
 
 }

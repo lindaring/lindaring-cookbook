@@ -58,7 +58,11 @@
                                 <p:calendar id="addedDateInputText" value="#{viewQuestionView.searchDate}" autocomplete="off" placeholder="Date Added"
                                             style="max-width: 200px"/>
 
-                                <p:spinner id="activatedInputText" min="0" max="1" placeholder="Active" style="max-width: 188px"/>
+                                <p:selectOneMenu id="activatedInputText" value="#{viewQuestionView.searchActive}" style="width: 100%; max-width: 164px">
+                                    <f:selectItem itemLabel="Select active" itemValue="" />
+                                    <f:selectItem itemLabel="Active" itemValue="0" />
+                                    <f:selectItem itemLabel="Not active" itemValue="1" />
+                                </p:selectOneMenu>
 
                                 <p:commandButton value="Search" action="#{viewQuestionView.search()}" process="@this" update="viewQuestionForm" ajax="false"
                                                  icon="fa fa-fw fa fa-search" />

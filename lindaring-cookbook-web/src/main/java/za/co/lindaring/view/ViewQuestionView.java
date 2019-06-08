@@ -13,6 +13,8 @@ import javax.faces.bean.RequestScoped;
 import java.util.Date;
 import java.util.List;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 @Setter
 @Getter
 @RequestScoped
@@ -21,6 +23,8 @@ public class ViewQuestionView {
 
     private String searchName;
     private Date searchDate;
+    private String searchActive;
+
     private List<Question> questions;
 
     @EJB
@@ -32,7 +36,8 @@ public class ViewQuestionView {
     }
 
     public void search() {
-        questions = questionService.searchQuestion(searchName, searchDate);
+        Integer active = isNotEmpty(searchActive) ? Integer.parseInt(searchActive) : null;
+        questions = questionService.searchQuestion(searchName, searchDate, active);
     }
 
     public String formatDate(Date date) {
