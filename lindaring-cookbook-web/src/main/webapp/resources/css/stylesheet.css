@@ -71,6 +71,10 @@ h1 {
     outline: none !important;
 }
 
+.ui-state-hover {
+    margin: 0 !important;
+}
+
 .insertQuestionTabView .ui-widget-content {
     border: none;
 }
