@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import za.co.lindaring.ejb.base.BaseService;
 import za.co.lindaring.entity.Question;
+import za.co.lindaring.types.CookbookDate;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -28,23 +29,16 @@ public class QuestionService extends BaseService {
     }
 
     public List<Question> searchQuestion(String desc, Date searchDate) {
-        String query;
-        if (StringUtils.isNotEmpty(desc) && searchDate != null) {
-            query = "Question.searchByDescAndDesc";
-        } else if (StringUtils.isNotEmpty(desc)) {
-            query = "Question.searchByDesc";
-        } else if (searchDate != null) {
-            query = "Question.searchByDate";
-        } else {
-            query = "Question.findAll";
-        }
+        String query = getSearchQuestionQuery(desc, searchDate);
 
         TypedQuery<Question> result = getEntityManager().createNamedQuery(query, Question.class);
         if (StringUtils.isNotEmpty(desc)) {
             result.setParameter("description", desc);
         }
         if (searchDate != null) {
-            result.setParameter("sDate", searchDate);
+            CookbookDate date = new CookbookDate(searchDate);
+            result.setParameter("sDate", date.toStartOfDay());
+            result.setParameter("eDate", date.toEndOfDay());
         }
         return result.getResultList();
     }
@@ -66,6 +60,20 @@ public class QuestionService extends BaseService {
     public void deleteQuestion(long id) {
         Question question = getQuestion(id);
         getEntityManager().remove(question);
+    }
+
+    private String getSearchQuestionQuery(String desc, Date searchDate) {
+        String query;
+        if (StringUtils.isNotEmpty(desc) && searchDate != null) {
+            query = "Question.searchByDescAndDesc";
+        } else if (StringUtils.isNotEmpty(desc)) {
+            query = "Question.searchByDesc";
+        } else if (searchDate != null) {
+            query = "Question.searchByDate";
+        } else {
+            query = "Question.findAll";
+        }
+        return query;
     }
 
 }

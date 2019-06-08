@@ -60,7 +60,7 @@
 
                                 <p:spinner id="activatedInputText" min="0" max="1" placeholder="Activated" style="max-width: 210px"/>
 
-                                <p:commandButton value="Search" action="#{viewQuestionView.search}" process="@this" update="viewQuestionForm" ajax="false"
+                                <p:commandButton value="Search" action="#{viewQuestionView.search()}" process="@this" update="viewQuestionForm" ajax="false"
                                                  icon="fa fa-fw fa fa-search" />
                             </h:panelGrid>
                         </p:panel>

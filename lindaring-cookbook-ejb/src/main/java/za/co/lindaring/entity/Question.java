@@ -19,7 +19,7 @@ import java.util.List;
 @NamedQueries({
     @NamedQuery(name = "Question.findAll", query = "SELECT q FROM Question q"),
     @NamedQuery(name = "Question.searchByDesc", query = "SELECT q FROM Question q WHERE q.desc LIKE CONCAT('%',:description,'%')"),
-    @NamedQuery(name = "Question.searchByDate", query = "SELECT q FROM Question q WHERE q.dateAdded = :sDate"),
+    @NamedQuery(name = "Question.searchByDate", query = "SELECT q FROM Question q WHERE q.dateAdded >= :sDate AND q.dateAdded <= :eDate"),
     @NamedQuery(name = "Question.searchByDescAndDesc", query = "SELECT q FROM Question q WHERE q.desc LIKE CONCAT('%',:description,'%') AND q.dateAdded = :sDate")
 })
 public class Question {
