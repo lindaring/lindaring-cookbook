@@ -1,4 +1,4 @@
-package za.co.lindaring.view;
+package za.co.lindaring.action.question;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Question;
-import za.co.lindaring.view.base.BaseAction;
+import za.co.lindaring.action.base.BaseAction;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;

@@ -1,4 +1,4 @@
-package za.co.lindaring.view;
+package za.co.lindaring.action.question;
 
 import lombok.Getter;
 import lombok.Setter;

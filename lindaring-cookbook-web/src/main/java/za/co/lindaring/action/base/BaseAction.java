@@ -1,4 +1,4 @@
-package za.co.lindaring.view.base;
+package za.co.lindaring.action.base;
 
 import org.primefaces.PrimeFaces;
 

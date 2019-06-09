@@ -1,4 +1,4 @@
-package za.co.lindaring.view;
+package za.co.lindaring.action;
 
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.DashboardReorderEvent;
@@ -13,11 +13,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import java.io.Serializable;
 
-@ManagedBean
 @ViewScoped
-public class DashboardView implements Serializable {
+@ManagedBean(name = "dashboardAction")
+public class DashboardAction {
 
     private DashboardModel model;
 

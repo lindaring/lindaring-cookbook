@@ -1,4 +1,4 @@
-package za.co.lindaring.view;
+package za.co.lindaring.action;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -9,11 +9,10 @@ import za.co.lindaring.ejb.QuestionService;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import java.io.Serializable;
 import java.util.SortedMap;
 
-@ManagedBean
-public class ChartView {
+@ManagedBean(name = "chartAction")
+public class ChartAction {
 
     @EJB
     private QuestionService questionService;

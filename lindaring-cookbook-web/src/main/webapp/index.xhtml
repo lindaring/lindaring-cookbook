@@ -8,13 +8,13 @@
     <ui:define name="content">
         <h1>Dashboard</h1>
 
-        <p:dashboard id="board" model="#{dashboardView.model}">
+        <p:dashboard id="board" model="#{dashboardAction.model}">
             <p:panel id="schedule" header="Schedule">
                 <p:calendar id="inline" mode="inline" />
             </p:panel>
 
             <p:panel id="questions" header="Questions">
-                <p:chart type="line" model="#{chartView.lineModel}" style="height:400px; width:600px"/>
+                <p:chart type="line" model="#{chartAction.lineModel}" style="height:400px; width:600px"/>
             </p:panel>
         </p:dashboard>
 
