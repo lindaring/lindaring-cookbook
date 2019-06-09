@@ -13,6 +13,8 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.TypedQuery;
 import java.util.Date;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 @Slf4j
 @Stateless
@@ -26,6 +28,19 @@ public class QuestionService extends BaseService {
     public List<Question> getAllQuestions() {
         TypedQuery<Question> result = getEntityManager().createNamedQuery("Question.findAll", Question.class);
         return result.getResultList();
+    }
+
+    public SortedMap<Integer, Long> getAllQuestionsGroupByMonthAdded() {
+        List<Question> questions = getAllQuestions();
+        SortedMap<Integer, Long> map = new TreeMap<>();
+
+        for (Question q: questions) {
+            CookbookDate date = new CookbookDate(q.getDateAdded());
+            Long m = map.get(date.getMonth());
+            map.put(date.getMonth(), (m != null) ? ++m : 1);
+        }
+
+        return map;
     }
 
     public List<Question> searchQuestion(String desc, Date date, Integer active) {

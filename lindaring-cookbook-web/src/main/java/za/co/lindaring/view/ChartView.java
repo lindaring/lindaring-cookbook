@@ -4,41 +4,47 @@ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
+import za.co.lindaring.ejb.QuestionService;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
+import java.util.SortedMap;
 
 @ManagedBean
-public class ChartView implements Serializable {
+public class ChartView {
+
+    @EJB
+    private QuestionService questionService;
 
     private LineChartModel lineModel;
 
     @PostConstruct
     public void init() {
+        SortedMap<Integer, Long> map = questionService.getAllQuestionsGroupByMonthAdded();
+
         lineModel = new LineChartModel();
         LineChartSeries s = new LineChartSeries();
-        s.setLabel("Population");
+        s.setLabel("Questions Added");
 
-        s.set(1, 5.20);
-        s.set(2, 19.63);
-        s.set(3, 59.01);
-        s.set(4, 139.76);
-        s.set(5, 300.4);
-        s.set(6, 630);
+        for (int month = 0; month < 12; month++) {
+            s.set((month + 1), map.get(month));
+        }
 
         lineModel.addSeries(s);
         lineModel.setLegendPosition("e");
+
         Axis y = lineModel.getAxis(AxisType.Y);
-        y.setMin(0.5);
-        y.setMax(700);
-        y.setLabel("Millions");
+        y.setMin(0);
+        //y.setMax(150);
+        y.setLabel("Number of Questions");
 
         Axis x = lineModel.getAxis(AxisType.X);
-        x.setMin(0);
-        x.setMax(7);
+        x.setMin(1);
+        x.setMax(12);
         x.setTickInterval("1");
-        x.setLabel("Number of Years");
+        x.setLabel("Months");
 
     }
 
