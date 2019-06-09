@@ -10,7 +10,7 @@ import javax.faces.bean.SessionScoped;
 @Setter
 @Getter
 @SessionScoped
-@ManagedBean(name = "TableViewAction")
+@ManagedBean(name = "tableViewAction")
 public class TableViewAction {
 
     private String rowsPerPage;

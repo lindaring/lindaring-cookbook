@@ -6,6 +6,10 @@ import za.co.lindaring.entity.Answer;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 @Slf4j
 @Stateless
@@ -16,4 +20,18 @@ public class AnswerService extends BaseService {
         return getEntityManager().find(Answer.class, id);
     }
 
+    public List<Answer> getAllAnswers() {
+        TypedQuery<Answer> result = getEntityManager().createNamedQuery("Answer.findAll", Answer.class);
+        return result.getResultList();
+    }
+
+    public SortedMap<Integer, Long> getAllAnswersGroupByMonthAdded() {
+        List<Answer> answers = getAllAnswers();
+        SortedMap<Integer, Long> map = new TreeMap<>();
+
+        for (Answer a: answers)
+            incrementMonthValue(map, a.getDateAdded());
+
+        return map;
+    }
 }

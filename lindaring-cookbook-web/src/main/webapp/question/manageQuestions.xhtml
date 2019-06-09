@@ -15,7 +15,7 @@
                 <h:form id="viewQuestionForm">
                     <p:dataTable var="question" value="#{ViewQuestionAction.questions}" draggableColumns="true" resizableColumns="true"
                                  scrollable="true" liveResize="true" style="max-width: 1100px; font-size: .9em;" paginator="true"
-                                 rows="#{TableViewAction.selectedRowsPerPage}" rowsPerPageTemplate="#{TableViewAction.rowsPerPage}"
+                                 rows="#{tableViewAction.selectedRowsPerPage}" rowsPerPageTemplate="#{tableViewAction.rowsPerPage}"
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}">
                         <p:column headerText="Id" style="width: 5%">
                             <h:outputText value="#{question.id}" />

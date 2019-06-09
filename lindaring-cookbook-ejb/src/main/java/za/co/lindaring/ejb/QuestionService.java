@@ -34,11 +34,8 @@ public class QuestionService extends BaseService {
         List<Question> questions = getAllQuestions();
         SortedMap<Integer, Long> map = new TreeMap<>();
 
-        for (Question q: questions) {
-            CookbookDate date = new CookbookDate(q.getDateAdded());
-            Long m = map.get(date.getMonth());
-            map.put(date.getMonth(), (m != null) ? ++m : 1);
-        }
+        for (Question q: questions)
+            incrementMonthValue(map, q.getDateAdded());
 
         return map;
     }

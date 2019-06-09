@@ -1,11 +1,19 @@
 package za.co.lindaring.action.base;
 
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.chart.LineChartSeries;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import java.util.SortedMap;
 
 public abstract class BaseAction {
+
+    protected void incrementMonthValueInMap(LineChartSeries series, SortedMap<Integer, Long> map) {
+        for (int month = 0; month < 12; month++) {
+            series.set((month + 1), map.get(month));
+        }
+    }
 
     protected void displayInfo(String message) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", message));

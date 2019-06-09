@@ -1,5 +1,7 @@
 package za.co.lindaring.action;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.DashboardReorderEvent;
 import org.primefaces.event.ToggleEvent;
@@ -14,6 +16,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+@Setter
+@Getter
 @ViewScoped
 @ManagedBean(name = "dashboardAction")
 public class DashboardAction {
@@ -58,7 +62,4 @@ public class DashboardAction {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public DashboardModel getModel() {
-        return model;
-    }
 }
