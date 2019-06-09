@@ -67,6 +67,8 @@ public class QuestionService extends BaseService {
             query = "Question.searchByDesc";
         } else if (date != null) {
             query = "Question.searchByDate";
+        } else if (active != null) {
+            query = "Question.searchByActive";
         } else {
             query = "Question.findAll";
         }
