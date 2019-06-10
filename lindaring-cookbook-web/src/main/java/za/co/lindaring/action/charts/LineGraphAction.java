@@ -1,4 +1,4 @@
-package za.co.lindaring.action;
+package za.co.lindaring.action.charts;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,8 +19,8 @@ import java.util.SortedMap;
 @Setter
 @Getter
 @ViewScoped
-@ManagedBean(name = "chartAction")
-public class ChartAction extends BaseAction {
+@ManagedBean(name = "lineGraphAction")
+public class LineGraphAction extends BaseAction {
 
     @EJB
     private QuestionService questionService;
@@ -33,15 +33,25 @@ public class ChartAction extends BaseAction {
     @PostConstruct
     public void init() {
         lineModel = new LineChartModel();
+
         addQuestionsAddedPerMonthLineGraph();
         addAnswersAddedPerMonthLineGraph();
+
+        lineModel.setTitle("Q & A");
         lineModel.setLegendPosition("e");
 
+        initAxitX();
+        initAxisY();
+    }
+
+    private void initAxisY() {
         Axis y = lineModel.getAxis(AxisType.Y);
         y.setMin(0);
         //y.setMax(150);
         y.setLabel("Number of Questions/Answers");
+    }
 
+    private void initAxitX() {
         Axis x = lineModel.getAxis(AxisType.X);
         x.setMin(1);
         x.setMax(12);

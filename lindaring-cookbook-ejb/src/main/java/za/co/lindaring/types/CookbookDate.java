@@ -21,18 +21,12 @@ public class CookbookDate {
 
     public CookbookDate() {
         date = new Date(System.currentTimeMillis());
+        setYearMonthDay();
     }
 
     public CookbookDate(Date date) {
         this.date = date;
-        if (date != null) {
-            calendar = Calendar.getInstance();
-            calendar.setTime(date);
-
-            year = calendar.get(YEAR);
-            month = calendar.get(Calendar.MONTH);
-            day = calendar.get(Calendar.DATE);
-        }
+        setYearMonthDay();
     }
 
     public String formatDate() {
@@ -53,4 +47,14 @@ public class CookbookDate {
         return calendar.getTime();
     }
 
+    private void setYearMonthDay() {
+        if (date != null) {
+            calendar = Calendar.getInstance();
+            calendar.setTime(date);
+
+            year = calendar.get(YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DATE);
+        }
+    }
 }

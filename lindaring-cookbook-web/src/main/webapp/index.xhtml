@@ -9,12 +9,12 @@
         <h1>Dashboard</h1>
 
         <p:dashboard id="board" model="#{dashboardAction.model}">
-            <p:panel id="schedule" header="Schedule">
-                <p:calendar id="inline" mode="inline" />
+            <p:panel id="users">
+                <p:chart type="bar" model="#{barGraphAction.barModel}" style="height:400px; width:600px"/>
             </p:panel>
 
-            <p:panel id="questions" header="Q And A">
-                <p:chart type="line" model="#{chartAction.lineModel}" style="height:400px; width:600px"/>
+            <p:panel id="questions">
+                <p:chart type="line" model="#{lineGraphAction.lineModel}" style="height:400px; width:600px"/>
             </p:panel>
         </p:dashboard>
 

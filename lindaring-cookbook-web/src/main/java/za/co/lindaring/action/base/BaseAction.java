@@ -1,10 +1,16 @@
 package za.co.lindaring.action.base;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartSeries;
+import za.co.lindaring.types.CookbookDate;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.SortedMap;
 
 public abstract class BaseAction {
@@ -12,6 +18,19 @@ public abstract class BaseAction {
     protected void incrementMonthValueInMap(LineChartSeries series, SortedMap<Integer, Long> map) {
         for (int month = 0; month < 12; month++) {
             series.set((month + 1), map.get(month));
+        }
+    }
+
+    protected void incrementMonthValueInMap(ChartSeries series, SortedMap<Integer, Long> map) throws ParseException {
+        int year = (new CookbookDate()).getYear();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        for (int month = 0; month < 12; month++) {
+            String strDate = "1-" + (month + 1) + "-" + year;
+            Date inputDate = dateFormat.parse(strDate);
+
+            String m = DateFormatUtils.format(inputDate, "MMM");
+            series.set(m, map.get(month));
         }
     }
 

@@ -30,7 +30,7 @@ public class DashboardAction {
         DashboardColumn column1 = new DefaultDashboardColumn();
         DashboardColumn column2 = new DefaultDashboardColumn();
 
-        column1.addWidget("schedule");
+        column1.addWidget("users");
         column2.addWidget("questions");
 
         model.addColumn(column1);
