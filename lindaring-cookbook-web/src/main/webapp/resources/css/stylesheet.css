@@ -88,6 +88,7 @@ h1 {
 .insertQuestionTabView .ui-tabs-panels {
     border: 1px solid #a6c9e2 !important;
 }
+#board .ui-widget-content:hover,
 #viewQuestionForm .ui-widget-content:hover {
     background: #EAF4FD;
 }
