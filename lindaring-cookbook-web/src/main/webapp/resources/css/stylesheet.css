@@ -88,6 +88,9 @@ h1 {
 .insertQuestionTabView .ui-tabs-panels {
     border: 1px solid #a6c9e2 !important;
 }
+.ui-widget-content:hover {
+    background: #EAF4FD;
+}
 
 .ui-panel, div.ui-state-hover {
     margin: 10px;
@@ -96,4 +99,13 @@ h1 {
 }
 .ui-dashboard-column {
     /*width:220px;*/
+}
+
+.content-left {
+    width: 90%;
+    vertical-align: top;
+}
+.content-right {
+    width: 10%;
+    vertical-align: top;
 }

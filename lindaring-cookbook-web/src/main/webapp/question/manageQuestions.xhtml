@@ -9,82 +9,74 @@
     <ui:define name="content">
         <h1>Manage Questions</h1>
 
-        <div>
-            <!-- Left -->
-            <div style="width: 78%; float: left;">
-                <h:form id="viewQuestionForm">
-                    <p:dataTable var="question" value="#{ViewQuestionAction.questions}" draggableColumns="true" resizableColumns="true"
-                                 scrollable="true" liveResize="true" style="max-width: 1100px; font-size: .9em;" paginator="true"
-                                 rows="#{tableViewAction.selectedRowsPerPage}" rowsPerPageTemplate="#{tableViewAction.rowsPerPage}"
-                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}">
-                        <p:column headerText="Id" style="width: 5%">
-                            <h:outputText value="#{question.id}" />
-                        </p:column>
+        <h:panelGrid columns="2" columnClasses="content-left,content-right" width="100%">
+            <h:form id="viewQuestionForm">
+                <p:dataTable var="question" value="#{ViewQuestionAction.questions}" draggableColumns="true" resizableColumns="true"
+                             scrollable="true" liveResize="true" style="font-size: .9em; text-align: center" paginator="true"
+                             rows="#{tableViewAction.selectedRowsPerPage}" rowsPerPageTemplate="#{tableViewAction.rowsPerPage}"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}">
+                    <p:column style="width: 10%">
+                        <p:commandLink action="#{manageQuestionAction.selectQuestionForUpdate(question.id)}" update="updateQuestionForm">
+                            <h:outputText class="fa fa-fw fa-edit" />
+                            <f:param name="questionId" value="#{question.id}" />
+                        </p:commandLink> |
+                        <p:commandLink action="#{manageQuestionAction.selectQuestionForDeletion(question.id)}" update="deleteQuestionForm">
+                            <h:outputText class="fa fa-fw fa-remove" />
+                        </p:commandLink>
+                    </p:column>
 
-                        <p:column headerText="Desc" style="width: 70%">
-                            <h:outputText value="#{question.desc}" />
-                        </p:column>
+                    <p:column headerText="Id" style="width: 5%">
+                        <h:outputText value="#{question.id}" />
+                    </p:column>
 
-                        <p:column headerText="Date Added" style="width: 12.5%">
-                            <h:outputText value="#{ViewQuestionAction.formatDate(question.dateAdded)}" style="text-align: right" />
-                        </p:column>
+                    <p:column headerText="Desc" style="width: 62.5%; text-align: left">
+                        <h:outputText value="#{question.desc}" />
+                    </p:column>
 
-                        <p:column headerText="Activated" style="width: 10%">
-                            <h:outputText value="#{question.active}" style="text-align: right" />
-                        </p:column>
+                    <p:column headerText="Date Added" style="width: 17.5%">
+                        <h:outputText value="#{ViewQuestionAction.formatDate(question.dateAdded)}" style="text-align: right" />
+                    </p:column>
 
-                        <p:column style="width: 7.5%">
-                            <p:commandLink action="#{manageQuestionAction.selectQuestionForUpdate(question.id)}" update="updateQuestionForm">
-                                <h:outputText class="fa fa-fw fa-edit" />
-                                <f:param name="questionId" value="#{question.id}" />
-                            </p:commandLink> |
-                            <p:commandLink action="#{manageQuestionAction.selectQuestionForDeletion(question.id)}" update="deleteQuestionForm">
-                                <h:outputText class="fa fa-fw fa-remove" />
-                            </p:commandLink>
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
-            </div>
+                    <p:column headerText="Activated" style="width: 10%">
+                        <h:outputText value="#{question.active}" style="text-align: right" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
 
-            <!-- Right -->
-            <div style="width: 19%; float: left; font-size: .8em;">
-                <h:panelGrid columns="1">
-                    <h:form style="margin: -3px 0 0 10px">
-                        <p:panel header="Filter" toggleable="false" collapsed="false">
-                            <h:panelGrid columns="1" cellpadding="5">
-                                <p:inputText id="questionInputText" value="#{ViewQuestionAction.searchName}" autocomplete="off" placeholder="Question"
-                                             style="max-width: 200px" />
+            <h:panelGrid columns="1">
+                <h:form style="margin: -13px -13px 0 0">
+                    <p:panel header="Filter" toggleable="false" collapsed="false">
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <p:inputText id="questionInputText" value="#{ViewQuestionAction.searchName}" autocomplete="off" placeholder="Question"
+                                         style="max-width: 200px" />
 
-                                <p:calendar id="addedDateInputText" value="#{ViewQuestionAction.searchDate}" autocomplete="off" placeholder="Date Added"
-                                            style="max-width: 200px"/>
+                            <p:calendar id="addedDateInputText" value="#{ViewQuestionAction.searchDate}" autocomplete="off" placeholder="Date Added"
+                                        style="max-width: 200px"/>
 
-                                <p:selectOneMenu id="activatedInputText" value="#{ViewQuestionAction.searchActive}" style="width: 100%; max-width: 165px">
-                                    <f:selectItem itemLabel="Select active" itemValue="" />
-                                    <f:selectItem itemLabel="Active" itemValue="0" />
-                                    <f:selectItem itemLabel="Not active" itemValue="1" />
-                                </p:selectOneMenu>
+                            <p:selectOneMenu id="activatedInputText" value="#{ViewQuestionAction.searchActive}" style="width: 100%; max-width: 165px">
+                                <f:selectItem itemLabel="Select active" itemValue="" />
+                                <f:selectItem itemLabel="Active" itemValue="0" />
+                                <f:selectItem itemLabel="Not active" itemValue="1" />
+                            </p:selectOneMenu>
 
-                                <h:panelGrid columns="2">
-                                    <p:commandButton value="Search" action="#{ViewQuestionAction.search()}" process="@this" update="viewQuestionForm"
-                                                     ajax="false" icon="fa fa-fw fa fa-search" />
-                                    <p:commandButton value="Reset" action="#{ViewQuestionAction.reset()}" process="@this" update="viewQuestionForm"
-                                                     ajax="false" icon="fa fa-fw fa fa-refresh" />
-                                </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="Search" action="#{ViewQuestionAction.search()}" process="@this" update="viewQuestionForm"
+                                                 ajax="false" icon="fa fa-fw fa fa-search" />
+                                <p:commandButton value="Reset" action="#{ViewQuestionAction.reset()}" process="@this" update="viewQuestionForm"
+                                                 ajax="false" icon="fa fa-fw fa fa-refresh" />
                             </h:panelGrid>
-                        </p:panel>
-                    </h:form>
-                    <h:form style="margin: 10px 0 0 10px">
-                        <p:panel header="Actions" toggleable="false" collapsed="false">
-                            <p:commandButton action="#{manageQuestionAction.openInsertQuestionDialog()}" value="New Question"
-                                             styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
-                                             icon="fa fa-fw fa fa-copy" immediate="true" />
-                        </p:panel>
-                    </h:form>
-                </h:panelGrid>
-            </div>
-
-            <div style="clear: both"></div>
-        </div>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:form>
+                <h:form style="margin: -8px -13px 0 0">
+                    <p:panel header="Actions" toggleable="false" collapsed="false">
+                        <p:commandButton action="#{manageQuestionAction.openInsertQuestionDialog()}" value="New Question"
+                                         styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
+                                         icon="fa fa-fw fa fa-copy" immediate="true" />
+                    </p:panel>
+                </h:form>
+            </h:panelGrid>
+        </h:panelGrid>
 
         <!-- Insert dialog -->
         <p:dialog widgetVar="insertQuestionDialog" header="New Question" modal="true" minheight="100" minHeight="200">
