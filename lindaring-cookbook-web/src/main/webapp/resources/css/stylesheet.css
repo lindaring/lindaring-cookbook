@@ -110,3 +110,13 @@ h1 {
     width: 10%;
     vertical-align: top;
 }
+
+.addedDate input {
+    width: 90px;
+    font-size: 14px !important;
+    vertical-align: center;
+}
+input[type="text"].ui-inputfield {
+    width: 50px !important;
+    font-size: 14px !important;
+}
