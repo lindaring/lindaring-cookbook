@@ -71,10 +71,6 @@ h1 {
     outline: none !important;
 }
 
-.ui-state-hover {
-    margin: 0 !important;
-}
-
 .insertQuestionTabView .ui-widget-content {
     border: none;
 }
@@ -93,12 +89,13 @@ h1 {
     background: #EAF4FD;
 }
 
-.ui-panel, div.ui-state-hover {
+.indexDashboard .ui-panel,
+.indexDashboard div.ui-state-hover {
     margin: 10px;
     /*width:200px;*/
     overflow: hidden;
 }
-.ui-dashboard-column {
+.indexDashboard .ui-dashboard-column {
     /*width:220px;*/
 }
 
@@ -112,11 +109,30 @@ h1 {
 }
 
 .addedDate input {
-    width: 90px;
+    width: 100px;
     font-size: 14px !important;
     vertical-align: center;
 }
-input[type="text"].ui-inputfield {
-    width: 50px !important;
+.searchQuestionForm [type="text"].ui-inputfield {
+    margin: 5px 0 !important;
     font-size: 14px !important;
+}
+.ui-panelgrid > * > tr,
+.ui-panelgrid .ui-panelgrid-cell {
+    border: none !important;
+    padding: 0 !important;
+}
+.activatedInputText {
+    width: 100% !important;
+    max-width: 205px;
+    font-weight: normal !important;
+    font-size: .85em !important;
+    margin: 5px 0;
+}
+.searchQuestionForm .ui-state-hover {
+    margin: 5px 0 !important;
+}
+.searchQuestionForm .ui-selectonemenu-trigger,
+.searchQuestionForm .ui-button {
+    margin: 0 !important;
 }

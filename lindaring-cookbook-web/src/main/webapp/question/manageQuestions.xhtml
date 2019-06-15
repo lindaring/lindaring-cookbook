@@ -44,13 +44,13 @@
             </h:form>
 
             <h:panelGrid columns="1">
-                <h:form style="margin: -13px -13px 0 0">
+                <h:form styleClass="searchQuestionForm" style="margin: -13px -13px 0 0">
                     <p:panel header="Filter" toggleable="false" collapsed="false">
                         <p:panelGrid cellpadding="5">
                             <p:row>
                                 <p:column colspan="2">
                                     <p:inputText id="questionInputText" value="#{ViewQuestionAction.searchName}" autocomplete="off" placeholder="Question"
-                                                 styleClass="inputText" />
+                                                 styleClass="inputText" style="width: 92.5%" />
                                 </p:column>
                             </p:row>
                             <p:row>
@@ -64,7 +64,7 @@
                             </p:row>
                             <p:row>
                                 <p:column colspan="2">
-                                    <p:selectOneMenu id="activatedInputText" value="#{ViewQuestionAction.searchActive}" style="width: 100%; max-width: 165px">
+                                    <p:selectOneMenu value="#{ViewQuestionAction.searchActive}" styleClass="activatedInputText">
                                         <f:selectItem itemLabel="Select active" itemValue="" />
                                         <f:selectItem itemLabel="Active" itemValue="0" />
                                         <f:selectItem itemLabel="Not active" itemValue="1" />

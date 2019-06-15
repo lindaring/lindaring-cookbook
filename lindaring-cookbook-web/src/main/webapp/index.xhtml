@@ -8,7 +8,7 @@
     <ui:define name="content">
         <h1>Dashboard</h1>
 
-        <p:dashboard id="board" model="#{dashboardAction.model}">
+        <p:dashboard id="board" model="#{dashboardAction.model}" styleClass="indexDashboard">
             <p:panel id="users">
                 <p:chart type="bar" model="#{barGraphAction.barModel}" style="height:320px; width:470px" />
             </p:panel>
