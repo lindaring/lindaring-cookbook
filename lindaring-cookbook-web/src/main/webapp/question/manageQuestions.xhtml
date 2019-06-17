@@ -44,7 +44,7 @@
             </h:form>
 
             <h:panelGrid columns="1">
-                <h:form styleClass="searchQuestionForm" style="margin: -13px -13px 0 0">
+                <h:form id="filterForm" styleClass="searchQuestionForm" style="margin: -13px -13px 0 0">
                     <p:panel header="Filter" toggleable="false" collapsed="false">
                         <p:panelGrid cellpadding="5">
                             <p:row>
@@ -55,11 +55,12 @@
                             </p:row>
                             <p:row>
                                 <p:column>
-                                    <p:calendar id="addedDateInputText" value="#{ViewQuestionAction.searchDate}" autocomplete="off" placeholder="Date Added"
+                                    <p:calendar id="addedDateInputText" value="#{ViewQuestionAction.searchFromDate}" autocomplete="off" placeholder="Date From"
                                                 styleClass="addedDate" />
                                 </p:column>
                                 <p:column>
-                                    <p:calendar id="dateToInputText" styleClass="addedDate" autocomplete="off" placeholder="Date To" />
+                                    <p:calendar id="dateToInputText" value="#{ViewQuestionAction.searchToDate}"  autocomplete="off" placeholder="Date To"
+                                                styleClass="addedDate" />
                                 </p:column>
                             </p:row>
                             <p:row>
@@ -84,7 +85,7 @@
                         </p:panelGrid>
                     </p:panel>
                 </h:form>
-                <h:form style="margin: -8px -13px 0 0">
+                <h:form id="actionsForm" style="margin: 0 -13px 0 0">
                     <p:panel header="Actions" toggleable="false" collapsed="false">
                         <p:commandButton action="#{manageQuestionAction.openInsertQuestionDialog()}" value="New Question"
                                          styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"

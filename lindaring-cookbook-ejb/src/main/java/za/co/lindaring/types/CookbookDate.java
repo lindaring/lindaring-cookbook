@@ -6,8 +6,6 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import java.util.Calendar;
 import java.util.Date;
 
-import static java.util.Calendar.YEAR;
-
 @Getter
 public class CookbookDate {
 
@@ -52,7 +50,7 @@ public class CookbookDate {
             calendar = Calendar.getInstance();
             calendar.setTime(date);
 
-            year = calendar.get(YEAR);
+            year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH);
             day = calendar.get(Calendar.DATE);
         }

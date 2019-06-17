@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import za.co.lindaring.ejb.base.BaseService;
 import za.co.lindaring.entity.Question;
+import za.co.lindaring.exception.BusinessException;
 import za.co.lindaring.types.CookbookDate;
 
 import javax.ejb.LocalBean;
@@ -40,9 +41,9 @@ public class QuestionService extends BaseService {
         return map;
     }
 
-    public List<Question> searchQuestion(String desc, Date date, Integer active) {
-        String query = getSearchQuestionQuery(desc, date, active);
-        TypedQuery<Question> result = getQuestionTypedQuery(query, desc, date, active);
+    public List<Question> searchQuestion(String desc, Date from, Date to, Integer active) throws BusinessException {
+        String query = getSearchQuestionQuery(desc, from, to, active);
+        TypedQuery<Question> result = getQuestionTypedQuery(query, desc, from, to, active);
         return result.getResultList();
     }
 
@@ -65,19 +66,19 @@ public class QuestionService extends BaseService {
         getEntityManager().remove(question);
     }
 
-    private String getSearchQuestionQuery(String desc, Date date, Integer active) {
+    private String getSearchQuestionQuery(String desc, Date from, Date to, Integer active) {
         String query;
-        if (StringUtils.isNotEmpty(desc) && date != null && active != null) {
+        if (StringUtils.isNotEmpty(desc) && (from != null || to != null) && active != null) {
             query = "Question.searchByDescAndDateAndActive";
-        } else if (StringUtils.isNotEmpty(desc) && date != null) {
+        } else if (StringUtils.isNotEmpty(desc) && (from != null || to != null)) {
             query = "Question.searchByDescAndDate";
         } else if (StringUtils.isNotEmpty(desc) && active != null) {
             query = "Question.searchByDescAndActive";
-        } else if (date != null && active != null) {
+        } else if ((from != null || to != null) && active != null) {
             query = "Question.searchByDateAndActive";
         } else if (StringUtils.isNotEmpty(desc)) {
             query = "Question.searchByDesc";
-        } else if (date != null) {
+        } else if (from != null || to != null) {
             query = "Question.searchByDate";
         } else if (active != null) {
             query = "Question.searchByActive";
@@ -87,20 +88,27 @@ public class QuestionService extends BaseService {
         return query;
     }
 
-    private TypedQuery<Question> getQuestionTypedQuery(String query, String desc, Date date, Integer active) {
+    private TypedQuery<Question> getQuestionTypedQuery(String query, String desc, Date from, Date to, Integer active) throws BusinessException {
         TypedQuery<Question> typedQuery = getEntityManager().createNamedQuery(query, Question.class);
         if (StringUtils.isNotEmpty(desc)) {
             typedQuery.setParameter("description", desc);
         }
-        if (date != null) {
-            CookbookDate searchDate = new CookbookDate(date);
-            typedQuery.setParameter("sDate", searchDate.toStartOfDay());
-            typedQuery.setParameter("eDate", searchDate.toEndOfDay());
-        }
         if (active != null) {
             typedQuery.setParameter("active", active);
         }
+        getQuestionDateTypedQuery(typedQuery, from, to);
         return typedQuery;
+    }
+
+    private void getQuestionDateTypedQuery(TypedQuery<Question> typedQuery, Date from, Date to) throws BusinessException {
+        if (from != null && to != null) {
+            typedQuery.setParameter("sDate", (new CookbookDate(from)).toStartOfDay());
+            typedQuery.setParameter("eDate", (new CookbookDate(to)).toEndOfDay());
+        } else if (to != null) {
+            throw new BusinessException("Enter from data.");
+        } else if (from != null) {
+            throw new BusinessException("Enter to data.");
+        }
     }
 
 }
