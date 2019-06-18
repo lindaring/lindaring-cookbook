@@ -1,15 +1,15 @@
-package za.co.lindaring.action;
+package za.co.lindaring.action.charts;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 
 @Setter
 @Getter
-@SessionScoped
+@ApplicationScoped
 @ManagedBean(name = "tableViewAction")
 public class TableViewAction {
 

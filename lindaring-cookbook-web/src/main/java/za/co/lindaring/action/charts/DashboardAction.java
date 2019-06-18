@@ -1,4 +1,4 @@
-package za.co.lindaring.action;
+package za.co.lindaring.action.charts;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -16,11 +16,11 @@
                              rows="#{tableViewAction.selectedRowsPerPage}" rowsPerPageTemplate="#{tableViewAction.rowsPerPage}"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}">
                     <p:column style="width: 10%">
-                        <p:commandLink action="#{manageAnswerAction.selectAnswerForUpdate(answer.id)}" update="updateQuestionForm">
+                        <p:commandLink action="#{manageAnswerAction.selectAnswerForUpdate(answer.id)}" update="viewAnswerForm">
                             <h:outputText class="fa fa-fw fa-edit" />
                             <f:param name="questionId" value="#{answer.id}" />
                         </p:commandLink> |
-                        <p:commandLink action="#{manageAnswerAction.selectQuestionForDeletion(answer.id)}" update="deleteQuestionForm">
+                        <p:commandLink action="#{manageAnswerAction.selectQuestionForDeletion(answer.id)}" update="">
                             <h:outputText class="fa fa-fw fa-remove" />
                         </p:commandLink>
                     </p:column>
