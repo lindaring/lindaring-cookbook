@@ -9,6 +9,44 @@
     <ui:define name="content">
         <h1>Manage Answers</h1>
 
+        <h:panelGrid columns="2" columnClasses="content-left,content-right" width="100%">
+            <h:form id="viewAnswerForm">
+                <p:dataTable var="answer" value="#{ViewAnswerAction.answers}" draggableColumns="true" resizableColumns="true"
+                             scrollable="true" liveResize="true" style="font-size: .9em; text-align: center" paginator="true"
+                             rows="#{tableViewAction.selectedRowsPerPage}" rowsPerPageTemplate="#{tableViewAction.rowsPerPage}"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}">
+                    <p:column style="width: 10%">
+                        <p:commandLink action="#{manageAnswerAction.selectAnswerForUpdate(answer.id)}" update="updateQuestionForm">
+                            <h:outputText class="fa fa-fw fa-edit" />
+                            <f:param name="questionId" value="#{answer.id}" />
+                        </p:commandLink> |
+                        <p:commandLink action="#{manageAnswerAction.selectQuestionForDeletion(answer.id)}" update="deleteQuestionForm">
+                            <h:outputText class="fa fa-fw fa-remove" />
+                        </p:commandLink>
+                    </p:column>
+
+                    <p:column headerText="Id" style="width: 5%">
+                        <h:outputText value="#{answer.id}" />
+                    </p:column>
+
+                    <p:column headerText="Desc" style="width: 52.5%; text-align: left">
+                        <h:outputText value="#{answer.text}" />
+                    </p:column>
+
+                    <p:column headerText="Date Added" style="width: 17.5%">
+                        <h:outputText value="#{ViewAnswerAction.formatDate(answer.dateAdded)}" style="text-align: right" />
+                    </p:column>
+
+                    <p:column headerText="Activated" style="width: 10%">
+                        <h:outputText value="#{answer.active}" style="text-align: right" />
+                    </p:column>
+
+                    <p:column headerText="Points" style="width: 10%">
+                        <h:outputText value="#{answer.points}" style="text-align: right" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </h:panelGrid>
     </ui:define>
 
 </ui:composition>
