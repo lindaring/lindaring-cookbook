@@ -59,17 +59,13 @@
             <p:ajax event="close" listener="#{manageAnswerAction.cancelAnswerQuestion}" />
 
             <h:form id="deleteAnswerForm">
-                <p:messages id="deleteAnswerMessage" showDetail="true" />
-
                 <h:panelGrid columns="1">
-                    <h:outputText for="deleteAnswerInputText" value="Answer: " />
-                    <p:inputTextarea id="deleteAnswerInputText" value="#{manageAnswerAction.answer.text}" readonly="true"
-                                     cols="50" rows="5" />
+                    <h:outputText value="Answer: " styleClass="foreground-pink padding-bottom-5" />
+                    <p:inputTextarea value="#{manageAnswerAction.answer.text}" readonly="true" cols="50" rows="5" />
 
-                    <h:panelGrid columns="2">
-                        <p:commandButton value="Delete" action="#{manageAnswerAction.confirmDeleteAnswer(manageAnswerAction.answer.id)}"
-                                         process="@all" icon="fa fa-fw fa fa-close" update="deleteAnswerForm,viewAnswerForm,messageGrowl" />
-                    </h:panelGrid>
+                    <p:commandButton value="Delete" action="#{manageAnswerAction.confirmDeleteAnswer(manageAnswerAction.answer.id)}"
+                                     process="@all" icon="fa fa-fw fa fa-close foreground-pink" update="viewAnswerForm,messageGrowl"
+                                     styleClass="margin-top-10" />
                 </h:panelGrid>
             </h:form>
         </p:dialog>

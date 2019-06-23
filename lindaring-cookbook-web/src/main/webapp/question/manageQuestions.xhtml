@@ -17,11 +17,11 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}">
                     <p:column style="width: 10%">
                         <p:commandLink action="#{manageQuestionAction.selectQuestionForUpdate(question.id)}" update="updateQuestionForm">
-                            <h:outputText class="fa fa-fw fa-edit" />
+                            <h:outputText class="fa fa-fw fa-edit foreground-pink" />
                             <f:param name="questionId" value="#{question.id}" />
                         </p:commandLink> |
                         <p:commandLink action="#{manageQuestionAction.selectQuestionForDeletion(question.id)}" update="deleteQuestionForm">
-                            <h:outputText class="fa fa-fw fa-remove" />
+                            <h:outputText class="fa fa-fw fa-remove foreground-pink" />
                         </p:commandLink>
                     </p:column>
 
@@ -76,9 +76,9 @@
                                 <p:column colspan="2">
                                     <h:panelGrid columns="2">
                                         <p:commandButton value="Search" action="#{ViewQuestionAction.search()}" process="@this" update="viewQuestionForm"
-                                                         ajax="false" icon="fa fa-fw fa fa-search" />
+                                                         ajax="false" icon="fa fa-fw fa fa-search foreground-pink" />
                                         <p:commandButton value="Reset" action="#{ViewQuestionAction.reset()}" process="@this" update="viewQuestionForm"
-                                                         ajax="false" icon="fa fa-fw fa fa-refresh" />
+                                                         ajax="false" icon="fa fa-fw fa fa-refresh foreground-pink" />
                                     </h:panelGrid>
                                 </p:column>
                             </p:row>
@@ -90,7 +90,7 @@
                     <p:panel header="Actions" toggleable="false" collapsed="false">
                         <p:commandButton action="#{manageQuestionAction.openInsertQuestionDialog()}" value="New Question"
                                          styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
-                                         icon="fa fa-fw fa fa-copy" immediate="true" />
+                                         icon="fa fa-fw fa fa-copy foreground-pink" immediate="true" />
                     </p:panel>
                 </h:form>
             </h:panelGrid>
@@ -180,17 +180,21 @@
         <!-- Delete dialog -->
         <p:dialog widgetVar="deleteQuestionDialog" header="Are you sure you want to delete?" modal="true" minheight="100" minHeight="200">
             <p:ajax event="close" listener="#{manageQuestionAction.cancelDeleteQuestion}" />
+
             <h:form id="deleteQuestionForm">
+                <p:messages id="deleteQuestionMessage" showDetail="true" />
+
                 <h:panelGrid columns="1">
-                    <h:outputText for="questionInputText1" value="Question: " />
-                    <p:inputTextarea id="questionInputText1" value="#{manageQuestionAction.question.desc}" readonly="true"
+                    <h:outputText value="Question: " styleClass="foreground-pink padding-bottom-5" />
+                    <p:inputTextarea value="#{manageQuestionAction.question.desc}" readonly="true"
                                      cols="50" rows="5" />
 
-                    <h:panelGrid columns="2">
-                        <p:commandButton value="Delete" action="#{manageQuestionAction.confirmDeleteQuestion(manageQuestionAction.question.id)}"
-                                         process="@all" icon="fa fa-fw fa fa-close" update="viewQuestionForm" />
-                        <p:commandButton value="Close" action="#{manageQuestionAction.cancelDeleteQuestion()}" />
-                    </h:panelGrid>
+                    <h:outputText value="Linked Answers: " styleClass="foreground-pink padding-top-10" />
+                    <p:orderList value="#{manageQuestionAction.question.answers}" var="answer" controlsLocation="none"
+                                 itemValue="#{answer.id}" itemLabel="#{answer.text}" style="height: 100px; padding: 0; margin: 0" />
+
+                    <p:commandButton value="Delete" action="#{manageQuestionAction.confirmDeleteQuestion(manageQuestionAction.question.id)}"
+                                     process="@all" icon="fa fa-fw fa fa-close foreground-pink" update="viewQuestionForm,messageGrowl" />
                 </h:panelGrid>
             </h:form>
         </p:dialog>

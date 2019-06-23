@@ -3,11 +3,13 @@ package za.co.lindaring.action.question;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Question;
 import za.co.lindaring.action.base.BaseAction;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -26,6 +28,8 @@ public class ManageQuestionAction extends BaseAction {
     private static final String UPDATE_QUESTION_DIALOG = "updateQuestionDialog";
     private static final String DELETE_QUESTION_DIALOG = "deleteQuestionDialog";
     private static final String INSERT_QUESTION_DIALOG = "insertQuestionDialog";
+
+    private static final String DELETE_QUESTION_MESSAGE = "deleteQuestionMessage";
     private static final String TAB_QUESTION_MESSAGE_VIEW = "tabViewQuestionMessage";
     private static final String TAB_ANSWER_MESSAGE_VIEW = "tabViewAnswerMessage";
 
@@ -46,6 +50,15 @@ public class ManageQuestionAction extends BaseAction {
 
     @EJB
     private QuestionService questionService;
+
+    @EJB
+    private MessageService messageService;
+
+    @PostConstruct
+    public void init() {
+        //To avoid null pointer on ordered list
+        question = new Question();
+    }
 
     public void selectQuestionForUpdate(long questionId) {
         selectQuestion(questionId);
@@ -81,12 +94,12 @@ public class ManageQuestionAction extends BaseAction {
     public void confirmDeleteQuestion(long questionId) {
         try {
             questionService.deleteQuestion(questionId);
-            closeDialog(DELETE_QUESTION_DIALOG);
-            displayInfo("Nice! Question deleted:)");
+            displayInfo(messageService.getDeleteQuestionSuccessMessage());
         } catch (Exception e) {
             log.error("Failed to delete question", e);
-            displayError("Oops! Error deleting question:(");
+            displayError(messageService.getDeleteQuestionFailedMessage());
         }
+        closeDialog(DELETE_QUESTION_DIALOG);
     }
 
     public void saveQuestion() {

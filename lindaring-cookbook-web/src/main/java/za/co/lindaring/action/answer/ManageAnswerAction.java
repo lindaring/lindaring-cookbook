@@ -50,12 +50,12 @@ public class ManageAnswerAction extends BaseAction {
     public void confirmDeleteAnswer(long answerId) {
         try {
             answerService.deleteAnswer(answerId);
-            closeDialog(DELETE_ANSWER_DIALOG);
             displayInfo(messageService.getDeleteAnswerSuccessMessage());
         } catch (Exception e) {
             log.error("Failed to delete answer", e);
-            displayError(DELETE_ANSWER_MESSAGE, "", messageService.getDeleteAnswerFailedMessage());
+            displayError( messageService.getDeleteAnswerFailedMessage());
         }
+        closeDialog(DELETE_ANSWER_DIALOG);
     }
 
     public void cancelAnswerQuestion() {

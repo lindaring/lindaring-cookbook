@@ -140,3 +140,22 @@ h1 {
 .foreground-pink {
     color: deeppink !important;
 }
+
+.padding-top-10 {
+    padding-top: 10px !important;
+    display: inline-block;
+}
+.margin-top-10 {
+    margin-top: 10px !important;
+}
+.padding-bottom-5 {
+    padding-bottom: 5px !important;
+    display: inline-block;
+}
+
+#deleteQuestionForm .ui-md-12 {
+    padding: 0 !important;
+}
+#deleteQuestionForm .ui-orderlist-list {
+    height: 105px;
+}
