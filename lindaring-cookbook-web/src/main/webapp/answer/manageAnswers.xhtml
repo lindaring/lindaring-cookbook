@@ -94,7 +94,10 @@
             <h:form id="deleteAnswerForm">
                 <h:panelGrid columns="1">
                     <h:outputText value="Answer: " styleClass="foreground-pink padding-bottom-5" />
-                    <p:inputTextarea value="#{manageAnswerAction.answer.text}" readonly="true" cols="50" rows="5" />
+                    <p:inputTextarea value="#{manageAnswerAction.answer.text}" readonly="true" cols="50" rows="4" />
+
+                    <h:outputText value="Linked Question: " styleClass="foreground-pink padding-top-10" />
+                    <p:inputTextarea value="#{manageAnswerAction.questionDesc}" readonly="true" cols="50" rows="3" />
 
                     <p:commandButton value="Delete" action="#{manageAnswerAction.confirmDeleteAnswer(manageAnswerAction.answer.id)}"
                                      process="@all" icon="fa fa-fw fa fa-close foreground-pink" update="viewAnswerForm,messageGrowl"

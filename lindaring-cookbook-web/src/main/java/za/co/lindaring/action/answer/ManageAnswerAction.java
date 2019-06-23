@@ -26,6 +26,7 @@ public class ManageAnswerAction extends BaseAction {
     private static final String DELETE_ANSWER_MESSAGE = "deleteAnswerMessage";
 
     private Answer answer;
+    private String questionDesc;
 
     @EJB
     public AnswerService answerService;
@@ -38,6 +39,7 @@ public class ManageAnswerAction extends BaseAction {
 
     public void selectAnswerForDeletion(long answerId) {
         selectAnswer(answerId);
+        this.questionDesc = questionService.getQuestion(answer.getQuestionId()).getDesc();
         openDialog(DELETE_ANSWER_DIALOG);
     }
 
