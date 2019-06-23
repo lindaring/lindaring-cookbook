@@ -99,10 +99,12 @@ public class ManageQuestionAction extends BaseAction {
     public void saveQuestion() {
         try {
             questionService.saveQuestion(question);
-            closeDialog(UPDATE_QUESTION_DIALOG);
-            displayInfo("Nice! Saved changes:)");
+            displayInfo(messageService.getUpdateQuestionSuccessMessage());
         } catch (Exception e) {
-            displayError("Error saving changes:(");
+            log.error("Update question failed.", e);
+            displayError(messageService.getUpdateQuestionFailedMessage());
+        } finally {
+            closeDialog(UPDATE_QUESTION_DIALOG);
         }
     }
 

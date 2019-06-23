@@ -173,7 +173,7 @@
 
                     <h:inputHidden />
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Save Question" action="#{manageQuestionAction.saveQuestion()}" process="@all" update="viewQuestionForm"
+                        <p:commandButton value="Save Question" action="#{manageQuestionAction.saveQuestion()}" process="@all" update="viewQuestionForm,messageGrowl"
                                          icon="fa fa-fw fa fa-save foreground-pink" />
                         <p:commandButton value="Close" action="#{manageQuestionAction.cancelUpdateQuestion()}" />
                     </h:panelGrid>
