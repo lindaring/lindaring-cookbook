@@ -67,8 +67,8 @@
                                 <p:column colspan="2">
                                     <p:selectOneMenu value="#{ViewQuestionAction.searchActive}" styleClass="activatedInputText">
                                         <f:selectItem itemLabel="Select active" itemValue="" />
-                                        <f:selectItem itemLabel="Active" itemValue="0" />
-                                        <f:selectItem itemLabel="Not active" itemValue="1" />
+                                        <f:selectItem itemLabel="Active" itemValue="1" />
+                                        <f:selectItem itemLabel="Not active" itemValue="0" />
                                     </p:selectOneMenu>
                                 </p:column>
                             </p:row>
@@ -147,17 +147,21 @@
         <p:dialog widgetVar="updateQuestionDialog" header="Update Question" modal="true" minheight="100" minHeight="200">
             <h:form id="updateQuestionForm">
                 <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputText for="questionIdInputText2" value="ID: " />
-                    <p:inputText id="questionIdInputText2" value="#{manageQuestionAction.question.id}" disabled="true" />
+                    <h:outputText value="ID: " styleClass="foreground-pink" />
+                    <p:inputText value="#{manageQuestionAction.question.id}" disabled="true" />
 
-                    <h:outputText for="questionInputText2" value="Text: " />
-                    <p:inputTextarea rows="2" cols="50" id="questionInputText2" value="#{manageQuestionAction.question.desc}" />
+                    <h:outputText value="Text: " styleClass="foreground-pink" />
+                    <p:inputTextarea rows="2" cols="50" value="#{manageQuestionAction.question.desc}" />
 
-                    <h:outputText for="questionDateInputText2" value="Date Added: " />
-                    <p:datePicker id="questionDateInputText2" value="#{manageQuestionAction.question.dateAdded}" disabled="true" />
+                    <h:outputText value="Date Added: " styleClass="foreground-pink" />
+                    <p:datePicker value="#{manageQuestionAction.question.dateAdded}" disabled="true" />
 
-                    <h:outputText for="questionActiveInputText2" value="Active: " />
-                    <p:inputText id="questionActiveInputText2" value="#{manageQuestionAction.question.active}" />
+                    <h:outputText value="Active: " styleClass="foreground-pink" />
+                    <p:selectOneMenu value="#{manageQuestionAction.question.active}">
+                        <f:selectItem itemLabel="Select active" itemValue="" />
+                        <f:selectItem itemLabel="Active" itemValue="1" />
+                        <f:selectItem itemLabel="Not active" itemValue="0" />
+                    </p:selectOneMenu>
 
                     <h:inputHidden />
                     <p:accordionPanel activeIndex="null" value="#{manageQuestionAction.question.answers}" var="answer"
@@ -170,7 +174,7 @@
                     <h:inputHidden />
                     <h:panelGrid columns="2">
                         <p:commandButton value="Save Question" action="#{manageQuestionAction.saveQuestion()}" process="@all" update="viewQuestionForm"
-                                         icon="fa fa-fw fa fa-save" />
+                                         icon="fa fa-fw fa fa-save foreground-pink" />
                         <p:commandButton value="Close" action="#{manageQuestionAction.cancelUpdateQuestion()}" />
                     </h:panelGrid>
                 </h:panelGrid>
