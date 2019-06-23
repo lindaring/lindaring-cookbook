@@ -25,20 +25,20 @@
                         </p:commandLink>
                     </p:column>
 
-                    <p:column headerText="Id" style="width: 5%">
+                    <p:column headerText="Id" style="width: 5%" sortBy="#{question.id}">
                         <h:outputText value="#{question.id}" />
                     </p:column>
 
-                    <p:column headerText="Desc" style="width: 62.5%; text-align: left">
+                    <p:column headerText="Desc" style="width: 62.5%; text-align: left" sortBy="#{question.desc}">
                         <h:outputText value="#{question.desc}" />
                     </p:column>
 
-                    <p:column headerText="Date Added" style="width: 17.5%">
+                    <p:column headerText="Date Added" style="width: 17.5%" sortBy="#{question.dateAdded}">
                         <h:outputText value="#{ViewQuestionAction.formatDate(question.dateAdded)}" style="text-align: right" />
                     </p:column>
 
-                    <p:column headerText="Activated" style="width: 10%">
-                        <h:outputText value="#{question.active}" style="text-align: right" />
+                    <p:column headerText="Activated" style="width: 10%" sortBy="#{question.active}">
+                        <h:outputText value="#{question.active == 1}" style="text-align: right" />
                     </p:column>
                 </p:dataTable>
             </h:form>

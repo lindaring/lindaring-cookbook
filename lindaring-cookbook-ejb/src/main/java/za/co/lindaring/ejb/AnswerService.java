@@ -44,4 +44,11 @@ public class AnswerService extends BaseService {
         query.setParameter("answerId", id);
         query.executeUpdate();
     }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void saveAnswer(Answer answer) {
+        getEntityManager().merge(answer);
+        getEntityManager().flush();
+    }
+
 }

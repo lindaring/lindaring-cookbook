@@ -35,7 +35,6 @@ public class ManageQuestionAction extends BaseAction {
 
     private String desc;
     private String resultMessage;
-    private String answersString;
 
     private Question question;
     private List<Answer> answerList;
@@ -62,11 +61,6 @@ public class ManageQuestionAction extends BaseAction {
 
     public void selectQuestionForUpdate(long questionId) {
         selectQuestion(questionId);
-        StringBuilder answers = new StringBuilder();
-        for (Answer a: question.getAnswers()) {
-            answers.append(a.getText()).append("\n");
-        }
-        answersString = answers.toString();
         openDialog(UPDATE_QUESTION_DIALOG);
     }
 

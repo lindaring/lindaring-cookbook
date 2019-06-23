@@ -16,7 +16,7 @@
                              rows="#{tableViewAction.selectedRowsPerPage}" rowsPerPageTemplate="#{tableViewAction.rowsPerPage}"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}">
                     <p:column style="width: 10%">
-                        <p:commandLink action="#{manageAnswerAction.selectAnswerForUpdate(answer.id)}" update="viewAnswerForm">
+                        <p:commandLink action="#{manageAnswerAction.selectAnswerForUpdate(answer.id)}" update="updateAnswerForm">
                             <h:outputText class="fa fa-fw fa-edit foreground-pink" />
                             <f:param name="questionId" value="#{answer.id}" />
                         </p:commandLink> |
@@ -25,27 +25,27 @@
                         </p:commandLink>
                     </p:column>
 
-                    <p:column headerText="Id" style="width: 5%">
+                    <p:column headerText="Id" style="width: 5%" sortBy="#{answer.id}">
                         <h:outputText value="#{answer.id}" />
                     </p:column>
 
-                    <p:column headerText="Desc" style="width: 42.5%; text-align: left">
+                    <p:column headerText="Desc" style="width: 42.5%; text-align: left" sortBy="#{answer.text}">
                         <h:outputText value="#{answer.text}" />
                     </p:column>
 
-                    <p:column headerText="Date Added" style="width: 17.5%">
+                    <p:column headerText="Date Added" style="width: 17.5%" sortBy="#{answer.dateAdded}">
                         <h:outputText value="#{ViewAnswerAction.formatDate(answer.dateAdded)}" style="text-align: right" />
                     </p:column>
 
-                    <p:column headerText="Activated" style="width: 10%">
-                        <h:outputText value="#{answer.active}" style="text-align: right" />
+                    <p:column headerText="Activated" style="width: 10%" sortBy="#{answer.active}">
+                        <h:outputText value="#{answer.active == 1}" style="text-align: right" />
                     </p:column>
 
-                    <p:column headerText="Points" style="width: 10%">
+                    <p:column headerText="Points" style="width: 10%" sortBy="#{answer.points}">
                         <h:outputText value="#{answer.points}" style="text-align: right" />
                     </p:column>
 
-                    <p:column headerText="Question" style="width: 10%">
+                    <p:column headerText="Question" style="width: 10%" sortBy="#{answer.questionId}">
                         <h:outputText value="#{answer.questionId}" style="text-align: right" />
                     </p:column>
                 </p:dataTable>
@@ -54,6 +54,39 @@
     </ui:define>
 
     <ui:define name="dialogs">
+        <!-- Update dialog -->
+        <p:dialog widgetVar="updateAnswerDialog" header="Update Answer" modal="true" minheight="100" minHeight="200">
+            <h:form id="updateAnswerForm">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText value="ID: " styleClass="foreground-pink" />
+                    <p:inputText value="#{manageAnswerAction.answer.id}" disabled="true" />
+
+                    <h:outputText value="Text: " styleClass="foreground-pink" />
+                    <p:inputTextarea rows="2" cols="50" value="#{manageAnswerAction.answer.text}" />
+
+                    <h:outputText value="Date Added: " styleClass="foreground-pink" />
+                    <p:datePicker value="#{manageAnswerAction.answer.dateAdded}" disabled="true" />
+
+                    <h:outputText value="Active: " styleClass="foreground-pink" />
+                    <p:selectOneMenu value="#{manageAnswerAction.answer.active}">
+                        <f:selectItem itemLabel="Select active" itemValue="" />
+                        <f:selectItem itemLabel="Active" itemValue="1" />
+                        <f:selectItem itemLabel="Not active" itemValue="0" />
+                    </p:selectOneMenu>
+
+                    <h:outputText value="Question ID: " styleClass="foreground-pink" />
+                    <p:inputText value="#{manageAnswerAction.answer.questionId}" />
+
+                    <h:inputHidden />
+                    <h:panelGrid columns="2">
+                        <p:commandButton value="Save Answer" action="#{manageAnswerAction.saveAnswer()}" process="@all" update="viewAnswerForm,messageGrowl"
+                                         icon="fa fa-fw fa fa-save foreground-pink" />
+                        <p:commandButton value="Close" action="#{manageAnswerAction.cancelUpdateAnswer()}" />
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
         <!-- Delete dialog -->
         <p:dialog widgetVar="deleteAnswerDialog" header="Are you sure you want to delete?" modal="true" minheight="100" minHeight="200">
             <p:ajax event="close" listener="#{manageAnswerAction.cancelAnswerQuestion}" />

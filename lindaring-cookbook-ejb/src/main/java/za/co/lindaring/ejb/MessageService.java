@@ -14,8 +14,10 @@ import javax.ejb.Startup;
 @LocalBean
 public class MessageService {
     private String deleteAnswerSuccessMessage = "Nice! Answer deleted :)";
+    private String updateAnswerSuccessMessage = "Nice! Answer updated :)";
     private String deleteQuestionSuccessMessage = "Nice! Question deleted :)";
 
     private String deleteAnswerFailedMessage = "Oops! Failed to delete answer :(";
+    private String updateAnswerFailedMessage = "Oops! Failed to update answer :(";
     private String deleteQuestionFailedMessage = "Oops! Failed to delete question :(";
 }
