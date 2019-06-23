@@ -25,7 +25,8 @@ import java.util.Date;
 @Entity
 @Table(name = "answers")
 @NamedQueries({
-    @NamedQuery(name = "Answer.findAll", query = "SELECT a FROM Answer a")
+    @NamedQuery(name = "Answer.findAll", query = "SELECT a FROM Answer a"),
+    @NamedQuery(name = "Answer.deleteById", query = "DELETE FROM Answer a WHERE a.id = :answerId")
 })
 public class Answer {
     @Id
@@ -42,9 +43,8 @@ public class Answer {
     @Column(name = "point")
     private Double points;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private Question question;
+    @Column(name = "question_id")
+    private long questionId;
 
     public String getAnswerId() {
         return "Answer " + id;

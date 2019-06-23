@@ -85,6 +85,7 @@
                         </p:panelGrid>
                     </p:panel>
                 </h:form>
+
                 <h:form id="actionsForm" style="margin: 6px -13px 0 0">
                     <p:panel header="Actions" toggleable="false" collapsed="false">
                         <p:commandButton action="#{manageQuestionAction.openInsertQuestionDialog()}" value="New Question"
@@ -94,7 +95,9 @@
                 </h:form>
             </h:panelGrid>
         </h:panelGrid>
+    </ui:define>
 
+    <ui:define name="dialogs">
         <!-- Insert dialog -->
         <p:dialog widgetVar="insertQuestionDialog" header="New Question" modal="true" minheight="100" minHeight="200">
             <p:ajax event="close" listener="#{manageQuestionAction.resetInsertQuestion()}" />
@@ -176,6 +179,7 @@
 
         <!-- Delete dialog -->
         <p:dialog widgetVar="deleteQuestionDialog" header="Are you sure you want to delete?" modal="true" minheight="100" minHeight="200">
+            <p:ajax event="close" listener="#{manageQuestionAction.cancelDeleteQuestion}" />
             <h:form id="deleteQuestionForm">
                 <h:panelGrid columns="1">
                     <h:outputText for="questionInputText1" value="Question: " />
@@ -190,7 +194,6 @@
                 </h:panelGrid>
             </h:form>
         </p:dialog>
-
     </ui:define>
 
 </ui:composition>

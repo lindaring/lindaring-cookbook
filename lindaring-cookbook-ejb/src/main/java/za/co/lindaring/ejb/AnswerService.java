@@ -6,6 +6,9 @@ import za.co.lindaring.entity.Answer;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.SortedMap;
@@ -33,5 +36,12 @@ public class AnswerService extends BaseService {
             incrementMonthValue(map, a.getDateAdded());
 
         return map;
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void deleteAnswer(long id) {
+        Query query = getEntityManager().createNamedQuery("Answer.deleteById");
+        query.setParameter("answerId", id);
+        query.executeUpdate();
     }
 }

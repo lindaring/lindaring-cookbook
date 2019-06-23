@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import za.co.lindaring.action.base.BaseAction;
 import za.co.lindaring.ejb.AnswerService;
+import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.entity.Answer;
 
 import javax.ejb.EJB;
@@ -18,20 +19,24 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean(name = "manageAnswerAction")
 public class ManageAnswerAction extends BaseAction {
 
-    private static final String ANSWER_QUESTION_DIALOG = "deleteAnswerDialog";
+    private static final String DELETE_ANSWER_MESSAGE = "deleteAnswerMessage";
+    private static final String DELETE_ANSWER_DIALOG = "deleteAnswerDialog";
 
     private Answer answer;
 
     @EJB
     public AnswerService answerService;
 
-    public void selectAnswerForUpdate(int answerId) {
+    @EJB
+    public MessageService messageService;
+
+    public void selectAnswerForUpdate(long answerId) {
 
     }
 
-    public void selectAnswerForDeletion(int answerId) {
+    public void selectAnswerForDeletion(long answerId) {
         selectAnswer(answerId);
-        openDialog(ANSWER_QUESTION_DIALOG);
+        openDialog(DELETE_ANSWER_DIALOG);
     }
 
     private void selectAnswer(long questionId) {
@@ -42,12 +47,19 @@ public class ManageAnswerAction extends BaseAction {
         }
     }
 
-    public void confirmDeleteAnswer(Long questionId) {
-
+    public void confirmDeleteAnswer(long answerId) {
+        try {
+            answerService.deleteAnswer(answerId);
+            closeDialog(DELETE_ANSWER_DIALOG);
+            displayInfo(messageService.getDeleteAnswerSuccessMessage());
+        } catch (Exception e) {
+            log.error("Failed to delete answer", e);
+            displayError(DELETE_ANSWER_MESSAGE, "", messageService.getDeleteAnswerFailedMessage());
+        }
     }
 
     public void cancelAnswerQuestion() {
-
+        this.answer = null;
     }
 
 }

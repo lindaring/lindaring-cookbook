@@ -78,11 +78,7 @@ public class ManageQuestionAction extends BaseAction {
         }
     }
 
-    public void confirmDeleteQuestion(Long questionId) {
-        if (questionId == null) {
-            displayError("Oops! Question not selected:(");
-            return;
-        }
+    public void confirmDeleteQuestion(long questionId) {
         try {
             questionService.deleteQuestion(questionId);
             closeDialog(DELETE_QUESTION_DIALOG);
@@ -155,7 +151,7 @@ public class ManageQuestionAction extends BaseAction {
                 .points(100.0)
                 .active(1)
                 .dateAdded(now)
-                .question(question)
+                .questionId(question.getId())
                 .build();
     }
 

@@ -17,11 +17,11 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}">
                     <p:column style="width: 10%">
                         <p:commandLink action="#{manageAnswerAction.selectAnswerForUpdate(answer.id)}" update="viewAnswerForm">
-                            <h:outputText class="fa fa-fw fa-edit" />
+                            <h:outputText class="fa fa-fw fa-edit foreground-pink" />
                             <f:param name="questionId" value="#{answer.id}" />
                         </p:commandLink> |
                         <p:commandLink action="#{manageAnswerAction.selectAnswerForDeletion(answer.id)}" update="deleteAnswerForm">
-                            <h:outputText class="fa fa-fw fa-remove" />
+                            <h:outputText class="fa fa-fw fa-remove foreground-pink" />
                         </p:commandLink>
                     </p:column>
 
@@ -29,7 +29,7 @@
                         <h:outputText value="#{answer.id}" />
                     </p:column>
 
-                    <p:column headerText="Desc" style="width: 52.5%; text-align: left">
+                    <p:column headerText="Desc" style="width: 42.5%; text-align: left">
                         <h:outputText value="#{answer.text}" />
                     </p:column>
 
@@ -44,22 +44,31 @@
                     <p:column headerText="Points" style="width: 10%">
                         <h:outputText value="#{answer.points}" style="text-align: right" />
                     </p:column>
+
+                    <p:column headerText="Question" style="width: 10%">
+                        <h:outputText value="#{answer.questionId}" style="text-align: right" />
+                    </p:column>
                 </p:dataTable>
             </h:form>
         </h:panelGrid>
+    </ui:define>
 
+    <ui:define name="dialogs">
         <!-- Delete dialog -->
         <p:dialog widgetVar="deleteAnswerDialog" header="Are you sure you want to delete?" modal="true" minheight="100" minHeight="200">
+            <p:ajax event="close" listener="#{manageAnswerAction.cancelAnswerQuestion}" />
+
             <h:form id="deleteAnswerForm">
+                <p:messages id="deleteAnswerMessage" showDetail="true" />
+
                 <h:panelGrid columns="1">
                     <h:outputText for="deleteAnswerInputText" value="Answer: " />
                     <p:inputTextarea id="deleteAnswerInputText" value="#{manageAnswerAction.answer.text}" readonly="true"
                                      cols="50" rows="5" />
 
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Delete" action="#{manageAnswerAction.confirmDeleteAnswer(manageQuestionAction.question.id)}"
-                                         process="@all" icon="fa fa-fw fa fa-close" update="viewAnswerForm" />
-                        <p:commandButton value="Close" action="#{manageAnswerAction.cancelAnswerQuestion()}" />
+                        <p:commandButton value="Delete" action="#{manageAnswerAction.confirmDeleteAnswer(manageAnswerAction.answer.id)}"
+                                         process="@all" icon="fa fa-fw fa fa-close" update="deleteAnswerForm,viewAnswerForm,messageGrowl" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>

@@ -35,7 +35,6 @@ public abstract class BaseAction {
     }
 
     protected void displayInfo(String message) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", message));
         displayInfo(null, message);
     }
 

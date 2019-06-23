@@ -41,7 +41,7 @@ public class Question {
 
     @OneToMany(
         fetch = FetchType.EAGER,
-        mappedBy = "question",
+        mappedBy = "questionId",
         cascade = CascadeType.ALL
     )
     private List<Answer> answers = new ArrayList<>();
