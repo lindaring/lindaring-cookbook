@@ -50,6 +50,50 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
+
+            <h:panelGrid columns="1">
+                <h:form id="answerFilterForm" styleClass="searchQuestionForm filter-margin">
+                    <p:panel header="Filter" toggleable="false" collapsed="false">
+                        <p:panelGrid cellpadding="5">
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:inputText id="questionInputText" value="#{ViewAnswerAction.searchName}" autocomplete="off" placeholder="Answer"
+                                                 styleClass="inputText" style="width: 92.5%" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column>
+                                    <p:calendar id="addedDateInputText" value="#{ViewAnswerAction.searchFromDate}" autocomplete="off" placeholder="Start date"
+                                                styleClass="addedDate" />
+                                </p:column>
+                                <p:column>
+                                    <p:calendar id="dateToInputText" value="#{ViewAnswerAction.searchToDate}"  autocomplete="off" placeholder="End date"
+                                                styleClass="addedDate" />
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <p:selectOneMenu value="#{ViewAnswerAction.searchActive}" styleClass="activatedInputText">
+                                        <f:selectItem itemLabel="Select active" itemValue="" />
+                                        <f:selectItem itemLabel="Active" itemValue="1" />
+                                        <f:selectItem itemLabel="Not active" itemValue="0" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="2">
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="Search" action="#{ViewAnswerAction.search()}" process="@this" update="viewAnswerForm"
+                                                         ajax="false" icon="fa fa-fw fa fa-search foreground-pink" />
+                                        <p:commandButton value="Reset" action="#{ViewAnswerAction.reset()}" process="@this" update="viewAnswerForm"
+                                                         ajax="false" icon="fa fa-fw fa fa-refresh foreground-pink" />
+                                    </h:panelGrid>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:panel>
+                </h:form>
+            </h:panelGrid>
         </h:panelGrid>
     </ui:define>
 

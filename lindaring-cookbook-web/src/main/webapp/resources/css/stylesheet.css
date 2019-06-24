@@ -160,3 +160,7 @@ h1 {
     height: 105px;
     width: 574px;
 }
+
+.filter-margin {
+    margin: -3px -13px 0 0
+}

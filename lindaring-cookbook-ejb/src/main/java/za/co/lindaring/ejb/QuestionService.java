@@ -96,19 +96,8 @@ public class QuestionService extends BaseService {
         if (active != null) {
             typedQuery.setParameter("active", active);
         }
-        getQuestionDateTypedQuery(typedQuery, from, to);
+        getDateTypedQueryParameters(typedQuery, from, to);
         return typedQuery;
-    }
-
-    private void getQuestionDateTypedQuery(TypedQuery<Question> typedQuery, Date from, Date to) throws BusinessException {
-        if (from != null && to != null) {
-            typedQuery.setParameter("sDate", (new CookbookDate(from)).toStartOfDay());
-            typedQuery.setParameter("eDate", (new CookbookDate(to)).toEndOfDay());
-        } else if (to != null) {
-            throw new BusinessException("Enter from data.");
-        } else if (from != null) {
-            throw new BusinessException("Enter to data.");
-        }
     }
 
 }

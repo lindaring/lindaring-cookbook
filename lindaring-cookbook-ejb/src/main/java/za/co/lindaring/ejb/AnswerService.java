@@ -1,8 +1,10 @@
 package za.co.lindaring.ejb;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import za.co.lindaring.ejb.base.BaseService;
 import za.co.lindaring.entity.Answer;
+import za.co.lindaring.exception.BusinessException;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -10,6 +12,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -49,6 +52,46 @@ public class AnswerService extends BaseService {
     public void saveAnswer(Answer answer) {
         getEntityManager().merge(answer);
         getEntityManager().flush();
+    }
+
+    public List<Answer> searchAnswer(String text, Date from, Date to, Integer active) throws BusinessException {
+        String query = getSearchAnswerQuery(text, from, to, active);
+        TypedQuery<Answer> result = getAnswerTypedQuery(query, text, from, to, active);
+        return result.getResultList();
+    }
+
+    private String getSearchAnswerQuery(String text, Date from, Date to, Integer active) {
+        String query;
+        if (StringUtils.isNotEmpty(text) && (from != null || to != null) && active != null) {
+            query = "Answer.searchByTextAndDateAndActive";
+        } else if (StringUtils.isNotEmpty(text) && (from != null || to != null)) {
+            query = "Answer.searchByTextAndDate";
+        } else if (StringUtils.isNotEmpty(text) && active != null) {
+            query = "Answer.searchByTextAndActive";
+        } else if (StringUtils.isNotEmpty(text)) {
+            query = "Answer.searchByText";
+        } else if ((from != null || to != null) && active != null) {
+            query = "Answer.searchByDateAndActive";
+        } else if (from != null || to != null) {
+            query = "Answer.searchByDate";
+        } else if (active != null) {
+            query = "Answer.searchByActive";
+        } else {
+            query = "Answer.findAll";
+        }
+        return query;
+    }
+
+    private TypedQuery<Answer> getAnswerTypedQuery(String query, String text, Date from, Date to, Integer active) throws BusinessException {
+        TypedQuery<Answer> typedQuery = getEntityManager().createNamedQuery(query, Answer.class);
+        if (StringUtils.isNotEmpty(text)) {
+            typedQuery.setParameter("text", text);
+        }
+        if (active != null) {
+            typedQuery.setParameter("active", active);
+        }
+        getDateTypedQueryParameters(typedQuery, from, to);
+        return typedQuery;
     }
 
 }

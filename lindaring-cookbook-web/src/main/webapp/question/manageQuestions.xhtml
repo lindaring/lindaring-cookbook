@@ -33,7 +33,7 @@
                         <h:outputText value="#{question.desc}" />
                     </p:column>
 
-                    <p:column headerText="Date Added" style="width: 17.5%" sortBy="#{question.dateAdded}">
+                    <p:column headerText="Date" style="width: 17.5%" sortBy="#{question.dateAdded}">
                         <h:outputText value="#{ViewQuestionAction.formatDate(question.dateAdded)}" style="text-align: right" />
                     </p:column>
 
@@ -44,7 +44,7 @@
             </h:form>
 
             <h:panelGrid columns="1">
-                <h:form id="filterForm" styleClass="searchQuestionForm" style="margin: -3px -13px 0 0">
+                <h:form id="questionFilterForm" styleClass="searchQuestionForm filter-margin">
                     <p:panel header="Filter" toggleable="false" collapsed="false">
                         <p:panelGrid cellpadding="5">
                             <p:row>
@@ -55,11 +55,11 @@
                             </p:row>
                             <p:row>
                                 <p:column>
-                                    <p:calendar id="addedDateInputText" value="#{ViewQuestionAction.searchFromDate}" autocomplete="off" placeholder="Date From"
+                                    <p:calendar id="addedDateInputText" value="#{ViewQuestionAction.searchFromDate}" autocomplete="off" placeholder="Start date"
                                                 styleClass="addedDate" />
                                 </p:column>
                                 <p:column>
-                                    <p:calendar id="dateToInputText" value="#{ViewQuestionAction.searchToDate}"  autocomplete="off" placeholder="Date To"
+                                    <p:calendar id="dateToInputText" value="#{ViewQuestionAction.searchToDate}"  autocomplete="off" placeholder="End date"
                                                 styleClass="addedDate" />
                                 </p:column>
                             </p:row>

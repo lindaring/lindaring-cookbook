@@ -15,6 +15,10 @@ import java.util.SortedMap;
 
 public abstract class BaseAction {
 
+    public String formatDate(Date date) {
+        return new CookbookDate(date).formatDate();
+    }
+
     protected void incrementMonthValueInMap(LineChartSeries series, SortedMap<Integer, Long> map) {
         for (int month = 0; month < 12; month++) {
             series.set((month + 1), map.get(month));

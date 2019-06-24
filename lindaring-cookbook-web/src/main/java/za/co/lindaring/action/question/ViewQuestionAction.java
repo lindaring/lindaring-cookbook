@@ -54,8 +54,4 @@ public class ViewQuestionAction extends BaseAction {
         this.searchActive = "";
     }
 
-    public String formatDate(Date date) {
-        return new CookbookDate(date).formatDate();
-    }
-
 }
