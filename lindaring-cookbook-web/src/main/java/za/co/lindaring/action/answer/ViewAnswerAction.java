@@ -2,8 +2,11 @@ package za.co.lindaring.action.answer;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import sun.plugin2.message.Message;
 import za.co.lindaring.action.base.BaseAction;
 import za.co.lindaring.ejb.AnswerService;
+import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.exception.BusinessException;
 import za.co.lindaring.types.CookbookDate;
@@ -18,6 +21,7 @@ import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+@Slf4j
 @Setter
 @Getter
 @RequestScoped
@@ -34,6 +38,9 @@ public class ViewAnswerAction extends BaseAction {
     @EJB
     public AnswerService answerService;
 
+    @EJB
+    public MessageService messageService;
+
     @PostConstruct
     public void init() {
         answers = answerService.getAllAnswers();
@@ -48,7 +55,8 @@ public class ViewAnswerAction extends BaseAction {
             Integer active = isNotEmpty(searchActive) ? Integer.parseInt(searchActive) : null;
             answers = answerService.searchAnswer(searchName, searchFromDate, searchToDate, active);
         } catch (BusinessException e) {
-            displayError(e.getMessage());
+            log.error(e.getMessage());
+            displayError(messageService.getGenericeFailedMessage());
         }
     }
 

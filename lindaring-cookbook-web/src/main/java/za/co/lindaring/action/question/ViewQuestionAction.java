@@ -2,7 +2,9 @@ package za.co.lindaring.action.question;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import za.co.lindaring.action.base.BaseAction;
+import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Question;
 import za.co.lindaring.exception.BusinessException;
@@ -17,6 +19,7 @@ import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+@Slf4j
 @Setter
 @Getter
 @RequestScoped
@@ -33,6 +36,9 @@ public class ViewQuestionAction extends BaseAction {
     @EJB
     private QuestionService questionService;
 
+    @EJB
+    public MessageService messageService;
+
     @PostConstruct
     public void init() {
         questions = questionService.getAllQuestions();
@@ -43,7 +49,8 @@ public class ViewQuestionAction extends BaseAction {
             Integer active = isNotEmpty(searchActive) ? Integer.parseInt(searchActive) : null;
             questions = questionService.searchQuestion(searchName, searchFromDate, searchToDate, active);
         } catch (BusinessException e) {
-            displayError(e.getMessage());
+            log.error(e.getMessage());
+            displayError(messageService.getGenericeFailedMessage());
         }
     }
 

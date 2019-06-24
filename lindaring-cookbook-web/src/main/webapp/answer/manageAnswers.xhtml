@@ -83,9 +83,9 @@
                             <p:row>
                                 <p:column colspan="2">
                                     <h:panelGrid columns="2">
-                                        <p:commandButton value="Search" action="#{ViewAnswerAction.search()}" process="@this" update="viewAnswerForm"
+                                        <p:commandButton value="Search" action="#{ViewAnswerAction.search()}" process="@this" update="viewAnswerForm,messageGrowl"
                                                          ajax="false" icon="fa fa-fw fa fa-search foreground-pink" />
-                                        <p:commandButton value="Reset" action="#{ViewAnswerAction.reset()}" process="@this" update="viewAnswerForm"
+                                        <p:commandButton value="Reset" action="#{ViewAnswerAction.reset()}" process="@this" update="viewAnswerForm,messageGrowl"
                                                          ajax="false" icon="fa fa-fw fa fa-refresh foreground-pink" />
                                     </h:panelGrid>
                                 </p:column>
