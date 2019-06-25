@@ -81,6 +81,19 @@
                                 </p:column>
                             </p:row>
                             <p:row>
+                                <p:column>
+                                    <p:inputNumber autocomplete="off" placeholder="Points"
+                                                   styleClass="inputText points-filter" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu styleClass="question-drop-down">
+                                        <f:selectItem itemLabel="Select question" itemValue="" />
+                                        <f:selectItem itemLabel="Active" itemValue="1" />
+                                        <f:selectItem itemLabel="Not active" itemValue="0" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+                            <p:row>
                                 <p:column colspan="2">
                                     <h:panelGrid columns="2">
                                         <p:commandButton value="Search" action="#{ViewAnswerAction.search()}" process="@this" update="viewAnswerForm,messageGrowl"
