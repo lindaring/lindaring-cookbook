@@ -121,7 +121,7 @@ h1 {
     margin: 5px 0 !important;
     font-size: 14px !important;
     min-width: auto !important;
-    max-width: 69px !important;
+    width: 86px !important;
     display: inline-block;
 }
 .points-filter .ui-inputfield {

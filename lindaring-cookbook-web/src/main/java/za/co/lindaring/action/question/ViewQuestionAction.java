@@ -8,7 +8,6 @@ import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Question;
 import za.co.lindaring.exception.BusinessException;
-import za.co.lindaring.types.CookbookDate;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
