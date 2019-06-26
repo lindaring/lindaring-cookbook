@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import za.co.lindaring.ejb.base.BaseService;
 import za.co.lindaring.entity.Question;
+import za.co.lindaring.entity.Question_;
 import za.co.lindaring.exception.BusinessException;
 import za.co.lindaring.types.CookbookDate;
 
@@ -12,6 +13,12 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
@@ -42,9 +49,30 @@ public class QuestionService extends BaseService {
     }
 
     public List<Question> searchQuestion(String desc, Date from, Date to, Integer active) throws BusinessException {
-        String query = getSearchQuestionQuery(desc, from, to, active);
-        TypedQuery<Question> result = getQuestionTypedQuery(query, desc, from, to, active);
-        return result.getResultList();
+//        String query = getSearchQuestionQuery(desc, from, to, active);
+//        TypedQuery<Question> result = getQuestionTypedQuery(query, desc, from, to, active);
+//        return result.getResultList();
+
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+
+        CriteriaQuery<Question> q = cb.createQuery(Question.class);
+        Root<Question> c = q.from(Question.class);
+
+        final List<Predicate> orPredicates = new ArrayList<>();
+        orPredicates.add(cb.or(cb.like(c.get(Question_.desc), "%"+desc+"%")));
+        //todo - add more options here
+
+        Predicate o = cb.and(orPredicates.toArray(new Predicate[orPredicates.size()]));
+
+        //ParameterExpression<String> param1 = cb.parameter(String.class);
+        q.select(c).where(o);
+
+
+
+        TypedQuery<Question> query = getEntityManager().createQuery(q);
+        List<Question> results = query.getResultList();
+
+        return results;
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
