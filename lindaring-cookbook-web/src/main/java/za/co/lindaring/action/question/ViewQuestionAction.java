@@ -8,6 +8,7 @@ import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Question;
 import za.co.lindaring.exception.BusinessException;
+import za.co.lindaring.types.QuestionLookUp;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -46,7 +47,13 @@ public class ViewQuestionAction extends BaseAction {
     public void search() {
         try {
             Integer active = isNotEmpty(searchActive) ? Integer.parseInt(searchActive) : null;
-            questions = questionService.searchQuestion(searchName, searchFromDate, searchToDate, active);
+            QuestionLookUp questionLookUp = QuestionLookUp.builder()
+                                                          .name(searchName)
+                                                          .startDate(searchFromDate)
+                                                          .endDate(searchToDate)
+                                                          .active(active)
+                                                          .build();
+            questions = questionService.searchQuestion(questionLookUp);
         } catch (BusinessException e) {
             log.error(e.getMessage());
             displayError(messageService.getGenericeFailedMessage());

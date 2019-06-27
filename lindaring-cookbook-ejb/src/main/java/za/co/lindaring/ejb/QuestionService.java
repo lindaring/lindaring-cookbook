@@ -6,7 +6,9 @@ import za.co.lindaring.ejb.base.BaseService;
 import za.co.lindaring.entity.Question;
 import za.co.lindaring.entity.Question_;
 import za.co.lindaring.exception.BusinessException;
+import za.co.lindaring.exception.TechnicalException;
 import za.co.lindaring.types.CookbookDate;
+import za.co.lindaring.types.QuestionLookUp;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -48,31 +50,37 @@ public class QuestionService extends BaseService {
         return map;
     }
 
-    public List<Question> searchQuestion(String desc, Date from, Date to, Integer active) throws BusinessException {
-//        String query = getSearchQuestionQuery(desc, from, to, active);
-//        TypedQuery<Question> result = getQuestionTypedQuery(query, desc, from, to, active);
-//        return result.getResultList();
+    public List<Question> searchQuestion(QuestionLookUp questionLookUp) throws TechnicalException {
+        try {
+            CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Question> criteriaBuilderQuery = criteriaBuilder.createQuery(Question.class);
+            Root<Question> root = criteriaBuilderQuery.from(Question.class);
+            Predicate predicate = getSearchQuestionPredicate(criteriaBuilder, root, questionLookUp);
 
-        CriteriaQuery<Question> q = cb.createQuery(Question.class);
-        Root<Question> c = q.from(Question.class);
+            criteriaBuilderQuery.select(root).where(predicate);
+            TypedQuery<Question> query = getEntityManager().createQuery(criteriaBuilderQuery);
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new TechnicalException("Search question failed", e);
+        }
+    }
 
+    private Predicate getSearchQuestionPredicate(CriteriaBuilder criteriaBuilder, Root<Question> questionRoot, QuestionLookUp questionLookUp) {
         final List<Predicate> orPredicates = new ArrayList<>();
-        orPredicates.add(cb.or(cb.like(c.get(Question_.desc), "%"+desc+"%")));
-        //todo - add more options here
-
-        Predicate o = cb.and(orPredicates.toArray(new Predicate[orPredicates.size()]));
-
-        //ParameterExpression<String> param1 = cb.parameter(String.class);
-        q.select(c).where(o);
-
-
-
-        TypedQuery<Question> query = getEntityManager().createQuery(q);
-        List<Question> results = query.getResultList();
-
-        return results;
+        if (questionLookUp != null) {
+            if (StringUtils.isNotBlank(questionLookUp.getName())) {
+              orPredicates.add(criteriaBuilder.or(criteriaBuilder.like(questionRoot.get(Question_.desc), "%"+questionLookUp.getName()+"%")));
+            }
+            if (questionLookUp.getStartDate() != null) {
+                orPredicates.add(criteriaBuilder.or(criteriaBuilder.greaterThan(questionRoot.get(Question_.dateAdded), questionLookUp.getStartDate())));
+                orPredicates.add(criteriaBuilder.or(criteriaBuilder.lessThan(questionRoot.get(Question_.dateAdded), questionLookUp.getEndDate())));
+            }
+            if (questionLookUp.getActive() != null) {
+                orPredicates.add(criteriaBuilder.or(criteriaBuilder.equal(questionRoot.get(Question_.active), questionLookUp.getActive())));
+            }
+        }
+        return criteriaBuilder.and(orPredicates.toArray(new Predicate[orPredicates.size()]));
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
