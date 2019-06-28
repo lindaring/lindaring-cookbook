@@ -1,15 +1,14 @@
 package za.co.lindaring.ejb;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import za.co.lindaring.ejb.base.BaseService;
 import za.co.lindaring.entity.Question;
 import za.co.lindaring.entity.Question_;
 import za.co.lindaring.exception.BusinessException;
 import za.co.lindaring.exception.TechnicalException;
-import za.co.lindaring.types.CookbookDate;
 import za.co.lindaring.types.QuestionLookUp;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -17,11 +16,9 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -30,6 +27,9 @@ import java.util.TreeMap;
 @Stateless
 @LocalBean
 public class QuestionService extends BaseService {
+
+    @EJB
+    private MessageService messageService;
 
     public Question getQuestion(long id) {
         return getEntityManager().find(Question.class, id);
@@ -50,7 +50,7 @@ public class QuestionService extends BaseService {
         return map;
     }
 
-    public List<Question> searchQuestion(QuestionLookUp questionLookUp) throws TechnicalException {
+    public List<Question> searchQuestion(QuestionLookUp questionLookUp) throws TechnicalException, BusinessException {
         try {
             CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 
@@ -61,26 +61,47 @@ public class QuestionService extends BaseService {
             criteriaBuilderQuery.select(root).where(predicate);
             TypedQuery<Question> query = getEntityManager().createQuery(criteriaBuilderQuery);
             return query.getResultList();
+
+        } catch (BusinessException e) {
+            throw e;
+
         } catch (Exception e) {
             throw new TechnicalException("Search question failed", e);
         }
     }
 
-    private Predicate getSearchQuestionPredicate(CriteriaBuilder criteriaBuilder, Root<Question> questionRoot, QuestionLookUp questionLookUp) {
+    private Predicate getSearchQuestionPredicate(CriteriaBuilder criteriaBuilder, Root<Question> questionRoot, QuestionLookUp questionLookUp)
+            throws BusinessException {
         final List<Predicate> orPredicates = new ArrayList<>();
         if (questionLookUp != null) {
-            if (StringUtils.isNotBlank(questionLookUp.getName())) {
-              orPredicates.add(criteriaBuilder.or(criteriaBuilder.like(questionRoot.get(Question_.desc), "%"+questionLookUp.getName()+"%")));
-            }
-            if (questionLookUp.getStartDate() != null) {
-                orPredicates.add(criteriaBuilder.or(criteriaBuilder.greaterThan(questionRoot.get(Question_.dateAdded), questionLookUp.getStartDate())));
-                orPredicates.add(criteriaBuilder.or(criteriaBuilder.lessThan(questionRoot.get(Question_.dateAdded), questionLookUp.getEndDate())));
-            }
-            if (questionLookUp.getActive() != null) {
-                orPredicates.add(criteriaBuilder.or(criteriaBuilder.equal(questionRoot.get(Question_.active), questionLookUp.getActive())));
-            }
+            setQuestionDescriptionPredicate(orPredicates, criteriaBuilder, questionRoot, questionLookUp);
+            setQuestionStartAndEndDate(orPredicates, criteriaBuilder, questionRoot, questionLookUp);
+            setQuestionActivePredicate(orPredicates, criteriaBuilder, questionRoot, questionLookUp);
         }
         return criteriaBuilder.and(orPredicates.toArray(new Predicate[orPredicates.size()]));
+    }
+
+    private void setQuestionDescriptionPredicate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Question> root, QuestionLookUp lookUp) {
+        predicateList.add(cb.or(cb.like(root.get(Question_.desc),
+                "%"+lookUp.getName()+"%")));
+    }
+
+    private void setQuestionStartAndEndDate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Question> root, QuestionLookUp lookUp)
+            throws BusinessException {
+        if (lookUp.getStartDate() != null && lookUp.getEndDate() != null) {
+            predicateList.add(cb.or(cb.greaterThan(root.get(Question_.dateAdded), lookUp.getStartDate())));
+            predicateList.add(cb.or(cb.lessThan(root.get(Question_.dateAdded), lookUp.getEndDate())));
+        } else if (lookUp.getStartDate() != null && lookUp.getEndDate() == null) {
+            throw new BusinessException(messageService.getEndDateNotEnteredMessage());
+        } else if (lookUp.getStartDate() == null && lookUp.getEndDate() != null) {
+            throw new BusinessException(messageService.getStartDateNotEnteredMessage());
+        }
+    }
+
+    private void setQuestionActivePredicate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Question> root, QuestionLookUp lookUp) {
+        if (lookUp.getActive() != null) {
+            predicateList.add(cb.or(cb.equal(root.get(Question_.active), lookUp.getActive())));
+        }
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -100,40 +121,6 @@ public class QuestionService extends BaseService {
     public void deleteQuestion(long id) {
         Question question = getQuestion(id);
         getEntityManager().remove(question);
-    }
-
-    private String getSearchQuestionQuery(String desc, Date from, Date to, Integer active) {
-        String query;
-        if (StringUtils.isNotEmpty(desc) && (from != null || to != null) && active != null) {
-            query = "Question.searchByDescAndDateAndActive";
-        } else if (StringUtils.isNotEmpty(desc) && (from != null || to != null)) {
-            query = "Question.searchByDescAndDate";
-        } else if (StringUtils.isNotEmpty(desc) && active != null) {
-            query = "Question.searchByDescAndActive";
-        } else if ((from != null || to != null) && active != null) {
-            query = "Question.searchByDateAndActive";
-        } else if (StringUtils.isNotEmpty(desc)) {
-            query = "Question.searchByDesc";
-        } else if (from != null || to != null) {
-            query = "Question.searchByDate";
-        } else if (active != null) {
-            query = "Question.searchByActive";
-        } else {
-            query = "Question.findAll";
-        }
-        return query;
-    }
-
-    private TypedQuery<Question> getQuestionTypedQuery(String query, String desc, Date from, Date to, Integer active) throws BusinessException {
-        TypedQuery<Question> typedQuery = getEntityManager().createNamedQuery(query, Question.class);
-        if (StringUtils.isNotEmpty(desc)) {
-            typedQuery.setParameter("description", desc);
-        }
-        if (active != null) {
-            typedQuery.setParameter("active", active);
-        }
-        getDateTypedQueryParameters(typedQuery, from, to);
-        return typedQuery;
     }
 
 }

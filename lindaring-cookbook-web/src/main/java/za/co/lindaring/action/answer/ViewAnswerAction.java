@@ -59,7 +59,7 @@ public class ViewAnswerAction extends BaseAction {
             answers = answerService.searchAnswer(searchName, searchFromDate, searchToDate, active);
         } catch (BusinessException e) {
             log.error(e.getMessage());
-            displayError(messageService.getGenericeFailedMessage());
+            displayError(messageService.getGenericFailedMessage());
         }
     }
 

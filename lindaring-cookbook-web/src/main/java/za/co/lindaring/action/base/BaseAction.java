@@ -43,15 +43,23 @@ public abstract class BaseAction {
     }
 
     protected void displayInfo(String id, String message) {
-        displayInfo(id, "Success", message);
+        displayInfo(id, "Nice!  ", message);
     }
 
     protected void displayInfo(String id, String header, String message) {
         FacesContext.getCurrentInstance().addMessage(id, new FacesMessage(FacesMessage.SEVERITY_INFO, header, message));
     }
 
-    protected void displayWarn(String message) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", message));
+    protected void displayWarning(String message) {
+        displayWarning(null, message);
+    }
+
+    protected void displayWarning(String id, String message) {
+        displayWarning(id, "Oops!", message);
+    }
+
+    protected void displayWarning(String id, String header, String message) {
+        FacesContext.getCurrentInstance().addMessage(id, new FacesMessage(FacesMessage.SEVERITY_WARN, header, message));
     }
 
     protected void displayError(String message) {
@@ -59,7 +67,7 @@ public abstract class BaseAction {
     }
 
     protected void displayError(String id, String message) {
-        displayError(id, "Error!", message);
+        displayError(id, "Oops!", message);
     }
 
     protected void displayError(String id, String header, String message) {
