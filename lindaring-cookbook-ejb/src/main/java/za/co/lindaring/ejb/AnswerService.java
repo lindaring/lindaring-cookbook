@@ -1,6 +1,7 @@
 package za.co.lindaring.ejb;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import za.co.lindaring.ejb.base.BaseService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Answer_;
@@ -86,18 +87,22 @@ public class AnswerService extends BaseService {
 
     private Predicate getSearchAnswerPredicate(CriteriaBuilder cb, Root<Answer> root, AnswerLookUp lookUp)
             throws BusinessException {
-        final List<Predicate> orPredicates = new ArrayList<>();
+        final List<Predicate> predicateList = new ArrayList<>();
         if (lookUp != null) {
-            setAnswerTextPredicate(orPredicates, cb, root, lookUp);
-            setAnswerStartAndEndDate(orPredicates, cb, root, lookUp);
-            setAnswerActivePredicate(orPredicates, cb, root, lookUp);
+            setAnswerTextPredicate(predicateList, cb, root, lookUp);
+            setAnswerStartAndEndDate(predicateList, cb, root, lookUp);
+            setAnswerActivePredicate(predicateList, cb, root, lookUp);
+            setAnswerPointsPredicate(predicateList, cb, root, lookUp);
+            setAnswerQuestionIdPredicate(predicateList, cb, root, lookUp);
         }
-        return cb.and(orPredicates.toArray(new Predicate[orPredicates.size()]));
+        return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
     }
 
     private void setAnswerTextPredicate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Answer> root, AnswerLookUp lookUp) {
-        predicateList.add(cb.or(cb.like(root.get(Answer_.text),
-                "%"+lookUp.getText()+"%")));
+        if (!StringUtils.isBlank(lookUp.getText())) {
+            predicateList.add(cb.or(cb.like(root.get(Answer_.text),
+                    "%" + lookUp.getText() + "%")));
+        }
     }
 
     private void setAnswerStartAndEndDate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Answer> root, AnswerLookUp lookUp)
@@ -115,6 +120,18 @@ public class AnswerService extends BaseService {
     private void setAnswerActivePredicate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Answer> root, AnswerLookUp lookUp) {
         if (lookUp.getActive() != null) {
             predicateList.add(cb.or(cb.equal(root.get(Answer_.active), lookUp.getActive())));
+        }
+    }
+
+    private void setAnswerPointsPredicate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Answer> root, AnswerLookUp lookUp) {
+        if (lookUp.getPoints() != null && lookUp.getPoints() > 0) {
+            predicateList.add(cb.or(cb.equal(root.get(Answer_.points), lookUp.getPoints())));
+        }
+    }
+
+    private void setAnswerQuestionIdPredicate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Answer> root, AnswerLookUp lookUp) {
+        if (lookUp.getQuestionId() != null && lookUp.getQuestionId() > 0) {
+            predicateList.add(cb.or(cb.equal(root.get(Answer_.questionId), lookUp.getQuestionId())));
         }
     }
 

@@ -22,7 +22,8 @@ import java.util.Date;
 @Entity
 @Table(name = "answers")
 @NamedQueries({
-    @NamedQuery(name = "Answer.findAll", query = "SELECT a FROM Answer a")
+    @NamedQuery(name = "Answer.findAll", query = "SELECT a FROM Answer a"),
+    @NamedQuery(name = "Answer.deleteById", query = "DELETE FROM Answer a WHERE a.id = :answerId")
 })
 public class Answer {
     @Id

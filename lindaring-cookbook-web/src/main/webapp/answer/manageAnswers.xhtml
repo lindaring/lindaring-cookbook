@@ -82,11 +82,11 @@
                             </p:row>
                             <p:row>
                                 <p:column>
-                                    <p:inputNumber autocomplete="off" placeholder="Points"
+                                    <p:inputNumber value="#{ViewAnswerAction.searchPoints}" autocomplete="off" placeholder="Points"
                                                    styleClass="inputText points-filter" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu styleClass="question-drop-down">
+                                    <p:selectOneMenu value="#{ViewAnswerAction.searchQuestionId}" styleClass="question-drop-down">
                                         <f:selectItem itemLabel="Question?" itemValue="" />
                                         <f:selectItems value="#{ViewAnswerAction.questionIds}" />
                                     </p:selectOneMenu>

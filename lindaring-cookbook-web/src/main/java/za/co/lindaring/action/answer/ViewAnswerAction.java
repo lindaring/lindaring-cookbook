@@ -34,6 +34,8 @@ public class ViewAnswerAction extends BaseAction {
     private Date searchFromDate;
     private Date searchToDate;
     private String searchActive;
+    private Double searchPoints;
+    private Long searchQuestionId;
 
     private List<Answer> answers = new ArrayList<>();
     private Map<Long, Long> questionIds = new LinkedHashMap<>();
@@ -63,6 +65,8 @@ public class ViewAnswerAction extends BaseAction {
                                                     .startDate(searchFromDate)
                                                     .endDate(searchToDate)
                                                     .active(active)
+                                                    .points(searchPoints)
+                                                    .questionId(searchQuestionId)
                                                     .build();
             answers = answerService.searchAnswer(answerLookUp);
 
@@ -80,6 +84,8 @@ public class ViewAnswerAction extends BaseAction {
         this.searchFromDate = null;
         this.searchToDate = null;
         this.searchActive = "";
+        this.searchPoints = null;
+        this.searchQuestionId = null;
     }
 
 }

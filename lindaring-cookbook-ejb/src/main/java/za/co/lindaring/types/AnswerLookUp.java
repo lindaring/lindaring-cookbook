@@ -12,4 +12,6 @@ public class AnswerLookUp {
     private Date startDate;
     private Date endDate;
     private Integer active;
+    private Double points;
+    private Long questionId;
 }

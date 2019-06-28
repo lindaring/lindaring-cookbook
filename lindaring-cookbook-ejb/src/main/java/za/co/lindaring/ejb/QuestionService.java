@@ -1,6 +1,7 @@
 package za.co.lindaring.ejb;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import za.co.lindaring.ejb.base.BaseService;
 import za.co.lindaring.entity.Question;
 import za.co.lindaring.entity.Question_;
@@ -82,8 +83,10 @@ public class QuestionService extends BaseService {
     }
 
     private void setQuestionDescriptionPredicate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Question> root, QuestionLookUp lookUp) {
-        predicateList.add(cb.or(cb.like(root.get(Question_.desc),
-                "%"+lookUp.getName()+"%")));
+        if (!StringUtils.isBlank(lookUp.getName())) {
+            predicateList.add(cb.or(cb.like(root.get(Question_.desc),
+                    "%" + lookUp.getName() + "%")));
+        }
     }
 
     private void setQuestionStartAndEndDate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Question> root, QuestionLookUp lookUp)
