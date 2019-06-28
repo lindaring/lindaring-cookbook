@@ -52,15 +52,15 @@ public class QuestionService extends BaseService {
 
     public List<Question> searchQuestion(QuestionLookUp questionLookUp) throws TechnicalException, BusinessException {
         try {
-            CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 
-            CriteriaQuery<Question> criteriaBuilderQuery = criteriaBuilder.createQuery(Question.class);
-            Root<Question> root = criteriaBuilderQuery.from(Question.class);
-            Predicate predicate = getSearchQuestionPredicate(criteriaBuilder, root, questionLookUp);
+            CriteriaQuery<Question> query = cb.createQuery(Question.class);
+            Root<Question> root = query.from(Question.class);
+            Predicate predicate = getSearchQuestionPredicate(cb, root, questionLookUp);
 
-            criteriaBuilderQuery.select(root).where(predicate);
-            TypedQuery<Question> query = getEntityManager().createQuery(criteriaBuilderQuery);
-            return query.getResultList();
+            query.select(root).where(predicate);
+            TypedQuery<Question> typedQuery = getEntityManager().createQuery(query);
+            return typedQuery.getResultList();
 
         } catch (BusinessException e) {
             throw e;
@@ -70,15 +70,15 @@ public class QuestionService extends BaseService {
         }
     }
 
-    private Predicate getSearchQuestionPredicate(CriteriaBuilder criteriaBuilder, Root<Question> questionRoot, QuestionLookUp questionLookUp)
+    private Predicate getSearchQuestionPredicate(CriteriaBuilder cb, Root<Question> root, QuestionLookUp lookUp)
             throws BusinessException {
         final List<Predicate> orPredicates = new ArrayList<>();
-        if (questionLookUp != null) {
-            setQuestionDescriptionPredicate(orPredicates, criteriaBuilder, questionRoot, questionLookUp);
-            setQuestionStartAndEndDate(orPredicates, criteriaBuilder, questionRoot, questionLookUp);
-            setQuestionActivePredicate(orPredicates, criteriaBuilder, questionRoot, questionLookUp);
+        if (lookUp != null) {
+            setQuestionDescriptionPredicate(orPredicates, cb, root, lookUp);
+            setQuestionStartAndEndDate(orPredicates, cb, root, lookUp);
+            setQuestionActivePredicate(orPredicates, cb, root, lookUp);
         }
-        return criteriaBuilder.and(orPredicates.toArray(new Predicate[orPredicates.size()]));
+        return cb.and(orPredicates.toArray(new Predicate[orPredicates.size()]));
     }
 
     private void setQuestionDescriptionPredicate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Question> root, QuestionLookUp lookUp) {

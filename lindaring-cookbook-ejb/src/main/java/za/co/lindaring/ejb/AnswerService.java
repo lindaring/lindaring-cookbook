@@ -1,19 +1,25 @@
 package za.co.lindaring.ejb;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import za.co.lindaring.ejb.base.BaseService;
 import za.co.lindaring.entity.Answer;
+import za.co.lindaring.entity.Answer_;
 import za.co.lindaring.exception.BusinessException;
+import za.co.lindaring.exception.TechnicalException;
 import za.co.lindaring.types.AnswerLookUp;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.Date;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -22,6 +28,9 @@ import java.util.TreeMap;
 @Stateless
 @LocalBean
 public class AnswerService extends BaseService {
+
+    @EJB
+    private MessageService messageService;
 
     public Answer getAnswer(long id) {
         return getEntityManager().find(Answer.class, id);
@@ -55,46 +64,58 @@ public class AnswerService extends BaseService {
         getEntityManager().flush();
     }
 
-    public List<Answer> searchAnswer(AnswerLookUp answerLookUp) throws BusinessException {
-        String query = getSearchAnswerQuery(answerLookUp.getText(), answerLookUp.getStartDate(),
-                answerLookUp.getEndDate(), answerLookUp.getActive());
-        TypedQuery<Answer> result = getAnswerTypedQuery(query, answerLookUp.getText(), answerLookUp.getStartDate(),
-                answerLookUp.getEndDate(), answerLookUp.getActive());
-        return result.getResultList();
+    public List<Answer> searchAnswer(AnswerLookUp answerLookUp) throws BusinessException, TechnicalException {
+        try {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+
+            CriteriaQuery<Answer> query = cb.createQuery(Answer.class);
+            Root<Answer> root = query.from(Answer.class);
+            Predicate predicate = getSearchAnswerPredicate(cb, root, answerLookUp);
+
+            query.select(root).where(predicate);
+            TypedQuery<Answer> typedQuery = getEntityManager().createQuery(query);
+            return typedQuery.getResultList();
+
+        } catch (BusinessException e) {
+            throw e;
+
+        } catch (Exception e) {
+            throw new TechnicalException("Search question failed", e);
+        }
     }
 
-    private String getSearchAnswerQuery(String text, Date from, Date to, Integer active) {
-        String query;
-        if (StringUtils.isNotEmpty(text) && (from != null || to != null) && active != null) {
-            query = "Answer.searchByTextAndDateAndActive";
-        } else if (StringUtils.isNotEmpty(text) && (from != null || to != null)) {
-            query = "Answer.searchByTextAndDate";
-        } else if (StringUtils.isNotEmpty(text) && active != null) {
-            query = "Answer.searchByTextAndActive";
-        } else if (StringUtils.isNotEmpty(text)) {
-            query = "Answer.searchByText";
-        } else if ((from != null || to != null) && active != null) {
-            query = "Answer.searchByDateAndActive";
-        } else if (from != null || to != null) {
-            query = "Answer.searchByDate";
-        } else if (active != null) {
-            query = "Answer.searchByActive";
-        } else {
-            query = "Answer.findAll";
+    private Predicate getSearchAnswerPredicate(CriteriaBuilder cb, Root<Answer> root, AnswerLookUp lookUp)
+            throws BusinessException {
+        final List<Predicate> orPredicates = new ArrayList<>();
+        if (lookUp != null) {
+            setAnswerTextPredicate(orPredicates, cb, root, lookUp);
+            setAnswerStartAndEndDate(orPredicates, cb, root, lookUp);
+            setAnswerActivePredicate(orPredicates, cb, root, lookUp);
         }
-        return query;
+        return cb.and(orPredicates.toArray(new Predicate[orPredicates.size()]));
     }
 
-    private TypedQuery<Answer> getAnswerTypedQuery(String query, String text, Date from, Date to, Integer active) throws BusinessException {
-        TypedQuery<Answer> typedQuery = getEntityManager().createNamedQuery(query, Answer.class);
-        if (StringUtils.isNotEmpty(text)) {
-            typedQuery.setParameter("text", text);
+    private void setAnswerTextPredicate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Answer> root, AnswerLookUp lookUp) {
+        predicateList.add(cb.or(cb.like(root.get(Answer_.text),
+                "%"+lookUp.getText()+"%")));
+    }
+
+    private void setAnswerStartAndEndDate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Answer> root, AnswerLookUp lookUp)
+            throws BusinessException {
+        if (lookUp.getStartDate() != null && lookUp.getEndDate() != null) {
+            predicateList.add(cb.or(cb.greaterThan(root.get(Answer_.dateAdded), lookUp.getStartDate())));
+            predicateList.add(cb.or(cb.lessThan(root.get(Answer_.dateAdded), lookUp.getEndDate())));
+        } else if (lookUp.getStartDate() != null && lookUp.getEndDate() == null) {
+            throw new BusinessException(messageService.getEndDateNotEnteredMessage());
+        } else if (lookUp.getStartDate() == null && lookUp.getEndDate() != null) {
+            throw new BusinessException(messageService.getStartDateNotEnteredMessage());
         }
-        if (active != null) {
-            typedQuery.setParameter("active", active);
+    }
+
+    private void setAnswerActivePredicate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Answer> root, AnswerLookUp lookUp) {
+        if (lookUp.getActive() != null) {
+            predicateList.add(cb.or(cb.equal(root.get(Answer_.active), lookUp.getActive())));
         }
-        getDateTypedQueryParameters(typedQuery, from, to);
-        return typedQuery;
     }
 
 }

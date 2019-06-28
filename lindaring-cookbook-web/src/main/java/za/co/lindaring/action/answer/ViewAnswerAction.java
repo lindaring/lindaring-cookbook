@@ -8,6 +8,7 @@ import za.co.lindaring.ejb.AnswerService;
 import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.exception.BusinessException;
+import za.co.lindaring.exception.TechnicalException;
 import za.co.lindaring.types.AnswerLookUp;
 
 import javax.annotation.PostConstruct;
@@ -64,8 +65,12 @@ public class ViewAnswerAction extends BaseAction {
                                                     .active(active)
                                                     .build();
             answers = answerService.searchAnswer(answerLookUp);
+
         } catch (BusinessException e) {
-            log.error(e.getMessage());
+            displayWarning(e.getMessage());
+
+        } catch (TechnicalException e) {
+            log.error(e.getMessage(), e);
             displayError(messageService.getGenericFailedMessage());
         }
     }
