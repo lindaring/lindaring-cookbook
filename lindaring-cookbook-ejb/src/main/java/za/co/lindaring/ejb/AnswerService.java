@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import za.co.lindaring.ejb.base.BaseService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.exception.BusinessException;
+import za.co.lindaring.types.AnswerLookUp;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -54,9 +55,11 @@ public class AnswerService extends BaseService {
         getEntityManager().flush();
     }
 
-    public List<Answer> searchAnswer(String text, Date from, Date to, Integer active) throws BusinessException {
-        String query = getSearchAnswerQuery(text, from, to, active);
-        TypedQuery<Answer> result = getAnswerTypedQuery(query, text, from, to, active);
+    public List<Answer> searchAnswer(AnswerLookUp answerLookUp) throws BusinessException {
+        String query = getSearchAnswerQuery(answerLookUp.getText(), answerLookUp.getStartDate(),
+                answerLookUp.getEndDate(), answerLookUp.getActive());
+        TypedQuery<Answer> result = getAnswerTypedQuery(query, answerLookUp.getText(), answerLookUp.getStartDate(),
+                answerLookUp.getEndDate(), answerLookUp.getActive());
         return result.getResultList();
     }
 

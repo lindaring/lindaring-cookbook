@@ -49,11 +49,11 @@ public class ViewQuestionAction extends BaseAction {
         try {
             Integer active = isNotEmpty(searchActive) ? Integer.parseInt(searchActive) : null;
             QuestionLookUp questionLookUp = QuestionLookUp.builder()
-                    .name(searchName)
-                    .startDate(searchFromDate)
-                    .endDate(searchToDate)
-                    .active(active)
-                    .build();
+                                                          .name(searchName)
+                                                          .startDate(searchFromDate)
+                                                          .endDate(searchToDate)
+                                                          .active(active)
+                                                          .build();
             questions = questionService.searchQuestion(questionLookUp);
 
         } catch (BusinessException e) {

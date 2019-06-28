@@ -8,6 +8,7 @@ import za.co.lindaring.ejb.AnswerService;
 import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.exception.BusinessException;
+import za.co.lindaring.types.AnswerLookUp;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -56,7 +57,13 @@ public class ViewAnswerAction extends BaseAction {
     public void search() {
         try {
             Integer active = isNotEmpty(searchActive) ? Integer.parseInt(searchActive) : null;
-            answers = answerService.searchAnswer(searchName, searchFromDate, searchToDate, active);
+            AnswerLookUp answerLookUp = AnswerLookUp.builder()
+                                                    .text(searchName)
+                                                    .startDate(searchFromDate)
+                                                    .endDate(searchToDate)
+                                                    .active(active)
+                                                    .build();
+            answers = answerService.searchAnswer(answerLookUp);
         } catch (BusinessException e) {
             log.error(e.getMessage());
             displayError(messageService.getGenericFailedMessage());
