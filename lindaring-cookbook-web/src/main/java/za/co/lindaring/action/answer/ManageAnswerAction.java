@@ -22,11 +22,20 @@ public class ManageAnswerAction extends BaseAction {
 
     private static final String DELETE_ANSWER_DIALOG = "deleteAnswerDialog";
     private static final String UPDATE_ANSWER_DIALOG = "updateAnswerDialog";
+    private static final String INSERT_ANSWER_DIALOG = "insertAnswerDialog";
+
+    private static final String INSERT_ANSWER_FORM = "insertAnswerForm";
 
     private static final String DELETE_ANSWER_MESSAGE = "deleteAnswerMessage";
 
     private Answer answer;
     private String questionDesc;
+
+    private String insertAnswerText;
+    private Double insertAnswerPoints;
+    private Long insertAnswerQuestionId;
+
+    private Boolean answerAdded;
 
     @EJB
     public AnswerService answerService;
@@ -88,4 +97,26 @@ public class ManageAnswerAction extends BaseAction {
         this.answer = null;
         closeDialog(UPDATE_ANSWER_DIALOG);
     }
+
+    public void openInsertAnswerDialog() {
+        this.answerAdded = false;
+        openDialog(INSERT_ANSWER_DIALOG);
+    }
+
+    public void insertAnswer() {
+
+    }
+
+    public void cancelInsertAnswer() {
+        resetInsertAnswer();
+        closeDialog(INSERT_ANSWER_DIALOG);
+    }
+
+    public void resetInsertAnswer() {
+        this.insertAnswerText = "";
+        this.insertAnswerPoints = null;
+        this.insertAnswerQuestionId = null;
+        this.answerAdded = false;
+    }
+
 }

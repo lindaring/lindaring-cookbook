@@ -103,4 +103,8 @@ public abstract class BaseAction {
         current.executeScript("PF('" + tabViewId + "').enable(" + tabId + ")");
     }
 
+    protected static void clearForm(String formId) {
+        PrimeFaces.current().resetInputs(formId);
+    }
+
 }

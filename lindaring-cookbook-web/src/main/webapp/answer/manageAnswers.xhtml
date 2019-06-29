@@ -10,6 +10,7 @@
         <h1>Manage Answers</h1>
 
         <h:panelGrid columns="2" columnClasses="content-left,content-right" width="100%">
+            <!-- View List Section -->
             <h:form id="viewAnswerForm">
                 <p:dataTable var="answer" value="#{ViewAnswerAction.answers}" draggableColumns="true" resizableColumns="true"
                              scrollable="true" liveResize="true" style="font-size: .9em; text-align: center" paginator="true"
@@ -51,6 +52,7 @@
                 </p:dataTable>
             </h:form>
 
+            <!-- Search Section -->
             <h:panelGrid columns="1">
                 <h:form id="answerFilterForm" styleClass="searchQuestionForm filter-margin">
                     <p:panel header="Filter" toggleable="false" collapsed="false">
@@ -105,11 +107,53 @@
                         </p:panelGrid>
                     </p:panel>
                 </h:form>
+
+                <!-- Actions Section -->
+                <h:form id="actionsForm" style="margin: 6px -13px 0 0">
+                    <p:panel header="Actions" toggleable="false" collapsed="false">
+                        <p:commandButton action="#{manageAnswerAction.openInsertAnswerDialog()}" value="New Answer"
+                                         styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
+                                         icon="fa fa-fw fa fa-copy foreground-pink" immediate="true" />
+                    </p:panel>
+                </h:form>
             </h:panelGrid>
         </h:panelGrid>
     </ui:define>
 
     <ui:define name="dialogs">
+        <!-- Insert dialog -->
+        <p:dialog widgetVar="insertAnswerDialog" header="New Answer" modal="true" minheight="100" minHeight="200">
+            <p:ajax event="close" listener="#{manageAnswerAction.resetInsertAnswer()}" update="insertAnswerForm" />
+            <h:form id="insertAnswerForm">
+                <h:panelGrid cellpadding="5">
+                    <p:messages id="insertAnswerMessage" style="max-width: 591px" />
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <p:inputTextarea id="insertAnswerTextInputText" placeholder="Enter answer here..."
+                                         required="true" requiredMessage="Enter the answer"
+                                         value="#{manageAnswerAction.insertAnswerText}" cols="50" rows="5" />
+
+                        <p:inputText id="insertPointsTextInputText" placeholder="Points"
+                                     required="true" requiredMessage="Enter points"
+                                     converterMessage="Enter valid points"
+                                     value="#{manageAnswerAction.insertAnswerPoints}" />
+
+                        <p:selectOneMenu value="#{manageAnswerAction.insertAnswerQuestionId}" style="width: 209px"
+                                         required="true" requiredMessage="Select question">
+                            <f:selectItem itemLabel="Question?" itemValue="" />
+                            <f:selectItems value="#{ViewAnswerAction.questionIds}" />
+                        </p:selectOneMenu>
+
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="Save Answer" rendered="#{!manageAnswerAction.answerAdded}"
+                                             action="#{manageAnswerAction.insertAnswer()}"
+                                             process="@all" icon="fa fa-fw fa fa-save" update="insertAnswerForm, viewAnswerForm" />
+                            <p:commandButton value="Close" action="#{manageAnswerAction.cancelInsertAnswer()}" update="insertAnswerForm" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
         <!-- Update dialog -->
         <p:dialog widgetVar="updateAnswerDialog" header="Update Answer" modal="true" minheight="100" minHeight="200">
             <h:form id="updateAnswerForm">
