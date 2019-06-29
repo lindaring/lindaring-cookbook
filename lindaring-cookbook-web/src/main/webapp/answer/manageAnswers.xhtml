@@ -123,7 +123,7 @@
     <ui:define name="dialogs">
         <!-- Insert dialog -->
         <p:dialog widgetVar="insertAnswerDialog" header="New Answer" modal="true" minheight="100" minHeight="200">
-            <p:ajax event="close" listener="#{manageAnswerAction.resetInsertAnswer()}" update="insertAnswerForm" />
+            <p:ajax event="close" listener="#{manageAnswerAction.resetInsertAnswer()}" update="insertAnswerForm, viewAnswerForm" />
             <h:form id="insertAnswerForm">
                 <h:panelGrid cellpadding="5">
                     <p:messages id="insertAnswerMessage" style="max-width: 591px" />
@@ -147,7 +147,8 @@
                             <p:commandButton value="Save Answer" rendered="#{!manageAnswerAction.answerAdded}"
                                              action="#{manageAnswerAction.insertAnswer()}"
                                              process="@all" icon="fa fa-fw fa fa-save foreground-pink" update="insertAnswerForm, viewAnswerForm" />
-                            <p:commandButton value="Close" action="#{manageAnswerAction.cancelInsertAnswer()}" update="insertAnswerForm" immediate="true" />
+                            <p:commandButton value="Close" action="#{manageAnswerAction.cancelInsertAnswer()}"
+                                             update="insertAnswerForm, viewAnswerForm" immediate="true" />
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:panelGrid>
