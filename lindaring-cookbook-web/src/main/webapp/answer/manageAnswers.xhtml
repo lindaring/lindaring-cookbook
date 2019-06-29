@@ -146,8 +146,8 @@
                         <h:panelGrid columns="2">
                             <p:commandButton value="Save Answer" rendered="#{!manageAnswerAction.answerAdded}"
                                              action="#{manageAnswerAction.insertAnswer()}"
-                                             process="@all" icon="fa fa-fw fa fa-save" update="insertAnswerForm, viewAnswerForm" />
-                            <p:commandButton value="Close" action="#{manageAnswerAction.cancelInsertAnswer()}" update="insertAnswerForm" />
+                                             process="@all" icon="fa fa-fw fa fa-save foreground-pink" update="insertAnswerForm, viewAnswerForm" />
+                            <p:commandButton value="Close" action="#{manageAnswerAction.cancelInsertAnswer()}" update="insertAnswerForm" immediate="true" />
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:panelGrid>

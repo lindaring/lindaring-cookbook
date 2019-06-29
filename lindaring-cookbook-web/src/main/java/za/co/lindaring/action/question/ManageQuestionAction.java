@@ -150,7 +150,7 @@ public class ManageQuestionAction extends BaseAction {
             resetInsertQuestion();
             displayInfo(TAB_ANSWER_MESSAGE_VIEW, "Nice! Saved new question:)", null);
         } catch (Exception e) {
-            displayInfo(TAB_ANSWER_MESSAGE_VIEW, "Error saving new question:(", null);
+            displayError(TAB_ANSWER_MESSAGE_VIEW, "Error saving new question:(", null);
         }
     }
 

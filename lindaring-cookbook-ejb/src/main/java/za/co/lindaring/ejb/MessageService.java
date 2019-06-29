@@ -25,6 +25,8 @@ public class MessageService {
     private String updateAnswerSuccessMessage = "Answer updated :)";
     private String updateAnswerFailedMessage = "Failed to update answer :(";
 
+    private String insertAnswerSuccessMessage = "Nice! Saved new answer:)";
+
     private String genericFailedMessage = "Something went wrong :(";
 
     private String startDateNotEnteredMessage = "Enter the start date.";

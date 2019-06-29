@@ -114,7 +114,7 @@
 
                                 <h:panelGrid columns="2">
                                     <p:commandButton value="Next" action="#{manageQuestionAction.insertQuestionNext()}"
-                                                     process="@all" icon="fa fa-fw fa fa-arrow-right" update="tabViewQuestionMessage" />
+                                                     process="@all" icon="fa fa-fw fa fa-arrow-right foreground-pink" update="tabViewQuestionMessage" />
                                 </h:panelGrid>
                             </h:panelGrid>
                         </h:form>
@@ -135,7 +135,7 @@
                             <h:panelGrid columns="2">
                                 <p:commandButton value="Save Question" rendered="#{!manageQuestionAction.questionAdded}"
                                                  action="#{manageQuestionAction.insertQuestionComplete()}"
-                                                 process="@all" icon="fa fa-fw fa fa-save" update="insertQuestionFormStep2, viewQuestionForm" />
+                                                 process="@all" icon="fa fa-fw fa fa-save foreground-pink" update="insertQuestionFormStep2, viewQuestionForm" />
                                 <p:commandButton value="Add Another Question" rendered="#{manageQuestionAction.questionAdded}"
                                                  icon="fa fa-fw fa fa-copy" action="#{manageQuestionAction.insertSwitchTab()}" />
                             </h:panelGrid>

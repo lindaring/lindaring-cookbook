@@ -60,6 +60,18 @@ public class AnswerService extends BaseService {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void insertAnswer(Answer answer) throws TechnicalException {
+        try {
+            answer.setId(null);
+            getEntityManager().persist(answer);
+            getEntityManager().flush();
+
+        } catch (Exception e) {
+            throw new TechnicalException("Insert answer failed", e);
+        }
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void saveAnswer(Answer answer) {
         getEntityManager().merge(answer);
         getEntityManager().flush();

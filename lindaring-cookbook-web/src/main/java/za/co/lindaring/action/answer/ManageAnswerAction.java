@@ -8,10 +8,12 @@ import za.co.lindaring.ejb.AnswerService;
 import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Answer;
+import za.co.lindaring.exception.TechnicalException;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import java.util.Date;
 
 @Slf4j
 @Getter
@@ -27,6 +29,7 @@ public class ManageAnswerAction extends BaseAction {
     private static final String INSERT_ANSWER_FORM = "insertAnswerForm";
 
     private static final String DELETE_ANSWER_MESSAGE = "deleteAnswerMessage";
+    private static final String INSERT_ANSWER_MESSAGE = "insertAnswerMessage";
 
     private Answer answer;
     private String questionDesc;
@@ -104,7 +107,22 @@ public class ManageAnswerAction extends BaseAction {
     }
 
     public void insertAnswer() {
+        Answer newAnswer = Answer.builder()
+                .text(insertAnswerText)
+                .points(insertAnswerPoints)
+                .dateAdded(new Date())
+                .questionId(insertAnswerQuestionId)
+                .active(1)
+                .build();
+        try {
+            answerService.insertAnswer(newAnswer);
+            displayInfo(INSERT_ANSWER_MESSAGE, messageService.getInsertAnswerSuccessMessage(), null);
+            resetInsertAnswer();
 
+        } catch (TechnicalException e) {
+            log.error(e.getMessage(), e);
+            displayError(INSERT_ANSWER_MESSAGE, messageService.getGenericFailedMessage(), null);
+        }
     }
 
     public void cancelInsertAnswer() {
