@@ -50,9 +50,11 @@ public class ViewAnswerAction extends BaseAction {
     public void init() {
         answers = answerService.getAllAnswers();
 
+        long questionId;
         for (Answer a: answers) {
-            if (questionIds.get(a.getQuestionId()) == null) {
-                questionIds.put(a.getQuestionId(), a.getQuestionId());
+            questionId = a.getQuestion().getId();
+            if (questionIds.get(questionId) == null) {
+                questionIds.put(questionId, questionId);
             }
         }
     }

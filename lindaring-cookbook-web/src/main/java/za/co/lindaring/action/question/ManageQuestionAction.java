@@ -160,7 +160,7 @@ public class ManageQuestionAction extends BaseAction {
                 .points(100.0)
                 .active(1)
                 .dateAdded(now)
-                .questionId(question.getId())
+                .question(question)
                 .build();
     }
 

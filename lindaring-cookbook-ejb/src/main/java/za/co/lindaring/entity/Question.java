@@ -31,7 +31,7 @@ import java.util.List;
 })
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY  )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "description")
@@ -44,7 +44,7 @@ public class Question {
 
     @OneToMany(
         fetch = FetchType.EAGER,
-        mappedBy = "questionId",
+        mappedBy = "question",
         cascade = CascadeType.ALL
     )
     private List<Answer> answers = new ArrayList<>();

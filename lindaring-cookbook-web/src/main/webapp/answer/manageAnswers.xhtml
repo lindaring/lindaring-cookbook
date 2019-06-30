@@ -19,7 +19,7 @@
                     <p:column style="width: 10%">
                         <p:commandLink action="#{manageAnswerAction.selectAnswerForUpdate(answer.id)}" update="updateAnswerForm">
                             <h:outputText class="fa fa-fw fa-edit foreground-pink" />
-                            <f:param name="questionId" value="#{answer.id}" />
+                            <f:param name="questionId" value="#{answer.question.id}" />
                         </p:commandLink> |
                         <p:commandLink action="#{manageAnswerAction.selectAnswerForDeletion(answer.id)}" update="deleteAnswerForm">
                             <h:outputText class="fa fa-fw fa-remove foreground-pink" />
@@ -46,8 +46,8 @@
                         <h:outputText value="#{answer.points}" style="text-align: right" />
                     </p:column>
 
-                    <p:column headerText="Question" style="width: 10%" sortBy="#{answer.questionId}">
-                        <h:outputText value="#{answer.questionId}" style="text-align: right" />
+                    <p:column headerText="Question" style="width: 10%" sortBy="#{answer.question.id}">
+                        <h:outputText value="#{answer.question.id}" style="text-align: right" />
                     </p:column>
                 </p:dataTable>
             </h:form>
@@ -157,6 +157,7 @@
 
         <!-- Update dialog -->
         <p:dialog widgetVar="updateAnswerDialog" header="Update Answer" modal="true" minheight="100" minHeight="200">
+            <p:ajax event="close" update="viewAnswerForm" />
             <h:form id="updateAnswerForm">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputText value="ID: " styleClass="foreground-pink" />
@@ -171,18 +172,22 @@
                     <h:outputText value="Active: " styleClass="foreground-pink" />
                     <p:selectOneMenu value="#{manageAnswerAction.answer.active}">
                         <f:selectItem itemLabel="Select active" itemValue="" />
-                        <f:selectItem itemLabel="Active" itemValue="1" />
-                        <f:selectItem itemLabel="Not active" itemValue="0" />
+                        <f:selectItem itemLabel="true" itemValue="1" />
+                        <f:selectItem itemLabel="false" itemValue="0" />
                     </p:selectOneMenu>
 
                     <h:outputText value="Question ID: " styleClass="foreground-pink" />
-                    <p:inputText value="#{manageAnswerAction.answer.questionId}" />
+                    <!--<p:inputText value="#{manageAnswerAction.answer.question.id}" />-->
+                    <p:selectOneMenu value="#{manageAnswerAction.answer.question.id}" style="width: 209px">
+                        <f:selectItem itemLabel="Question?" itemValue="" />
+                        <f:selectItems value="#{ViewAnswerAction.questionIds}" />
+                    </p:selectOneMenu>
 
                     <h:inputHidden />
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Save Answer" action="#{manageAnswerAction.saveAnswer()}" process="@all" update="viewAnswerForm,messageGrowl"
+                        <p:commandButton value="Save Answer" action="#{manageAnswerAction.saveAnswer()}" process="@all" update="viewAnswerForm, messageGrowl"
                                          icon="fa fa-fw fa fa-save foreground-pink" />
-                        <p:commandButton value="Close" action="#{manageAnswerAction.cancelUpdateAnswer()}" />
+                        <p:commandButton value="Close" action="#{manageAnswerAction.cancelUpdateAnswer()}" update="viewAnswerForm"/>
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>

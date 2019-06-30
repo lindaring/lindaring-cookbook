@@ -8,8 +8,10 @@ import za.co.lindaring.ejb.AnswerService;
 import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Answer;
+import za.co.lindaring.entity.Question;
 import za.co.lindaring.exception.TechnicalException;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -49,9 +51,16 @@ public class ManageAnswerAction extends BaseAction {
     @EJB
     public MessageService messageService;
 
+    @PostConstruct
+    public void init() {
+        //Avoid null pointer when loading the view-answers pages
+        answer = new Answer();
+        answer.setQuestion(new Question());
+    }
+
     public void selectAnswerForDeletion(long answerId) {
         selectAnswer(answerId);
-        this.questionDesc = questionService.getQuestion(answer.getQuestionId()).getDesc();
+        this.questionDesc = questionService.getQuestion(answer.getQuestion().getId()).getDesc();
         openDialog(DELETE_ANSWER_DIALOG);
     }
 
@@ -107,11 +116,13 @@ public class ManageAnswerAction extends BaseAction {
     }
 
     public void insertAnswer() {
+        Question question = questionService.getQuestion(insertAnswerQuestionId);
+
         Answer newAnswer = Answer.builder()
                 .text(insertAnswerText)
                 .points(insertAnswerPoints)
                 .dateAdded(new Date())
-                .questionId(insertAnswerQuestionId)
+                .question(question)
                 .active(1)
                 .build();
         try {

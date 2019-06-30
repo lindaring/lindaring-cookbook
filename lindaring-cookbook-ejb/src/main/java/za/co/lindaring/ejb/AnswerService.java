@@ -120,8 +120,8 @@ public class AnswerService extends BaseService {
     private void setAnswerStartAndEndDate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Answer> root, AnswerLookUp lookUp)
             throws BusinessException {
         if (lookUp.getStartDate() != null && lookUp.getEndDate() != null) {
-            predicateList.add(cb.or(cb.greaterThan(root.get(Answer_.dateAdded), lookUp.getStartDate())));
-            predicateList.add(cb.or(cb.lessThan(root.get(Answer_.dateAdded), lookUp.getEndDate())));
+            predicateList.add(cb.or(cb.greaterThanOrEqualTo(root.get(Answer_.dateAdded), lookUp.getStartDate())));
+            predicateList.add(cb.or(cb.lessThanOrEqualTo(root.get(Answer_.dateAdded), lookUp.getEndDate())));
         } else if (lookUp.getStartDate() != null && lookUp.getEndDate() == null) {
             throw new BusinessException(messageService.getEndDateNotEnteredMessage());
         } else if (lookUp.getStartDate() == null && lookUp.getEndDate() != null) {
@@ -143,7 +143,7 @@ public class AnswerService extends BaseService {
 
     private void setAnswerQuestionIdPredicate(List<Predicate> predicateList, CriteriaBuilder cb, Root<Answer> root, AnswerLookUp lookUp) {
         if (lookUp.getQuestionId() != null && lookUp.getQuestionId() > 0) {
-            predicateList.add(cb.or(cb.equal(root.get(Answer_.questionId), lookUp.getQuestionId())));
+            predicateList.add(cb.or(cb.equal(root.get(Answer_.question), lookUp.getQuestionId())));
         }
     }
 

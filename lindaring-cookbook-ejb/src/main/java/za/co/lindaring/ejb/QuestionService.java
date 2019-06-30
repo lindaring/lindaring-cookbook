@@ -115,7 +115,6 @@ public class QuestionService extends BaseService {
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void insertQuestion(Question question) {
-        question.setId(null);
         getEntityManager().persist(question);
         getEntityManager().flush();
     }
