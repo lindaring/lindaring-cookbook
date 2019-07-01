@@ -8,6 +8,8 @@ import za.co.lindaring.ejb.AnswerService;
 import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.exception.BusinessException;
+import za.co.lindaring.exception.TechnicalException;
+import za.co.lindaring.types.AnswerLookUp;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -32,6 +34,8 @@ public class ViewAnswerAction extends BaseAction {
     private Date searchFromDate;
     private Date searchToDate;
     private String searchActive;
+    private Double searchPoints;
+    private Long searchQuestionId;
 
     private List<Answer> answers = new ArrayList<>();
     private Map<Long, Long> questionIds = new LinkedHashMap<>();
@@ -46,9 +50,11 @@ public class ViewAnswerAction extends BaseAction {
     public void init() {
         answers = answerService.getAllAnswers();
 
+        long questionId;
         for (Answer a: answers) {
-            if (questionIds.get(a.getQuestionId()) == null) {
-                questionIds.put(a.getQuestionId(), a.getQuestionId());
+            questionId = a.getQuestion().getId();
+            if (questionIds.get(questionId) == null) {
+                questionIds.put(questionId, questionId);
             }
         }
     }
@@ -56,10 +62,22 @@ public class ViewAnswerAction extends BaseAction {
     public void search() {
         try {
             Integer active = isNotEmpty(searchActive) ? Integer.parseInt(searchActive) : null;
-            answers = answerService.searchAnswer(searchName, searchFromDate, searchToDate, active);
+            AnswerLookUp answerLookUp = AnswerLookUp.builder()
+                                                    .text(searchName)
+                                                    .startDate(searchFromDate)
+                                                    .endDate(searchToDate)
+                                                    .active(active)
+                                                    .points(searchPoints)
+                                                    .questionId(searchQuestionId)
+                                                    .build();
+            answers = answerService.searchAnswer(answerLookUp);
+
         } catch (BusinessException e) {
-            log.error(e.getMessage());
-            displayError(messageService.getGenericeFailedMessage());
+            displayWarning(e.getMessage());
+
+        } catch (TechnicalException e) {
+            log.error(e.getMessage(), e);
+            displayError(messageService.getGenericFailedMessage());
         }
     }
 
@@ -68,6 +86,8 @@ public class ViewAnswerAction extends BaseAction {
         this.searchFromDate = null;
         this.searchToDate = null;
         this.searchActive = "";
+        this.searchPoints = null;
+        this.searchQuestionId = null;
     }
 
 }

@@ -13,17 +13,22 @@ import javax.ejb.Startup;
 @Singleton
 @LocalBean
 public class MessageService {
-    private String deleteQuestionSuccessMessage = "Nice! Question deleted :)";
-    private String deleteQuestionFailedMessage = "Oops! Failed to delete question :(";
+    private String deleteQuestionSuccessMessage = "Question deleted :)";
+    private String deleteQuestionFailedMessage = "Failed to delete question :(";
 
-    private String updateQuestionSuccessMessage = "Nice! Question updated :)";
-    private String updateQuestionFailedMessage = "Oops! Failed to update question :(";
+    private String updateQuestionSuccessMessage = "Question updated :)";
+    private String updateQuestionFailedMessage = "Failed to update question :(";
 
-    private String deleteAnswerSuccessMessage = "Nice! Answer deleted :)";
-    private String deleteAnswerFailedMessage = "Oops! Failed to delete answer :(";
+    private String deleteAnswerSuccessMessage = "Answer deleted :)";
+    private String deleteAnswerFailedMessage = "Failed to delete answer :(";
 
-    private String updateAnswerSuccessMessage = "Nice! Answer updated :)";
-    private String updateAnswerFailedMessage = "Oops! Failed to update answer :(";
+    private String updateAnswerSuccessMessage = "Answer updated :)";
+    private String updateAnswerFailedMessage = "Failed to update answer :(";
 
-    private String genericeFailedMessage = "Oops! Something went wrong :(";
+    private String insertAnswerSuccessMessage = "Nice! Saved new answer:)";
+
+    private String genericFailedMessage = "Something went wrong :(";
+
+    private String startDateNotEnteredMessage = "Enter the start date.";
+    private String endDateNotEnteredMessage = "Enter the end date.";
 }

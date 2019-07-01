@@ -3,11 +3,11 @@ package za.co.lindaring.action.question;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import za.co.lindaring.action.base.BaseAction;
 import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Question;
-import za.co.lindaring.action.base.BaseAction;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -150,7 +150,7 @@ public class ManageQuestionAction extends BaseAction {
             resetInsertQuestion();
             displayInfo(TAB_ANSWER_MESSAGE_VIEW, "Nice! Saved new question:)", null);
         } catch (Exception e) {
-            displayInfo(TAB_ANSWER_MESSAGE_VIEW, "Error saving new question:(", null);
+            displayError(TAB_ANSWER_MESSAGE_VIEW, "Error saving new question:(", null);
         }
     }
 
@@ -160,7 +160,7 @@ public class ManageQuestionAction extends BaseAction {
                 .points(100.0)
                 .active(1)
                 .dateAdded(now)
-                .questionId(question.getId())
+                .question(question)
                 .build();
     }
 

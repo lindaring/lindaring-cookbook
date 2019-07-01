@@ -10,6 +10,7 @@
         <h1>Manage Questions</h1>
 
         <h:panelGrid columns="2" columnClasses="content-left,content-right" width="100%">
+            <!-- View List Section -->
             <h:form id="viewQuestionForm">
                 <p:dataTable var="question" value="#{ViewQuestionAction.questions}" draggableColumns="true" resizableColumns="true"
                              scrollable="true" liveResize="true" style="font-size: .9em; text-align: center" paginator="true"
@@ -43,6 +44,7 @@
                 </p:dataTable>
             </h:form>
 
+            <!-- Search Section -->
             <h:panelGrid columns="1">
                 <h:form id="questionFilterForm" styleClass="searchQuestionForm filter-margin">
                     <p:panel header="Filter" toggleable="false" collapsed="false">
@@ -86,6 +88,7 @@
                     </p:panel>
                 </h:form>
 
+                <!-- Actions Section -->
                 <h:form id="actionsForm" style="margin: 6px -13px 0 0">
                     <p:panel header="Actions" toggleable="false" collapsed="false">
                         <p:commandButton action="#{manageQuestionAction.openInsertQuestionDialog()}" value="New Question"
@@ -112,7 +115,7 @@
 
                                 <h:panelGrid columns="2">
                                     <p:commandButton value="Next" action="#{manageQuestionAction.insertQuestionNext()}"
-                                                     process="@all" icon="fa fa-fw fa fa-arrow-right" update="tabViewQuestionMessage" />
+                                                     process="@all" icon="fa fa-fw fa fa-arrow-right foreground-pink" update="tabViewQuestionMessage" />
                                 </h:panelGrid>
                             </h:panelGrid>
                         </h:form>
@@ -133,7 +136,7 @@
                             <h:panelGrid columns="2">
                                 <p:commandButton value="Save Question" rendered="#{!manageQuestionAction.questionAdded}"
                                                  action="#{manageQuestionAction.insertQuestionComplete()}"
-                                                 process="@all" icon="fa fa-fw fa fa-save" update="insertQuestionFormStep2, viewQuestionForm" />
+                                                 process="@all" icon="fa fa-fw fa fa-save foreground-pink" update="insertQuestionFormStep2, viewQuestionForm" />
                                 <p:commandButton value="Add Another Question" rendered="#{manageQuestionAction.questionAdded}"
                                                  icon="fa fa-fw fa fa-copy" action="#{manageQuestionAction.insertSwitchTab()}" />
                             </h:panelGrid>
@@ -175,7 +178,7 @@
                     <h:panelGrid columns="2">
                         <p:commandButton value="Save Question" action="#{manageQuestionAction.saveQuestion()}" process="@all" update="viewQuestionForm,messageGrowl"
                                          icon="fa fa-fw fa fa-save foreground-pink" />
-                        <p:commandButton value="Close" action="#{manageQuestionAction.cancelUpdateQuestion()}" />
+                        <p:commandButton value="Close" action="#{manageQuestionAction.cancelUpdateQuestion()}" update="viewQuestionForm" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>

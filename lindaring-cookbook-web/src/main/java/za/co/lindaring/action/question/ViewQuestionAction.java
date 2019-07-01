@@ -8,6 +8,7 @@ import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Question;
 import za.co.lindaring.exception.BusinessException;
+import za.co.lindaring.exception.TechnicalException;
 import za.co.lindaring.types.QuestionLookUp;
 
 import javax.annotation.PostConstruct;
@@ -54,9 +55,13 @@ public class ViewQuestionAction extends BaseAction {
                                                           .active(active)
                                                           .build();
             questions = questionService.searchQuestion(questionLookUp);
+
         } catch (BusinessException e) {
-            log.error(e.getMessage());
-            displayError(messageService.getGenericeFailedMessage());
+            displayWarning(e.getMessage());
+
+        } catch (TechnicalException e) {
+            log.error(e.getMessage(), e);
+            displayError(messageService.getGenericFailedMessage());
         }
     }
 
