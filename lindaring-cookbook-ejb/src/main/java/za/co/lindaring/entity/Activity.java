@@ -10,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -22,12 +20,11 @@ import java.util.Date;
 @Builder
 @Data
 @Entity
-@Table(name = "answers")
+@Table(name = "activity")
 @NamedQueries({
-    @NamedQuery(name = "Answer.findAll", query = "SELECT a FROM Answer a"),
-    @NamedQuery(name = "Answer.deleteById", query = "DELETE FROM Answer a WHERE a.id = :answerId")
+    @NamedQuery(name = "Activity.findAll", query = "SELECT a FROM Activity a")
 })
-public class Answer {
+public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,18 +33,6 @@ public class Answer {
 
     private Date dateAdded;
 
-    @Column(name = "actived")
-    private Integer active;
-
-    @Column(name = "point")
-    private Double points;
-
-    @ManyToOne
-    @JoinColumn(name = "question_id")
-    private Question question;
-
-    public String getAnswerId() {
-        return "Answer " + id;
-    }
-
+    @Column(name = "visitor")
+    private String user;
 }
