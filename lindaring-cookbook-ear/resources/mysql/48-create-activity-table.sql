@@ -9,13 +9,21 @@ CREATE TABLE activity (
 INSERT INTO activity([text], [dateAdded], [visitor])
 VALUES('This is activity 1', CURRENT_TIMESTAMP, 'the usern');
 
---MYSQL
+/* MYSQL */
+USE db_lobola_calculator;
 CREATE TABLE activity (
-    `id` int,
+    `id` int NOT NULL AUTO_INCREMENT,
     `text` varchar(255),
     `dateAdded` datetime,
-    `visitor` varchar(50)
+    `visitor` varchar(50),
+	PRIMARY KEY (`id`)
 );
 
 INSERT INTO activity(`text`, `dateAdded`, `visitor`)
 VALUES('This is activity 1', CURRENT_TIMESTAMP, 'the usern');
+
+select * from activity;
+
+drop table activity;
+
+truncate table activity;

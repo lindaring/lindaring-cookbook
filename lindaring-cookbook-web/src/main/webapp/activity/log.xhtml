@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="../resources/templates/template.xhtml">
+
+    <ui:define name="content">
+        <h1>Activity Logs</h1>
+
+        <p:dataTable var="activity" value="#{activityLogAction.activities}" draggableColumns="true" resizableColumns="true"
+                     scrollable="true" liveResize="true" style="font-size: .9em; text-align: center" paginator="true"
+                     rows="#{tableViewAction.selectedRowsPerPage}" rowsPerPageTemplate="#{tableViewAction.rowsPerPage}"
+                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}">
+
+            <p:column headerText="Date" style="width: 15%" sortBy="#{activity.dateAdded}">
+                <h:outputText value="#{activity.dateAdded}" />
+            </p:column>
+
+            <p:column headerText="Log" style="width: 80%" sortBy="#{activity.text}">
+                <div style="text-align: left"><h:outputText value="#{activity.text}" /></div>
+            </p:column>
+
+            <p:column headerText="User" style="width: 10%" sortBy="#{activity.user}">
+                <h:outputText value="#{activity.user}" />
+            </p:column>
+
+        </p:dataTable>
+k
+    </ui:define>
+    
+</ui:composition>
