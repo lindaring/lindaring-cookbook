@@ -180,3 +180,8 @@ h1 {
 .filter-margin {
     margin: -3px -13px 0 0
 }
+
+.log-code {
+    font-family: "Lucida Sans Typewriter", "Times New Roman", monospace;
+    font-size: 12px !important;
+}

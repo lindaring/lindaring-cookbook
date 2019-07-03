@@ -62,7 +62,6 @@ public class AnswerService extends BaseService {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void insertAnswer(Answer answer) throws TechnicalException {
         try {
-            answer.setId(null);
             getEntityManager().persist(answer);
             getEntityManager().flush();
 

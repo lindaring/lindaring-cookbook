@@ -27,7 +27,7 @@ public class ActivityLogAction {
 
     @PostConstruct
     public void init() {
-        activities = activityService.getAllActivities();
+        activities = activityService.getAllLogs();
     }
 
 }

@@ -12,7 +12,8 @@
         <p:dataTable var="activity" value="#{activityLogAction.activities}" draggableColumns="true" resizableColumns="true"
                      scrollable="true" liveResize="true" style="font-size: .9em; text-align: center" paginator="true"
                      rows="#{tableViewAction.selectedRowsPerPage}" rowsPerPageTemplate="#{tableViewAction.rowsPerPage}"
-                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}">
+                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}"
+                     styleClass="log-code">
 
             <p:column headerText="Date" style="width: 15%" sortBy="#{activity.dateAdded}">
                 <h:outputText value="#{activity.dateAdded}" />
@@ -27,7 +28,6 @@
             </p:column>
 
         </p:dataTable>
-k
     </ui:define>
     
 </ui:composition>
