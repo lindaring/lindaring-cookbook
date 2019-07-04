@@ -58,9 +58,6 @@ public class ManageAnswerAction extends BaseAction {
     @EJB
     public MessageService messageService;
 
-    @Inject
-    public UserAction userAction;
-
     @PostConstruct
     public void init() {
         //Avoid null pointer when loading the view-answers pages
@@ -184,17 +181,19 @@ public class ManageAnswerAction extends BaseAction {
     }
 
     private void logInsertAnswerResult(Answer a) {
+        String logMessage = String.format("(Answer: %d [%s]) linked to (Question: %d) was added.",
+                a.getId(), a.getText(), a.getQuestion().getId());
+        logAnswerResult(logMessage);
+    }
+
+    private void logAnswerResult(String logMessage) {
+        Activity activity = Activity.builder().text(logMessage).dateAdded(new Date())
+                .user(userAction.getUserIpAddress()).build();
         try {
-            String logMessage = String.format("(Answer: %d [%s]) linked to (Question: %d) was added.",
-                    a.getId(), a.getText(), a.getQuestion().getId());
-
-            Activity log = Activity.builder().text(logMessage).dateAdded(new Date())
-                    .user(userAction.getUserIpAddress()).build();
-
-            activityService.insertLog(log);
+            activityService.insertLog(activity);
 
         } catch (TechnicalException e) {
-            log.error("Failed to log insert answer result.");
+            log.error(String.format("Failed to log result %s.", activity));
             //Don't fail as this is just a log
         }
     }
