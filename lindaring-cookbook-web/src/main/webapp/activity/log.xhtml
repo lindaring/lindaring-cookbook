@@ -13,7 +13,7 @@
                      scrollable="true" liveResize="true" style="font-size: .9em; text-align: center" paginator="true"
                      rows="#{tableViewAction.selectedRowsPerPage}" rowsPerPageTemplate="#{tableViewAction.rowsPerPage}"
                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PageLinks} {LastPageLink} {CurrentPageReport}"
-                     styleClass="log-code">
+                     styleClass="log-code" sortBy="#{activity.dateAdded}" sortOrder="descending">
 
             <p:column headerText="Date" style="width: 15%" sortBy="#{activity.dateAdded}">
                 <h:outputText value="#{activity.dateAdded}" />

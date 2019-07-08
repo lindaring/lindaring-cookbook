@@ -36,6 +36,15 @@ public class QuestionService extends BaseService {
         return getEntityManager().find(Question.class, id);
     }
 
+    public List<Long> getAllQuestionIds() {
+        List<Question> questions = getAllQuestions();
+        List<Long> ids = new ArrayList<>();
+        for (Question q: questions) {
+            ids.add(q.getId());
+        }
+        return ids;
+    }
+
     public List<Question> getAllQuestions() {
         TypedQuery<Question> result = getEntityManager().createNamedQuery("Question.findAll", Question.class);
         return result.getResultList();

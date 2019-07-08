@@ -4,21 +4,16 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartSeries;
-import za.co.lindaring.action.user.UserAction;
 import za.co.lindaring.types.CookbookDate;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.SortedMap;
 
 public abstract class BaseAction {
-
-    @Inject
-    protected UserAction userAction;
 
     public String formatDate(Date date) {
         return new CookbookDate(date).formatDate();

@@ -47,16 +47,19 @@ public class ManageAnswerAction extends BaseAction {
     private Boolean answerAdded;
 
     @EJB
-    public AnswerService answerService;
+    private AnswerService answerService;
 
     @EJB
-    public QuestionService questionService;
+    private QuestionService questionService;
 
     @EJB
-    public ActivityService activityService;
+    private ActivityService activityService;
 
     @EJB
-    public MessageService messageService;
+    private MessageService messageService;
+
+    @Inject
+    private UserAction userAction;
 
     @PostConstruct
     public void init() {

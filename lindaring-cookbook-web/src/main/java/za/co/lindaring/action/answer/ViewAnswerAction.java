@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import za.co.lindaring.action.base.BaseAction;
 import za.co.lindaring.ejb.AnswerService;
 import za.co.lindaring.ejb.MessageService;
+import za.co.lindaring.ejb.QuestionService;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.exception.BusinessException;
 import za.co.lindaring.exception.TechnicalException;
@@ -44,18 +45,18 @@ public class ViewAnswerAction extends BaseAction {
     public AnswerService answerService;
 
     @EJB
+    public QuestionService questionService;
+
+    @EJB
     public MessageService messageService;
 
     @PostConstruct
     public void init() {
         answers = answerService.getAllAnswers();
 
-        long questionId;
-        for (Answer a: answers) {
-            questionId = a.getQuestion().getId();
-            if (questionIds.get(questionId) == null) {
-                questionIds.put(questionId, questionId);
-            }
+        List<Long> questionIds = questionService.getAllQuestionIds();
+        for (Long id: questionIds) {
+            this.questionIds.put(id, id);
         }
     }
 
