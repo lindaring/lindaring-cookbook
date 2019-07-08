@@ -38,7 +38,7 @@ public class ViewQuestionAction extends BaseAction {
     private QuestionService questionService;
 
     @EJB
-    public MessageService messageService;
+    private MessageService messageService;
 
     @PostConstruct
     public void init() {

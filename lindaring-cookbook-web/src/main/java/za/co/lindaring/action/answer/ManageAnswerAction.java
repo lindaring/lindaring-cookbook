@@ -3,13 +3,14 @@ package za.co.lindaring.action.answer;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import za.co.lindaring.action.activity.ActivityLogAction;
 import za.co.lindaring.action.base.BaseAction;
 import za.co.lindaring.action.user.UserAction;
 import za.co.lindaring.ejb.ActivityService;
 import za.co.lindaring.ejb.AnswerService;
 import za.co.lindaring.ejb.MessageService;
 import za.co.lindaring.ejb.QuestionService;
-import za.co.lindaring.entity.Activity;
 import za.co.lindaring.entity.Answer;
 import za.co.lindaring.entity.Question;
 import za.co.lindaring.exception.TechnicalException;
@@ -59,6 +60,9 @@ public class ManageAnswerAction extends BaseAction {
     private MessageService messageService;
 
     @Inject
+    private ActivityLogAction logAction;
+
+    @Inject
     private UserAction userAction;
 
     @PostConstruct
@@ -84,7 +88,10 @@ public class ManageAnswerAction extends BaseAction {
 
     public void confirmDeleteAnswer(long answerId) {
         try {
-            logDeleteAnswerResult(answer);
+            String logMessage = String.format("(Answer: %d [%s]) linked to (Question: %d) actioned for deletion.",
+                    answer.getId(), answer.getText(), answer.getQuestion().getId());
+            logAction.logResult(logMessage);
+
             answerService.deleteAnswer(answerId);
             displayInfo(messageService.getDeleteAnswerSuccessMessage());
         } catch (Exception e) {
@@ -92,22 +99,6 @@ public class ManageAnswerAction extends BaseAction {
             displayError( messageService.getDeleteAnswerFailedMessage());
         } finally {
             closeDialog(DELETE_ANSWER_DIALOG);
-        }
-    }
-
-    private void logDeleteAnswerResult(Answer a) {
-        try {
-            String logMessage = String.format("(Answer: %d [%s]) linked to (Question: %d) actioned for deletion.",
-                    a.getId(), a.getText(), a.getQuestion().getId());
-
-            Activity log = Activity.builder().text(logMessage).dateAdded(new Date())
-                    .user(userAction.getUserIpAddress()).build();
-
-            activityService.insertLog(log);
-
-        } catch (TechnicalException e) {
-            log.error("Failed to log update answer result.");
-            //Don't fail as this is just a log
         }
     }
 
@@ -123,29 +114,17 @@ public class ManageAnswerAction extends BaseAction {
     public void saveAnswer() {
         try {
             answerService.saveAnswer(answer);
-            logUpdateAnswerResult(answer);
+
+            String logMessage = String.format("(Answer: %d [%s]) (was) linked to (Question: %d) was updated.",
+                    answer.getId(), answer.getText(), answer.getQuestion().getId());
+            logAction.logResult(logMessage);
+
             displayInfo(messageService.getUpdateAnswerSuccessMessage());
         } catch (Exception e) {
             log.error("Update question failed", e);
             displayError(messageService.getUpdateAnswerFailedMessage());
         } finally {
             closeDialog(UPDATE_ANSWER_DIALOG);
-        }
-    }
-
-    private void logUpdateAnswerResult(Answer a) {
-        try {
-            String logMessage = String.format("(Answer: %d [%s]) (was) linked to (Question: %d) was updated.",
-                    a.getId(), a.getText(), a.getQuestion().getId());
-
-            Activity log = Activity.builder().text(logMessage).dateAdded(new Date())
-                    .user(userAction.getUserIpAddress()).build();
-
-            activityService.insertLog(log);
-
-        } catch (TechnicalException e) {
-            log.error("Failed to log update answer result.");
-            //Don't fail as this is just a log
         }
     }
 
@@ -172,7 +151,10 @@ public class ManageAnswerAction extends BaseAction {
                     .build();
 
             answerService.insertAnswer(newAnswer);
-            logInsertAnswerResult(newAnswer);
+
+            String logMessage = String.format("(Answer: %d [%s]) linked to (Question: %d) was added.",
+                    newAnswer.getId(), newAnswer.getText(), newAnswer.getQuestion().getId());
+            logAction.logResult(logMessage);
 
             displayInfo(INSERT_ANSWER_MESSAGE, messageService.getInsertAnswerSuccessMessage(), null);
             resetInsertAnswer();
@@ -180,24 +162,6 @@ public class ManageAnswerAction extends BaseAction {
         } catch (TechnicalException e) {
             log.error(e.getMessage(), e);
             displayError(INSERT_ANSWER_MESSAGE, messageService.getGenericFailedMessage(), null);
-        }
-    }
-
-    private void logInsertAnswerResult(Answer a) {
-        String logMessage = String.format("(Answer: %d [%s]) linked to (Question: %d) was added.",
-                a.getId(), a.getText(), a.getQuestion().getId());
-        logAnswerResult(logMessage);
-    }
-
-    private void logAnswerResult(String logMessage) {
-        Activity activity = Activity.builder().text(logMessage).dateAdded(new Date())
-                .user(userAction.getUserIpAddress()).build();
-        try {
-            activityService.insertLog(activity);
-
-        } catch (TechnicalException e) {
-            log.error(String.format("Failed to log result %s.", activity));
-            //Don't fail as this is just a log
         }
     }
 

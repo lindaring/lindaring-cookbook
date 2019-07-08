@@ -42,13 +42,13 @@ public class ViewAnswerAction extends BaseAction {
     private Map<Long, Long> questionIds = new LinkedHashMap<>();
 
     @EJB
-    public AnswerService answerService;
+    private AnswerService answerService;
 
     @EJB
-    public QuestionService questionService;
+    private QuestionService questionService;
 
     @EJB
-    public MessageService messageService;
+    private MessageService messageService;
 
     @PostConstruct
     public void init() {
